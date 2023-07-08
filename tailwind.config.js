@@ -15,4 +15,8 @@ module.exports = {
     },
   },
   plugins: [],
+  // Added to ensure antd works well.
+  corePlugins: {
+    preflight: false,
+  }
 }
