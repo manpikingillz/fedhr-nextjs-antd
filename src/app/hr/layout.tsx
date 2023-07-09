@@ -1,0 +1,116 @@
+'use client'
+
+import React, { useState } from 'react';
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  TeamOutlined,
+  HistoryOutlined,
+  SettingOutlined,
+  UsergroupAddOutlined,
+  FieldTimeOutlined,
+  SendOutlined,
+  DollarOutlined,
+  DashboardOutlined,
+  HomeOutlined
+} from '@ant-design/icons';
+import { Layout, Menu, Button, theme } from 'antd';
+
+const { Header, Sider, Content } = Layout;
+
+export default function App({children}: {children: React.ReactNode}) {
+  const [collapsed, setCollapsed] = useState(false);
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
+  return (
+    <Layout style={{minHeight: '100vh'}}>
+      <Sider trigger={null} collapsible collapsed={collapsed}>
+        <div className="h-8 m-3 bg-gray-500 font-semibold text-xl flex-1 items-center">
+          {
+            collapsed ?
+            <span className="text-white ml-1" v-if="collapsed">Fed</span> :
+            <span className="ml-4 text-white">Fed HR</span>
+          }
+        </div>
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={['1']}
+          items={[
+            {
+              key: 'home',
+              icon: <HomeOutlined />,
+              label: 'Home',
+            },
+            {
+              key: 'dashboard',
+              icon: <DashboardOutlined />,
+              label: 'Dashboard',
+            },
+            {
+              key: 'administration',
+              icon: <SettingOutlined />,
+              label: 'Administration',
+            },
+            {
+              key: 'employees',
+              icon: <TeamOutlined />,
+              label: 'Employees',
+            },
+            {
+              key: 'recruitment',
+              icon: <UsergroupAddOutlined />,
+              label: 'Recruitment',
+            },
+            {
+              key: 'leave',
+              icon: <SendOutlined />,
+              label: 'Leave',
+            },
+            {
+              key: 'timeAndAttendance',
+              icon: <FieldTimeOutlined />,
+              label: 'Time and Attendance',
+            },
+            {
+              key: 'schedules',
+              icon: <HistoryOutlined />,
+              label: 'Schedules',
+            },
+            {
+              key: 'payroll',
+              icon: <DollarOutlined />,
+              label: 'Payroll',
+            },
+          ]}
+        />
+      </Sider>
+      <Layout>
+        <Header style={{ padding: 0, background: colorBgContainer }}>
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              fontSize: '16px',
+              width: 64,
+              height: 64,
+            }}
+          />
+        </Header>
+        <Content
+          style={{
+            margin: '24px 16px',
+            padding: 24,
+            minHeight: 280,
+            background: colorBgContainer,
+          }}
+        >
+          {children}
+        </Content>
+      </Layout>
+    </Layout>
+  );
+};

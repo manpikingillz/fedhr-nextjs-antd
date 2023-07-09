@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>Top Layout{children}</body>
+      <body className={inter.className}>{children}</body>
     </html>
   )
 }
