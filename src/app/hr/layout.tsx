@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -16,7 +16,7 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
 import type { MenuProps } from 'antd';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 const { Header, Sider, Content } = Layout;
 
@@ -29,6 +29,13 @@ export default function App({children}: {children: React.ReactNode}) {
   } = theme.useToken();
 
   const router = useRouter()
+  const path = usePathname()
+
+  useEffect(()=> {
+    if (path.includes('/hr/employees')) {
+      setCurrent('employees')
+    }
+  },[path ])
 
   const items: MenuProps['items'] = [
     {
