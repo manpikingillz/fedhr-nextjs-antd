@@ -126,11 +126,11 @@ export default function App({children}: {children: React.ReactNode}) {
   return (
     <Layout style={{minHeight: '100vh'}}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="h-8 m-3 bg-gray-500 font-semibold text-xl flex-1 items-center">
+        <div className="h-8 m-3 font-bold text-2xl flex-1 items-center">
           {
             collapsed ?
-            <span className="text-white ml-1" v-if="collapsed">Fed</span> :
-            <span className="ml-4 text-white">Fed HR</span>
+            <span className="text-white ml-1" v-if="collapsed">SHR</span> :
+            <span className="ml-4 text-white">Smooth HR</span>
           }
         </div>
         <Menu
