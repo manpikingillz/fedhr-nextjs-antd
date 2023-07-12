@@ -35,6 +35,21 @@ export default function App({children}: {children: React.ReactNode}) {
     if (path.includes('/hr/employees')) {
       setCurrent('employees')
     }
+    if (path.includes('/hr/leave')) {
+      setCurrent('leave')
+    }
+    if (path.includes('/hr/recruitment')) {
+      setCurrent('recruitment')
+    }
+    if (path.includes('/hr/schedules')) {
+      setCurrent('schedules')
+    }
+    if (path.includes('/hr/payroll')) {
+      setCurrent('payroll')
+    }
+    if (path.includes('/hr/time-and-attendance')) {
+      setCurrent('time-and-attendance')
+    }
   },[path ])
 
   const items: MenuProps['items'] = [
@@ -125,7 +140,7 @@ export default function App({children}: {children: React.ReactNode}) {
 
   return (
     <Layout style={{minHeight: '100vh'}}>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+      <Sider trigger={null} collapsible collapsed={collapsed} className='rounded-xl'>
         <div className="h-8 m-3 font-bold text-2xl flex-1 items-center">
           {
             collapsed ?
