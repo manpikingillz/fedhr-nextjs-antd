@@ -41,6 +41,9 @@ export default function App({children}: {children: React.ReactNode}) {
     if (path.includes('/hr/recruitment')) {
       setCurrent('recruitment')
     }
+    if (path.includes('/hr/schedules')) {
+      setCurrent('schedules')
+    }
   },[path ])
 
   const items: MenuProps['items'] = [
