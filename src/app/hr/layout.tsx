@@ -38,6 +38,9 @@ export default function App({children}: {children: React.ReactNode}) {
     if (path.includes('/hr/leave')) {
       setCurrent('leave')
     }
+    if (path.includes('/hr/recruitment')) {
+      setCurrent('recruitment')
+    }
   },[path ])
 
   const items: MenuProps['items'] = [
