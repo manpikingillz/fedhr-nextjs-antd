@@ -140,7 +140,7 @@ export default function App({children}: {children: React.ReactNode}) {
 
   return (
     <Layout style={{minHeight: '100vh'}}>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+      <Sider trigger={null} collapsible collapsed={collapsed} className='rounded-xl'>
         <div className="h-8 m-3 font-bold text-2xl flex-1 items-center">
           {
             collapsed ?
