@@ -12,10 +12,12 @@ import {
   SendOutlined,
   DollarOutlined,
   DashboardOutlined,
-  HomeOutlined
+  HomeOutlined,
+  UserOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
 import type { MenuProps } from 'antd';
+import { Avatar } from 'antd'
 import { usePathname, useRouter } from 'next/navigation';
 
 const { Header, Sider, Content } = Layout;
@@ -158,7 +160,7 @@ export default function App({children}: {children: React.ReactNode}) {
         />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
+        <Header style={{ padding: 0, background: colorBgContainer }} className='flex flex-row items-center justify-between'>
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -169,6 +171,7 @@ export default function App({children}: {children: React.ReactNode}) {
               height: 64,
             }}
           />
+          <Avatar size="large" icon={<UserOutlined />} className='mr-4'/>
         </Header>
         <Content
           style={{
