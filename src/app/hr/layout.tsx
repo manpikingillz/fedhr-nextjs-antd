@@ -181,7 +181,6 @@ export default function App({ children }: { children: React.ReactNode }) {
         <Menu
           theme="dark"
           mode="inline"
-          // defaultSelectedKeys={['1']}
           selectedKeys={[current]}
           onClick={onMenuItemClicked}
           items={items}
