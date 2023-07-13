@@ -123,6 +123,13 @@ export default function App({ children }: { children: React.ReactNode }) {
     },
   ];
 
+  const onAvatarItemClick: MenuProps['onClick'] = (e) => {
+    const key = e.key
+    if (key === 'logout') {
+      router.push('/login')
+    }
+  }
+
   const onMenuItemClicked: MenuProps['onClick'] = (e) => {
     const key = e.key;
     setCurrent(key);
@@ -162,64 +169,66 @@ export default function App({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider
-        trigger={null}
-        collapsible
-        collapsed={collapsed}
-        className="rounded-xl"
-      >
-        <div className="h-8 m-3 font-bold text-2xl flex-1 items-center">
-          {collapsed ? (
-            <span className="text-white ml-1" v-if="collapsed">
-              SHR
-            </span>
-          ) : (
-            <span className="ml-4 text-white">Smooth HR</span>
-          )}
-        </div>
-        <Menu
-          theme="dark"
-          mode="inline"
-          selectedKeys={[current]}
-          onClick={onMenuItemClicked}
-          items={items}
-        />
-      </Sider>
-      <Layout>
-        <Header
-          style={{ padding: 0, background: colorBgContainer }}
-          className="flex flex-row items-center justify-between"
+    <div className='m-2'>
+      <Layout style={{ minHeight: '100vh' }} className='rounded-xl'>
+        <Sider
+          trigger={null}
+          collapsible
+          collapsed={collapsed}
+          className="rounded-xl"
         >
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-            }}
+          <div className="h-8 m-3 font-bold text-2xl flex-1 items-center">
+            {collapsed ? (
+              <span className="text-white ml-1" v-if="collapsed">
+                SHR
+              </span>
+            ) : (
+              <span className="ml-4 text-white">Smooth HR</span>
+            )}
+          </div>
+          <Menu
+            theme="dark"
+            mode="inline"
+            selectedKeys={[current]}
+            onClick={onMenuItemClicked}
+            items={items}
           />
-          <Dropdown menu={{ items: profileAvatarItems }} className='mr-4'>
-            <a onClick={(e) => e.preventDefault()}>
-              <Space>
-                <Avatar size="large" icon={<UserOutlined />} />
-              </Space>
-            </a>
-          </Dropdown>
-        </Header>
-        <Content
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-            background: colorBgContainer,
-          }}
-        >
-          {children}
-        </Content>
+        </Sider>
+        <Layout>
+          <Header
+            style={{ padding: 0, background: colorBgContainer }}
+            className="flex flex-row items-center justify-between"
+          >
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setCollapsed(!collapsed)}
+              style={{
+                fontSize: '16px',
+                width: 64,
+                height: 64,
+              }}
+            />
+            <Dropdown menu={{ items: profileAvatarItems, onClick: onAvatarItemClick }} className='mr-4'>
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  <Avatar size="large" icon={<UserOutlined />} />
+                </Space>
+              </a>
+            </Dropdown>
+          </Header>
+          <Content
+            style={{
+              margin: '24px 16px',
+              padding: 24,
+              minHeight: 280,
+              background: colorBgContainer,
+            }}
+          >
+            {children}
+          </Content>
+        </Layout>
       </Layout>
-    </Layout>
+    </div>
   );
 }
