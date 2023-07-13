@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import {
@@ -13,46 +13,49 @@ import {
   DollarOutlined,
   DashboardOutlined,
   HomeOutlined,
-  UserOutlined
+  UserOutlined,
+  LogoutOutlined,
+  ProfileOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
 import type { MenuProps } from 'antd';
-import { Avatar } from 'antd'
+import { Avatar, Dropdown, Space } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
 
 const { Header, Sider, Content } = Layout;
 
-export default function App({children}: {children: React.ReactNode}) {
+
+export default function App({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
-  const [current, setCurrent] = useState('home')
+  const [current, setCurrent] = useState('home');
 
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const router = useRouter()
-  const path = usePathname()
+  const router = useRouter();
+  const path = usePathname();
 
-  useEffect(()=> {
+  useEffect(() => {
     if (path.includes('/hr/employees')) {
-      setCurrent('employees')
+      setCurrent('employees');
     }
     if (path.includes('/hr/leave')) {
-      setCurrent('leave')
+      setCurrent('leave');
     }
     if (path.includes('/hr/recruitment')) {
-      setCurrent('recruitment')
+      setCurrent('recruitment');
     }
     if (path.includes('/hr/schedules')) {
-      setCurrent('schedules')
+      setCurrent('schedules');
     }
     if (path.includes('/hr/payroll')) {
-      setCurrent('payroll')
+      setCurrent('payroll');
     }
     if (path.includes('/hr/time-and-attendance')) {
-      setCurrent('time-and-attendance')
+      setCurrent('time-and-attendance');
     }
-  },[path ])
+  }, [path]);
 
   const items: MenuProps['items'] = [
     {
@@ -100,13 +103,31 @@ export default function App({children}: {children: React.ReactNode}) {
       icon: <DollarOutlined />,
       label: 'Payroll',
     },
-  ]
+  ];
+
+  const profileAvatarItems: MenuProps['items'] = [
+    {
+      key: 'name',
+      // icon: <ProfileOutlined />,
+      label: 'Gilbert Twesigomwe',
+    },
+    {
+      key: 'profile',
+      icon: <ProfileOutlined />,
+      label: 'Profile',
+    },
+    {
+      key: 'logout',
+      icon: <LogoutOutlined />,
+      label: 'Logout',
+    },
+  ];
 
   const onMenuItemClicked: MenuProps['onClick'] = (e) => {
-    const key = e.key
-    setCurrent(key)
+    const key = e.key;
+    setCurrent(key);
 
-    switch(key) {
+    switch (key) {
       case 'home':
         router.push('/hr');
         break;
@@ -135,20 +156,27 @@ export default function App({children}: {children: React.ReactNode}) {
         router.push('/hr/payroll');
         break;
       default:
-        router.push('/hr')
+        router.push('/hr');
         break;
     }
-  }
+  };
 
   return (
-    <Layout style={{minHeight: '100vh'}}>
-      <Sider trigger={null} collapsible collapsed={collapsed} className='rounded-xl'>
+    <Layout style={{ minHeight: '100vh' }}>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        className="rounded-xl"
+      >
         <div className="h-8 m-3 font-bold text-2xl flex-1 items-center">
-          {
-            collapsed ?
-            <span className="text-white ml-1" v-if="collapsed">SHR</span> :
+          {collapsed ? (
+            <span className="text-white ml-1" v-if="collapsed">
+              SHR
+            </span>
+          ) : (
             <span className="ml-4 text-white">Smooth HR</span>
-          }
+          )}
         </div>
         <Menu
           theme="dark"
@@ -160,7 +188,10 @@ export default function App({children}: {children: React.ReactNode}) {
         />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} className='flex flex-row items-center justify-between'>
+        <Header
+          style={{ padding: 0, background: colorBgContainer }}
+          className="flex flex-row items-center justify-between"
+        >
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -171,7 +202,13 @@ export default function App({children}: {children: React.ReactNode}) {
               height: 64,
             }}
           />
-          <Avatar size="large" icon={<UserOutlined />} className='mr-4'/>
+          <Dropdown menu={{ items: profileAvatarItems }} className='mr-4'>
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                <Avatar size="large" icon={<UserOutlined />} />
+              </Space>
+            </a>
+          </Dropdown>
         </Header>
         <Content
           style={{
@@ -186,4 +223,4 @@ export default function App({children}: {children: React.ReactNode}) {
       </Layout>
     </Layout>
   );
-};
+}
