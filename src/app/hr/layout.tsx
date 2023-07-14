@@ -21,6 +21,7 @@ import { Layout, Menu, Button, theme } from 'antd';
 import type { MenuProps } from 'antd';
 import { Avatar, Dropdown, Space } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const { Header, Sider, Content } = Layout;
 
@@ -177,7 +178,8 @@ export default function App({ children }: { children: React.ReactNode }) {
           collapsed={collapsed}
           className="rounded-xl"
         >
-          <div className="h-8 m-3 font-bold text-2xl flex-1 items-center">
+          <Link href="/hr">
+          <div className="h-8 m-3 font-bold text-2xl flex-1 items-center cursor-pointer">
             {collapsed ? (
               <span className="text-white ml-1" v-if="collapsed">
                 SHR
@@ -186,6 +188,8 @@ export default function App({ children }: { children: React.ReactNode }) {
               <span className="ml-4 text-white">Smooth HR</span>
             )}
           </div>
+          </Link>
+
           <Menu
             theme="dark"
             mode="inline"
