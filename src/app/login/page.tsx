@@ -14,7 +14,7 @@ function Login() {
 
   return (
     <div className='bg-neutral-100 min-h-screen min-w-full flex justify-center items-center'>
-      <Card className='w-1/4 bg-slate-900'>
+      <Card className='w-96 bg-slate-900 text-center mx-auto'>
       <span className="font-bold text-3xl text-white mb-10">Smooth HR</span>
       <Form
         name="normal_login"
