@@ -18,7 +18,7 @@ function Login() {
       <span className="font-bold text-3xl text-white mb-10">Smooth HR</span>
       <Form
         name="normal_login"
-        className='mt-8'
+        className='mt-8 text-left'
         initialValues={{ remember: true }}
         onFinish={onFinish}
       >
