@@ -3,6 +3,8 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
 import ConfigProvider from 'antd/es/config-provider';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,6 +23,7 @@ const themeConfig = {
   },
 };
 
+const queryClient = new QueryClient()
 
 export default function RootLayout({
   children,
@@ -29,9 +32,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <ConfigProvider theme={themeConfig}>
-        <body className={inter.className}>{children}</body>
-      </ConfigProvider>
+      <QueryClientProvider client={queryClient}>
+        <ConfigProvider theme={themeConfig}>
+          <body className={inter.className}>{children}</body>
+        </ConfigProvider>
+        <ReactQueryDevtools initialIsOpen={false}/>
+      </QueryClientProvider>
     </html>
   );
 }
