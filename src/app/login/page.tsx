@@ -4,11 +4,27 @@ import React from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Form, Input } from 'antd';
 import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
 
 function Login() {
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
   };
+
+  type LoginCredentials = {
+    username: string,
+    password: string
+  }
+
+  const performLogin = async({username, password}: LoginCredentials) => {
+    const response = await axios.post('http://localhost:8000/api/auth/jwt/login/', {username: 'admin', password: 'admin@#123!'})
+    return response.data
+  }
+
+  // const {} = useMutation({
+  //   mutationFn: 
+  // })
 
   const router = useRouter()
 

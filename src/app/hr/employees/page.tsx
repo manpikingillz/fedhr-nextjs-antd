@@ -1,12 +1,16 @@
 'use client'
 
-import axios from 'axios';
+import axios from '@/utils/axios';
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Table } from 'antd';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 function Overview() {
   const [loading, setLoading] = useState(false)
+  const { data: session } = useSession()
+
+  console.log('data:::::', session)
 
   const columns = [
     {
@@ -27,18 +31,26 @@ function Overview() {
   ];
 
   async function getEmployees() {
-    const response = await axios.get('http://localhost:8000/api/employees/')
+    const response = await axios.get('employees/')
     console.log('response/: ', response.data)
     return response.data
   }
 
-  const { data: employees, error, isFetching, isLoading } = useQuery({queryKey: ['employees'], queryFn: getEmployees})
+  const {
+    data: employees,
+    error: errorEmployees,
+    isFetching: isFetchingEmployees,
+    isLoading: isLoadingEmployees,
+    status: statusEmployees
+  } = useQuery({queryKey: ['employees'], queryFn: getEmployees})
 
-  if (error) return (<h1> This is the error: {error.message}</h1>)
+  if (errorEmployees) return (<h1> This is the error: {errorEmployees.message}</h1>)
 
   return (
     <>
-      <Table dataSource={employees} columns={columns} loading={isFetching} />;
+      <button onClick={() => signIn()}>SignIn</button>
+        <button onClick={() => signOut()}>SignOut</button>
+      <Table dataSource={employees} columns={columns} loading={isFetchingEmployees} />;
     </>
   );
 };
