@@ -6,11 +6,14 @@ import { Button, Card, Checkbox, Form, Input } from 'antd';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
+import { signIn } from 'next-auth/react';
 
 function Login() {
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
   };
+
+  const router = useRouter()
 
   type LoginCredentials = {
     username: string,
@@ -18,15 +21,37 @@ function Login() {
   }
 
   const performLogin = async({username, password}: LoginCredentials) => {
-    const response = await axios.post('http://localhost:8000/api/auth/jwt/login/', {username: 'admin', password: 'admin@#123!'})
-    return response.data
+    console.log('Received values of form: ', username, password);
+    // const response = await axios.post('http://localhost:8000/api/auth/jwt/login/', {username: 'admin', password: 'admin@#123!'})
+    // return response.data
+
+    const response = await signIn('credentials', {
+      // redirect: false,
+      username: username,
+      password: password,
+      callbackUrl: '/hr'
+    })
+
+    if (response?.error) {
+      // handle error
+      console.log('response.error: ', response.error)
+    } else {
+      // custom logic after successful signIn
+      console.log('SignIn successful!')
+    }
+    // if (!response?.error) {
+    //   router.push('/hr')
+    // }
+
+    console.log('response after login:: ', response)
+
   }
 
   // const {} = useMutation({
   //   mutationFn: 
   // })
 
-  const router = useRouter()
+
 
   return (
     <div className='bg-neutral-100 min-h-screen min-w-full flex justify-center items-center'>
@@ -36,7 +61,7 @@ function Login() {
         name="normal_login"
         className='mt-8 text-left'
         initialValues={{ remember: true }}
-        onFinish={onFinish}
+        onFinish={performLogin}
       >
         <Form.Item
           name="username"
@@ -56,7 +81,7 @@ function Login() {
           />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit" className='w-full h-10' size='large' onClick={() => router.push('/hr')}>
+          <Button type="primary" htmlType="submit" className='w-full h-10' size='large'>
             Log in
           </Button>
         </Form.Item>

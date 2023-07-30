@@ -10,8 +10,6 @@ function Overview() {
   const [loading, setLoading] = useState(false)
   const { data: session } = useSession()
 
-  console.log('data:::::', session)
-
   const columns = [
     {
       title: 'First Name',
@@ -31,8 +29,8 @@ function Overview() {
   ];
 
   async function getEmployees() {
+    console.log('session datA: ', session?.user)
     const response = await axios.get('employees/')
-    console.log('response/: ', response.data)
     return response.data
   }
 

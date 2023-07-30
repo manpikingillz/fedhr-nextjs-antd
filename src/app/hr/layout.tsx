@@ -22,6 +22,7 @@ import type { MenuProps } from 'antd';
 import { Avatar, Dropdown, Space } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 
 const { Header, Sider, Content } = Layout;
 
@@ -127,7 +128,8 @@ export default function App({ children }: { children: React.ReactNode }) {
   const onAvatarItemClick: MenuProps['onClick'] = (e) => {
     const key = e.key
     if (key === 'logout') {
-      router.push('/login')
+      // router.push('/login')
+      signOut()
     }
   }
 
