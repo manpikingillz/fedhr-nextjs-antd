@@ -2,11 +2,6 @@
 import { NextAuthOptions } from "next-auth"
 import axios from "@/utils/axios";
 import Credentials from "next-auth/providers/credentials";
-import { Session, User as AdapterUser } from 'next-auth'
-
-interface CustomUser extends AdapterUser {
-  permissions?: string[],
-}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -33,16 +28,20 @@ export const authOptions: NextAuthOptions = {
 
           const response = await axios.get('auth/me')
           const user = response.data
-          console.log('responseee: ', user)
 
-          // Any object returned will be saved in `user` property of the JWT
+          // Fields on original session.user object.
           // id: string
           // name?: string | null
           // email?: string | null
           // image?: string | null
-          return {
-            name: 'Gilbert Twesigomwe',
-            email: user.email
+  
+          if (user) {
+            return {
+              id: user.id,
+              name: 'Gilbert Twesigomwe',
+              email: user.email,
+              randomKey: 'Gilbo perms'
+            }
           }
         } else {
           // If you return null then an error will be displayed advising the user to check their details.
@@ -52,22 +51,37 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
 
-  // callbacks: {
-  //   async jwt(token: any, user: CustomUser) {
-  //     if (user) {
-  //       // This will run when a user logs in and it will add the customField to the token
-  //       token.permissions = user?.permissions;
-  //     }
-  //     return token;
-  //   },
+  callbacks: {
+    session: ({session, token}) => {
+      // Add property to session.user
+      console.log('Log Session: ', {session, token})
+      // user.permissions = token?.permissions;
+     return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          randomKey: token.randomKey
+        }
+      }
+      // return session;
+    },
 
-  //   async session(session, user: CustomUser, token) {
-  //     // Add property to session.user
-  //     console.log('session: ', session.user)
-  //     user.permissions = token?.permissions;
-  //     return session;
-  //   }
-  // },
+    jwt: ({token, user}) => {
+      console.log('Log JWT: ', {token, user})
+      if (user) {
+        // This will run when a user logs in and it will add the customField to the token
+        // token.permissions = user?.permissions;
+        const u = user as unknown as any
+        return {
+          ...token,
+          id: u.id,
+          randomKey: u.randomKey
+        }
+      }
+      return token;
+    }
+  },
 
   // session: {
   //   strategy: "jwt"
