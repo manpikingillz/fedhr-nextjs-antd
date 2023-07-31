@@ -38,9 +38,9 @@ export const authOptions: NextAuthOptions = {
           if (user) {
             return {
               id: user.id,
-              name: 'Gilbert Twesigomwe',
+              name: user.full_name,
               email: user.email,
-              randomKey: 'Gilbo perms'
+              permissions: user.permissions
             }
           }
         } else {
@@ -61,7 +61,7 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: token.id,
-          randomKey: token.randomKey
+          permissions: token.permissions
         }
       }
       // return session;
@@ -76,7 +76,7 @@ export const authOptions: NextAuthOptions = {
         return {
           ...token,
           id: u.id,
-          randomKey: u.randomKey
+          permissions: u.permissions
         }
       }
       return token;
