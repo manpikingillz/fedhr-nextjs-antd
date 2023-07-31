@@ -1,4 +1,3 @@
-// import CredentialsProvider from "next-auth/providers/credentials"
 import { NextAuthOptions } from "next-auth"
 import axios from "@/utils/axios";
 import Credentials from "next-auth/providers/credentials";
@@ -21,10 +20,10 @@ export const authOptions: NextAuthOptions = {
         const { username, password } = credentials as any
 
         const response = await axios.post('auth/jwt/login/', {username: username, password: password})
-        const token = response.data.token
+        const accessToken = response.data.token
 
-        if (token) {
-          axios.defaults.headers['Authorization'] = 'Bearer ' + token
+        if (accessToken) {
+          axios.defaults.headers['Authorization'] = 'Bearer ' + accessToken
 
           const response = await axios.get('auth/me')
           const user = response.data
@@ -40,7 +39,8 @@ export const authOptions: NextAuthOptions = {
               id: user.id,
               name: user.full_name,
               email: user.email,
-              permissions: user.permissions
+              permissions: user.permissions,
+              accessToken: accessToken
             }
           }
         } else {
@@ -53,30 +53,28 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
     session: ({session, token}) => {
-      // Add property to session.user
-      console.log('Log Session: ', {session, token})
-      // user.permissions = token?.permissions;
+      // console.log('Log Session: ', {session, token})
      return {
         ...session,
         user: {
           ...session.user,
           id: token.id,
+          accessToken: token.accessToken,
           permissions: token.permissions
         }
       }
-      // return session;
     },
 
     jwt: ({token, user}) => {
-      console.log('Log JWT: ', {token, user})
+      // console.log('Log JWT: ', {token, user})
       if (user) {
         // This will run when a user logs in and it will add the customField to the token
-        // token.permissions = user?.permissions;
         const u = user as unknown as any
         return {
           ...token,
           id: u.id,
-          permissions: u.permissions
+          permissions: u.permissions,
+          accessToken: u.accessToken
         }
       }
       return token;

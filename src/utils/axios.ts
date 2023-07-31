@@ -1,5 +1,8 @@
 import axios from 'axios'
-import { getServerSession } from 'next-auth';
+// import { getServerSession } from 'next-auth';
+import { getSession } from 'next-auth/react';
+
+const Axios = () => {
 
 const instance = axios.create({
     baseURL: 'http://localhost:8000/api/',
@@ -10,12 +13,14 @@ const instance = axios.create({
 
 // Add a request interceptor
 instance.interceptors.request.use(async config => {
-
+  const session = await getSession()
   // const session = await getServerSession()
 
-  // if (session) {
-  //   console.log('session: ', session.user)
-  // }
+  const accessToken = session?.user?.accessToken
+  if (accessToken) {
+    console.log('session: ', accessToken)
+    config.headers.Authorization = 'Bearer ' + accessToken
+  }
  
     // Do something before request is sent
     // For instance, add your authentication token here.
@@ -43,5 +48,7 @@ instance.interceptors.response.use(response => {
   return Promise.reject(error);
 });
 
+return instance
+}
 
-export default instance
+export default Axios()
