@@ -29,7 +29,6 @@ function Overview() {
   ];
 
   async function getEmployees() {
-    console.log('session datA: ', session?.user)
     const response = await axios.get('employees/')
     return response.data
   }

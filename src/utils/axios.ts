@@ -14,21 +14,12 @@ const instance = axios.create({
 // Add a request interceptor
 instance.interceptors.request.use(async config => {
   const session = await getSession()
-  // const session = await getServerSession()
 
   const accessToken = session?.user?.accessToken
+
   if (accessToken) {
-    console.log('session: ', accessToken)
     config.headers.Authorization = 'Bearer ' + accessToken
   }
- 
-    // Do something before request is sent
-    // For instance, add your authentication token here.
-
-    // const authToken = localStorage.getItem('authToken');
-    // if (authToken) {
-    //     config.headers.Authorization = 'Bearer ' + authToken
-    // }
 
     return config;
   }, error => {
