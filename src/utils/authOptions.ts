@@ -78,7 +78,25 @@ export const authOptions: NextAuthOptions = {
         }
       }
       return token;
-    }
+    },
+
+    // redirect: async ({url, baseUrl}) => {
+    //   console.log('url, baseURL :', url, baseUrl)
+    //   if (url.includes('/api/auth/error')) {
+    //     console.log('called error route')
+    //     // If there was an error, stay on the same page (you could replace '/' with the path to your login page)
+    //     return '/'
+    //   }
+  
+    //   // if (url.startsWith(baseUrl)) {
+    //   //   console.log('loggin base url')
+    //   //   // If the url is a valid redirect (i.e., it's a url on your site), then just return it
+    //   //   return url
+    //   // }
+      
+    //   // If all else fails, redirect to the homepage
+    //   return baseUrl
+    // }
   },
 
   session: {
@@ -86,6 +104,7 @@ export const authOptions: NextAuthOptions = {
   },
 
   pages: {
-    signIn: "/login"
+    signIn: "/login",
+    error: "/login"
   }
 };

@@ -6,7 +6,7 @@ import { Button, Card, Checkbox, Form, Input } from 'antd';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { signIn } from 'next-auth/react';
+import { getSession, signIn } from 'next-auth/react';
 
 function Login() {
   const onFinish = (values: any) => {
@@ -26,32 +26,19 @@ function Login() {
     // return response.data
 
     const response = await signIn('credentials', {
-      // redirect: false,
+      redirect: false,
       username: username,
       password: password,
       callbackUrl: '/hr'
     })
 
-    if (response?.error) {
-      // handle error
-      console.log('response.error: ', response.error)
+    const sesion = await getSession()
+    if (sesion) {
+      router.push('/hr')
     } else {
-      // custom logic after successful signIn
-      console.log('SignIn successful!')
+      console.log('Error happened on login')
     }
-    // if (!response?.error) {
-    //   router.push('/hr')
-    // }
-
-    console.log('response after login:: ', response)
-
   }
-
-  // const {} = useMutation({
-  //   mutationFn: 
-  // })
-
-
 
   return (
     <div className='bg-neutral-100 min-h-screen min-w-full flex justify-center items-center'>
