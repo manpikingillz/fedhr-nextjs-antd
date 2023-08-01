@@ -40,7 +40,8 @@ export const authOptions: NextAuthOptions = {
               name: user.full_name,
               email: user.email,
               permissions: user.permissions,
-              accessToken: accessToken
+              accessToken: accessToken,
+              groups: user.groups
             }
           }
         } else {
@@ -60,7 +61,8 @@ export const authOptions: NextAuthOptions = {
           ...session.user,
           id: token.id,
           accessToken: token.accessToken,
-          permissions: token.permissions
+          permissions: token.permissions,
+          groups: token.groups
         }
       }
     },
@@ -74,7 +76,8 @@ export const authOptions: NextAuthOptions = {
           ...token,
           id: u.id,
           permissions: u.permissions,
-          accessToken: u.accessToken
+          accessToken: u.accessToken,
+          groups: u.groups
         }
       }
       return token;
