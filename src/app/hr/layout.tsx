@@ -22,6 +22,7 @@ import type { MenuProps } from 'antd';
 import { Avatar, Dropdown, Space } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { getSession, signOut, useSession } from 'next-auth/react';
 
 const { Header, Sider, Content } = Layout;
 
@@ -29,6 +30,10 @@ const { Header, Sider, Content } = Layout;
 export default function App({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const [current, setCurrent] = useState('home');
+  const [fullNname, setFullName] = useState('')
+
+  const session = useSession()
+  
 
   const {
     token: { colorBgContainer },
@@ -38,6 +43,11 @@ export default function App({ children }: { children: React.ReactNode }) {
   const path = usePathname();
 
   useEffect(() => {
+    if (session.status === 'authenticated') {
+      const name = session.data.user?.name
+      if (name) setFullName(name)
+    }
+
     if (path.includes('/hr/employees')) {
       setCurrent('employees');
     }
@@ -110,7 +120,7 @@ export default function App({ children }: { children: React.ReactNode }) {
     {
       key: 'name',
       // icon: <ProfileOutlined />,
-      label: 'Gilbert Twesigomwe',
+      label: `${fullNname}`,
     },
     {
       key: 'profile',
@@ -127,7 +137,8 @@ export default function App({ children }: { children: React.ReactNode }) {
   const onAvatarItemClick: MenuProps['onClick'] = (e) => {
     const key = e.key
     if (key === 'logout') {
-      router.push('/login')
+      // router.push('/login')
+      signOut()
     }
   }
 

@@ -3,8 +3,9 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
 import ConfigProvider from 'antd/es/config-provider';
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import NextAuthSessionProvider from '@/app/providers/sessionProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,21 +24,25 @@ const themeConfig = {
   },
 };
 
-const queryClient = new QueryClient()
-
-export default function RootLayout({
-  children,
-}: {
+interface IProps {
   children: React.ReactNode;
-}) {
+}
+
+const queryClient = new QueryClient();
+
+export default function RootLayout({ children }: IProps) {
   return (
     <html lang="en">
-      <QueryClientProvider client={queryClient}>
-        <ConfigProvider theme={themeConfig}>
-          <body className={inter.className}>{children}</body>
-        </ConfigProvider>
-        <ReactQueryDevtools initialIsOpen={false}/>
-      </QueryClientProvider>
+      <NextAuthSessionProvider>
+        <QueryClientProvider client={queryClient}>
+          <ConfigProvider theme={themeConfig}>
+            <body className={inter.className}>
+              {children}
+              <ReactQueryDevtools initialIsOpen={false} />
+            </body>
+          </ConfigProvider>
+        </QueryClientProvider>
+      </NextAuthSessionProvider>
     </html>
   );
 }
