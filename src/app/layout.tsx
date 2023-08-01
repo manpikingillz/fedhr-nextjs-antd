@@ -3,8 +3,8 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
 import ConfigProvider from 'antd/es/config-provider';
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import NextAuthSessionProvider from '@/app/providers/sessionProvider';
 // import { SessionProvider } from 'next-auth/react'
 
@@ -26,21 +26,23 @@ const themeConfig = {
 };
 
 interface IProps {
-  children: React.ReactNode,
+  children: React.ReactNode;
   // session: any
 }
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
-export default function RootLayout({children}: IProps) {
+export default function RootLayout({ children }: IProps) {
   return (
     <html lang="en">
       <NextAuthSessionProvider>
         <QueryClientProvider client={queryClient}>
           <ConfigProvider theme={themeConfig}>
-            <body className={inter.className}>{children}</body>
+            <body className={inter.className}>
+              {children}
+              <ReactQueryDevtools initialIsOpen={false} />
+            </body>
           </ConfigProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </NextAuthSessionProvider>
     </html>
