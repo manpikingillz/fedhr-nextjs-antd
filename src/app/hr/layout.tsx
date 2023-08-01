@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import {
@@ -12,30 +12,61 @@ import {
   SendOutlined,
   DollarOutlined,
   DashboardOutlined,
-  HomeOutlined
+  HomeOutlined,
+  UserOutlined,
+  LogoutOutlined,
+  ProfileOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
 import type { MenuProps } from 'antd';
+import { Avatar, Dropdown, Space } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { getSession, signOut, useSession } from 'next-auth/react';
 
 const { Header, Sider, Content } = Layout;
 
-export default function App({children}: {children: React.ReactNode}) {
+
+export default function App({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
-  const [current, setCurrent] = useState('home')
+  const [current, setCurrent] = useState('home');
+  const [fullNname, setFullName] = useState('')
+
+  const session = useSession()
+  
 
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const router = useRouter()
-  const path = usePathname()
+  const router = useRouter();
+  const path = usePathname();
 
-  useEffect(()=> {
-    if (path.includes('/hr/employees')) {
-      setCurrent('employees')
+  useEffect(() => {
+    if (session.status === 'authenticated') {
+      const name = session.data.user?.name
+      if (name) setFullName(name)
     }
-  },[path ])
+
+    if (path.includes('/hr/employees')) {
+      setCurrent('employees');
+    }
+    if (path.includes('/hr/leave')) {
+      setCurrent('leave');
+    }
+    if (path.includes('/hr/recruitment')) {
+      setCurrent('recruitment');
+    }
+    if (path.includes('/hr/schedules')) {
+      setCurrent('schedules');
+    }
+    if (path.includes('/hr/payroll')) {
+      setCurrent('payroll');
+    }
+    if (path.includes('/hr/time-and-attendance')) {
+      setCurrent('time-and-attendance');
+    }
+  }, [path]);
 
   const items: MenuProps['items'] = [
     {
@@ -83,13 +114,39 @@ export default function App({children}: {children: React.ReactNode}) {
       icon: <DollarOutlined />,
       label: 'Payroll',
     },
-  ]
+  ];
+
+  const profileAvatarItems: MenuProps['items'] = [
+    {
+      key: 'name',
+      // icon: <ProfileOutlined />,
+      label: `${fullNname}`,
+    },
+    {
+      key: 'profile',
+      icon: <ProfileOutlined />,
+      label: 'Profile',
+    },
+    {
+      key: 'logout',
+      icon: <LogoutOutlined />,
+      label: 'Logout',
+    },
+  ];
+
+  const onAvatarItemClick: MenuProps['onClick'] = (e) => {
+    const key = e.key
+    if (key === 'logout') {
+      // router.push('/login')
+      signOut()
+    }
+  }
 
   const onMenuItemClicked: MenuProps['onClick'] = (e) => {
-    const key = e.key
-    setCurrent(key)
+    const key = e.key;
+    setCurrent(key);
 
-    switch(key) {
+    switch (key) {
       case 'home':
         router.push('/hr');
         break;
@@ -118,54 +175,75 @@ export default function App({children}: {children: React.ReactNode}) {
         router.push('/hr/payroll');
         break;
       default:
-        router.push('/hr')
+        router.push('/hr');
         break;
     }
-  }
+  };
 
   return (
-    <Layout style={{minHeight: '100vh'}}>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="h-8 m-3 bg-gray-500 font-semibold text-xl flex-1 items-center">
-          {
-            collapsed ?
-            <span className="text-white ml-1" v-if="collapsed">Fed</span> :
-            <span className="ml-4 text-white">Fed HR</span>
-          }
-        </div>
-        <Menu
-          theme="dark"
-          mode="inline"
-          // defaultSelectedKeys={['1']}
-          selectedKeys={[current]}
-          onClick={onMenuItemClicked}
-          items={items}
-        />
-      </Sider>
-      <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-            }}
-          />
-        </Header>
-        <Content
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-            background: colorBgContainer,
-          }}
+    <div className='m-2'>
+      <Layout style={{ minHeight: '100vh' }} className='rounded-xl'>
+        <Sider
+          trigger={null}
+          collapsible
+          collapsed={collapsed}
+          className="rounded-xl"
         >
-          {children}
-        </Content>
+          <Link href="/hr">
+          <div className="h-8 m-3 font-bold text-2xl flex-1 items-center cursor-pointer">
+            {collapsed ? (
+              <span className="text-white ml-1" v-if="collapsed">
+                SHR
+              </span>
+            ) : (
+              <span className="ml-4 text-white">Smooth HR</span>
+            )}
+          </div>
+          </Link>
+
+          <Menu
+            theme="dark"
+            mode="inline"
+            selectedKeys={[current]}
+            onClick={onMenuItemClicked}
+            items={items}
+          />
+        </Sider>
+        <Layout>
+          <Header
+            style={{ padding: 0, background: colorBgContainer }}
+            className="flex flex-row items-center justify-between"
+          >
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setCollapsed(!collapsed)}
+              style={{
+                fontSize: '16px',
+                width: 64,
+                height: 64,
+              }}
+            />
+            <Dropdown menu={{ items: profileAvatarItems, onClick: onAvatarItemClick }} className='mr-4'>
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  <Avatar size="large" icon={<UserOutlined />} />
+                </Space>
+              </a>
+            </Dropdown>
+          </Header>
+          <Content
+            style={{
+              margin: '24px 16px',
+              padding: 24,
+              minHeight: 280,
+              background: colorBgContainer,
+            }}
+          >
+            {children}
+          </Content>
+        </Layout>
       </Layout>
-    </Layout>
+    </div>
   );
-};
+}
