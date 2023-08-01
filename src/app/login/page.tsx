@@ -6,10 +6,11 @@ import { Button, Card, Checkbox, Form, Input, message } from 'antd';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { getSession, signIn } from 'next-auth/react';
+import { getSession, signIn, useSession } from 'next-auth/react';
 
 function Login() {
   const [messageApi, contextHolder] = message.useMessage();
+  const { status } = useSession()
 
   const router = useRouter();
 
@@ -82,6 +83,7 @@ function Login() {
               htmlType="submit"
               className="w-full h-10"
               size="large"
+              loading={status === 'loading'}
             >
               Log in
             </Button>
