@@ -20,8 +20,6 @@ function Login() {
   };
 
   const performLogin = async ({ username, password }: LoginCredentials) => {
-    // return response.data
-
     const response = await signIn('credentials', {
       redirect: false,
       username: username,

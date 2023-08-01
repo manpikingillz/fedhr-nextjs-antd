@@ -6,7 +6,6 @@ import ConfigProvider from 'antd/es/config-provider';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import NextAuthSessionProvider from '@/app/providers/sessionProvider';
-// import { SessionProvider } from 'next-auth/react'
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,7 +26,6 @@ const themeConfig = {
 
 interface IProps {
   children: React.ReactNode;
-  // session: any
 }
 
 const queryClient = new QueryClient();

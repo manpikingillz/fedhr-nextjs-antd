@@ -1,5 +1,4 @@
 import axios from 'axios'
-// import { getServerSession } from 'next-auth';
 import { getSession } from 'next-auth/react';
 
 const Axios = () => {
