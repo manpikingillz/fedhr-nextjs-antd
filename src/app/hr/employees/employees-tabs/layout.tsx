@@ -26,7 +26,7 @@ export default function EmployeesLayout({children}: {children: React.ReactNode})
     const path = usePathname()
 
     useEffect(() => {
-        if (path === '/hr/employees') {
+        if (path === '/hr/employees/employees-tabs') {
             setCurrent('employees-overview')
         }
     },[path])
@@ -37,16 +37,16 @@ export default function EmployeesLayout({children}: {children: React.ReactNode})
 
         switch(key) {
             case 'employees-overview':
-                router.push('/hr/employees');
+                router.push('/hr/employees/employees-tabs');
                 break;
             case 'employees-orgchart':
-                router.push('/hr/employees/orgchart');
+                router.push('/hr/employees/employees-tabs/orgchart');
                 break;
             case 'employees-settings':
-                router.push('/hr/employees/employees-settings');
+                router.push('/hr/employees/employees-tabs/employees-settings');
                 break;
             default:
-                router.push('/hr/employees/overview');
+                router.push('/hr/employees/employees-tabs/overview');
                 break;
         }
 

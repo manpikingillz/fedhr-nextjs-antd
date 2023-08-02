@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Table } from 'antd';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 function Overview() {
   const [loading, setLoading] = useState(false)
@@ -15,6 +16,7 @@ function Overview() {
       title: 'First Name',
       dataIndex: 'first_name',
       key: 'first_name',
+      render: (text) => <Link href="/hr/employees/employee-details/employee-details-tabs">{text}</Link>,
     },
     {
       title: 'Last Name',
@@ -24,8 +26,8 @@ function Overview() {
     {
       title: 'Email',
       dataIndex: 'email',
-      key: 'email',
-    },
+      key: 'email'
+    }
   ];
 
   async function getEmployees() {
