@@ -111,7 +111,7 @@ export default function EmployeesLayout({children}: {children: React.ReactNode})
     return (
         <div className='flex'>
             <Menu onClick={onClick} selectedKeys={[current]} mode="vertical w-2/12" items={items} />
-            <div className='m-4'>
+            <div className='m-4 w-full'>
                 {children}
             </div>
         </div>
