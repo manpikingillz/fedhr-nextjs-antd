@@ -3,10 +3,10 @@
 import { SettingOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import type { CollapseProps } from 'antd';
-import { Collapse } from 'antd';
+import { Card, Col, Collapse, Divider, Popconfirm, Row, Image } from 'antd';
 
 
-function Benefits() {
+function Notes() {
 
   const onChange = (key: string | string[]) => {
     console.log(key);
@@ -24,19 +24,7 @@ function Benefits() {
   const items: CollapseProps['items'] = [
     {
       key: '1',
-      label: 'Benefits Overview',
-      children: <div>Test</div>,
-      extra: genExtra(),
-    },
-    {
-      key: '1',
-      label: 'Dependants',
-      children: <div>Test</div>,
-      extra: genExtra(),
-    },
-    {
-      key: '1',
-      label: 'Benefits History',
+      label: 'Notes',
       children: <div>Test</div>,
       extra: genExtra(),
     }
@@ -55,4 +43,4 @@ function Benefits() {
   );
 };
 
-export default Benefits;
+export default Notes;

@@ -23,6 +23,10 @@ const items: MenuProps['items'] = [
     key: 'documents',
   },
   {
+    label: 'Notes',
+    key: 'notes',
+  },
+  {
     label: 'Payroll',
     key: 'payroll'
   },
@@ -80,6 +84,9 @@ export default function EmployeesLayout({children}: {children: React.ReactNode})
             case 'documents':
                 router.push('/hr/employees/employee-details/employee-details-tabs/documents');
                 break;
+            case 'notes':
+              router.push('/hr/employees/employee-details/employee-details-tabs/notes');
+              break;
             case 'payroll':
               router.push('/hr/employees/employee-details/employee-details-tabs/payroll');
               break;
