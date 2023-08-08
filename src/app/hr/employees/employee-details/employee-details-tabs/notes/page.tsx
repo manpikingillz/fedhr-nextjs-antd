@@ -2,19 +2,18 @@
 
 import { DeleteOutlined, SnippetsFilled } from '@ant-design/icons';
 import React, { useState } from 'react';
-import type { CollapseProps } from 'antd';
+import { createNote, getNotes } from '@/app/api/notes'
 import {
   Button,
   Card,
   Col,
-  Collapse,
   Divider,
   Form,
   Popconfirm,
   Row,
   Input,
 } from 'antd';
-import axios from '@/utils/axios';
+
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import moment from 'moment';
 import Image from 'next/image';
@@ -28,16 +27,7 @@ type Note = {
 function Notes() {
   const [hideButton, setHideButton] = useState(true);
 
-  async function getNotes() {
-    const response = await axios.get('notes/');
-    return response.data;
-  }
-
-  async function postNote(noteData: any) {
-    const response = await axios.post('notes/create/', noteData);
-    return response.data;
-  }
-
+  // Fetch Notes
   const {
     data: notes,
     error: errorNotes,
@@ -46,16 +36,9 @@ function Notes() {
     status: statusNotes,
   } = useQuery({ queryKey: ['notes'], queryFn: getNotes });
 
-  const onFocus = () => {
-    setHideButton(false);
-  };
-
-  const onCancel = () => {
-    setHideButton(true);
-  };
-
+  // Note Mutation
   const queryClient = useQueryClient();
-  const noteMutation = useMutation(postNote, {
+  const noteMutation = useMutation(createNote, {
     onError: () => {
       // What to do when an error occurs
     },
@@ -65,9 +48,18 @@ function Notes() {
     },
   });
 
-  const createNote = async ({ note }: Note) => {
+  const addNote = async ({ note }: Note) => {
     console.log('note data from form: ', note)
     noteMutation.mutate({ note, employee: 1 });
+  };
+
+  // Other functions
+  const onFocus = () => {
+    setHideButton(false);
+  };
+
+  const onCancel = () => {
+    setHideButton(true);
   };
 
   if (errorNotes) return <h1> This is the error: {errorNotes.message}</h1>;
@@ -93,7 +85,7 @@ function Notes() {
               />
           </Col>
           <Col span={22}>
-            <Form name="note-create-form" onFinish={createNote}>
+            <Form name="note-create-form" onFinish={addNote}>
               <Form.Item name="note" rules={[{ required: true, message: 'Write a note!' }]}>
                 <TextArea onFocusCapture={onFocus} />
               </Form.Item>
