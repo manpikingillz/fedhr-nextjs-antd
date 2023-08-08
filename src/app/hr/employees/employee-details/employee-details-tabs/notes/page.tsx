@@ -1,19 +1,41 @@
 'use client';
 
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, SnippetsFilled } from '@ant-design/icons';
 import React, { useState } from 'react';
 import type { CollapseProps } from 'antd';
-import { Card, Col, Collapse, Divider, Popconfirm, Row } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  Collapse,
+  Divider,
+  Form,
+  Popconfirm,
+  Row,
+  Input,
+} from 'antd';
 import axios from '@/utils/axios';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import moment from 'moment';
-import Image from 'next/image'
+import Image from 'next/image';
+
+const { TextArea } = Input;
+
+type Note = {
+  note: string;
+};
 
 function Notes() {
+  const [hideButton, setHideButton] = useState(true);
 
   async function getNotes() {
-    const response = await axios.get('notes/')
-    return response.data
+    const response = await axios.get('notes/');
+    return response.data;
+  }
+
+  async function postNote(noteData: any) {
+    const response = await axios.post('notes/create/', noteData);
+    return response.data;
   }
 
   const {
@@ -21,18 +43,85 @@ function Notes() {
     error: errorNotes,
     isFetching: isFetchingNotes,
     isLoading: isLoadingNotes,
-    status: statusNotes
-  } = useQuery({queryKey: ['notes'], queryFn: getNotes})
+    status: statusNotes,
+  } = useQuery({ queryKey: ['notes'], queryFn: getNotes });
 
-  if (errorNotes) return (<h1> This is the error: {errorNotes.message}</h1>)
+  const onFocus = () => {
+    setHideButton(false);
+  };
+
+  const onCancel = () => {
+    setHideButton(true);
+  };
+
+  const queryClient = useQueryClient();
+  const noteMutation = useMutation(postNote, {
+    onError: () => {
+      // What to do when an error occurs
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries('notes');
+    },
+  });
+
+  const createNote = async ({ note }: Note) => {
+    console.log('note data from form: ', note)
+    noteMutation.mutate({ note, employee: 1 });
+  };
+
+  if (errorNotes) return <h1> This is the error: {errorNotes.message}</h1>;
   return (
     <div>
+      {/* Note create Form */}
+      <br />
+      <h2 className='text-emerald-500'>
+        <SnippetsFilled />
+        &nbsp;Notes
+      </h2>
+      <br />
+
+      <Card style={{ backgroundColor: '#f5f5f5', borderColor: '#f5f5f5' }}>
+        <Row>
+          <Col span={2}>
+              <Image
+                src="/images/user_profile.jpg"
+                alt="User Avatar"
+                height={50}
+                width={50}
+                className='rounded-3xl'
+              />
+          </Col>
+          <Col span={22}>
+            <Form name="note-create-form" onFinish={createNote}>
+              <Form.Item name="note" rules={[{ required: true, message: 'Write a note!' }]}>
+                <TextArea onFocusCapture={onFocus} />
+              </Form.Item>
+              <Form.Item hidden={hideButton}>
+                <Button htmlType="submit" type="primary">
+                  Post
+                </Button>
+                <Button type="link" onClick={onCancel}>
+                  Cancel
+                </Button>
+              </Form.Item>
+            </Form>
+          </Col>
+        </Row>
+      </Card>
+
+      {/* Notes List */}
       <Card style={{ backgroundColor: '#fffff', borderColor: '#ffffff' }}>
-        {notes?.map(note => (
+        {notes?.map((note) => (
           <div key={note.id}>
             <Row>
               <Col span={2}>
-                <Image src="/images/user_profile.jpg" alt="User Avatar" height={50} width={50}/>
+                <Image
+                  src="/images/user_profile.jpg"
+                  alt="User Avatar"
+                  height={50}
+                  width={50}
+                />
               </Col>
               <Col span={21}>
                 <div>
@@ -51,10 +140,7 @@ function Notes() {
               </Col>
               <Col span={1}>
                 {/* <Icon type="edit" style={{ color: 'gray' }} /> &nbsp; */}
-                <Popconfirm
-                  title="Sure to delete?"
-                  onConfirm={() => null}
-                >
+                <Popconfirm title="Sure to delete?" onConfirm={() => null}>
                   <a href="javascript:;">
                     <DeleteOutlined />
                   </a>
