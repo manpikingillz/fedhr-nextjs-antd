@@ -1,22 +1,14 @@
 'use client';
 
-import { DeleteOutlined, SnippetsFilled } from '@ant-design/icons';
+import { DeleteOutlined, SnippetsFilled, EditTwoTone } from '@ant-design/icons';
 import React, { useState } from 'react';
-import { createNote, getNotes } from '@/app/api/notes'
-import {
-  Button,
-  Card,
-  Col,
-  Divider,
-  Form,
-  Popconfirm,
-  Row,
-  Input,
-} from 'antd';
+import { createNote, getNotes } from '@/app/api/notes';
+import { Button, Card, Col, Divider, Form, Popconfirm, Row, Input } from 'antd';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import moment from 'moment';
 import Image from 'next/image';
+import NoteForm from '@/app/components/NoteForm';
 
 const { TextArea } = Input;
 
@@ -25,7 +17,11 @@ type Note = {
 };
 
 function Notes() {
-  const [hideButton, setHideButton] = useState(true);
+  const [isButtonHiddenCreateNote, setIsButtonHiddenCreateNote] =
+    useState(true);
+  const [isButtonHiddenUpdateNote, setIsButtonHiddenUpdateNote] =
+    useState(true);
+  const [noteselectedForUpdate, setNoteselectedForUpdate] = useState<number>();
 
   // Fetch Notes
   const {
@@ -49,17 +45,29 @@ function Notes() {
   });
 
   const addNote = async ({ note }: Note) => {
-    console.log('note data from form: ', note)
+    console.log('note data from form: ', note);
     noteMutation.mutate({ note, employee: 1 });
   };
 
   // Other functions
-  const onFocus = () => {
-    setHideButton(false);
+  const onFocusCreateNote = () => {
+    setIsButtonHiddenCreateNote(false);
   };
 
-  const onCancel = () => {
-    setHideButton(true);
+  const onCancelCreateNote = () => {
+    setIsButtonHiddenCreateNote(true);
+  };
+
+  const onFocusUpdateNote = () => {
+    setIsButtonHiddenUpdateNote(false);
+  };
+
+  const onCancelUpdateNote = () => {
+    setIsButtonHiddenUpdateNote(true);
+  };
+
+  const showEditForm = (noteId: number) => {
+    setNoteselectedForUpdate(noteId)
   };
 
   if (errorNotes) return <h1> This is the error: {errorNotes.message}</h1>;
@@ -67,7 +75,7 @@ function Notes() {
     <div>
       {/* Note create Form */}
       <br />
-      <h2 className='text-emerald-500'>
+      <h2 className="text-emerald-500">
         <SnippetsFilled />
         &nbsp;Notes
       </h2>
@@ -76,28 +84,24 @@ function Notes() {
       <Card style={{ backgroundColor: '#f5f5f5', borderColor: '#f5f5f5' }}>
         <Row>
           <Col span={2}>
-              <Image
-                src="/images/user_profile.jpg"
-                alt="User Avatar"
-                height={50}
-                width={50}
-                className='rounded-3xl'
-              />
+            <Image
+              src="/images/user_profile.jpg"
+              alt="User Avatar"
+              height={50}
+              width={50}
+              className="rounded-3xl"
+            />
           </Col>
           <Col span={22}>
-            <Form name="note-create-form" onFinish={addNote}>
-              <Form.Item name="note" rules={[{ required: true, message: 'Write a note!' }]}>
-                <TextArea onFocusCapture={onFocus} />
-              </Form.Item>
-              <Form.Item hidden={hideButton}>
-                <Button htmlType="submit" type="primary">
-                  Post
-                </Button>
-                <Button type="link" onClick={onCancel}>
-                  Cancel
-                </Button>
-              </Form.Item>
-            </Form>
+            {
+              <NoteForm
+                formName='note-create-form'
+                saveNoteHandler={addNote}
+                onFocusHandler={onFocusCreateNote}
+                isButtonHidden={isButtonHiddenCreateNote}
+                onCancelHandler={onCancelCreateNote}
+              />
+            }
           </Col>
         </Row>
       </Card>
@@ -129,9 +133,22 @@ function Notes() {
                   <br />
                   <span>{note.note}</span>
                 </div>
+
+                {noteselectedForUpdate == note.id && (
+                  <NoteForm
+                    formName={`note-update-form-${note.id}`}
+                    saveNoteHandler={addNote}
+                    onFocusHandler={onFocusUpdateNote}
+                    isButtonHidden={isButtonHiddenUpdateNote}
+                    onCancelHandler={onCancelUpdateNote}
+                  />
+                )}
               </Col>
-              <Col span={1}>
-                {/* <Icon type="edit" style={{ color: 'gray' }} /> &nbsp; */}
+              <Col span={1} className="space-x-2">
+                <EditTwoTone
+                  className="cursor-pointer"
+                  onClick={() => showEditForm(note.id)}
+                />
                 <Popconfirm title="Sure to delete?" onConfirm={() => null}>
                   <a href="javascript:;">
                     <DeleteOutlined />
