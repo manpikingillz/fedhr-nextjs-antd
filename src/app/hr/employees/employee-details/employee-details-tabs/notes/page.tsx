@@ -41,6 +41,7 @@ function Notes() {
     },
     onSuccess: () => {
       // Invalidate and refetch
+      console.log('updated::: ')
       queryClient.invalidateQueries('notes');
     },
   });
@@ -51,6 +52,7 @@ function Notes() {
     },
     onSuccess: () => {
       // Invalidate and refetch
+      setNoteselectedForUpdate(0)
       queryClient.invalidateQueries('notes');
     },
   });
@@ -66,16 +68,17 @@ function Notes() {
   });
 
   const addNote = async ({ note }: Note) => {
-    console.log('note data from form: ', note);
     noteMutation.mutate({ note, employee: 1 });
   };
 
   const updateTheNote = async ({ note }: Note) => {
-    console.log('note updated from form: ', note);
-    noteUpdateMutation.mutate({ noteData: note , id: 1 });
+    const noteData = {
+      'note': note,
+      'employee': 1
+    }
+    noteUpdateMutation.mutate({ noteData, id: noteselectedForUpdate });
   };
   const deleteTheNote = async (id: number) => {
-    console.log('note deleted from form: ', id);
     noteDeleteMutation.mutate(id);
   };
 

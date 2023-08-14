@@ -1,5 +1,10 @@
 import axios from '@/utils/axios';
 
+interface Note {
+  id?: number,
+  note: string,
+  employee?: number
+}
 
 export async function getNotes() {
   const response = await axios.get('notes/');
@@ -11,9 +16,9 @@ export async function createNote(noteData: any) {
   return response.data;
 }
 
-export async function updateNote({noteData, id}: {noteData: any, id: number}) {
-  console.log('noteData: ', noteData)
-  const response = await axios.post(`notes/${id}/update/`, {note: noteData, employee: 1});
+export async function updateNote({noteData, id}: {noteData: Note, id: number}) {
+  console.log('noteData: ', noteData, id)
+  const response = await axios.post(`notes/${id}/update/`, noteData);
   return response.data;
 }
 
