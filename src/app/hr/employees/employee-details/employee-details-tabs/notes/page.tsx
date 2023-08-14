@@ -14,7 +14,12 @@ const { TextArea } = Input;
 
 type Note = {
   note: string;
-  id: number
+  id: number,
+  employee: {
+    id?: number;
+    first_name?: string;
+    last_name?: string
+  }
 };
 
 function Notes() {
@@ -23,6 +28,7 @@ function Notes() {
   const [isButtonHiddenUpdateNote, setIsButtonHiddenUpdateNote] =
     useState(true);
   const [noteselectedForUpdate, setNoteselectedForUpdate] = useState<number>();
+  const [theNote, setTheNote] = useState<Note>()
 
   // Fetch Notes
   const {
@@ -41,7 +47,6 @@ function Notes() {
     },
     onSuccess: () => {
       // Invalidate and refetch
-      console.log('updated::: ')
       queryClient.invalidateQueries('notes');
     },
   });
@@ -74,7 +79,7 @@ function Notes() {
   const updateTheNote = async ({ note }: Note) => {
     const noteData = {
       'note': note,
-      'employee': 1
+      'employee': theNote?.employee.id
     }
     noteUpdateMutation.mutate({ noteData, id: noteselectedForUpdate });
   };
@@ -100,9 +105,10 @@ function Notes() {
     setNoteselectedForUpdate(0)
   };
 
-  const showEditForm = (noteId: number) => {
-    setNoteselectedForUpdate(noteId)
+  const showEditForm = (note: Note) => {
+    setNoteselectedForUpdate(note.id)
     setIsButtonHiddenUpdateNote(false)
+    setTheNote(note)
   };
 
   if (errorNotes) return <h1> This is the error: {errorNotes.message}</h1>;
@@ -157,8 +163,7 @@ function Notes() {
               <Col span={21}>
                 <div>
                   <span style={{ fontWeight: 'bold' }}>
-                    {/* {note.postedBy.firstName + ' ' + note.postedBy.lastName} */}
-                    Gilbert Twesigomwe
+                    {note.employee?.first_name + ' ' + note.employee?.last_name}
                   </span>
                   <br />
                   <span style={{ color: 'lightgrey' }}>
@@ -186,7 +191,7 @@ function Notes() {
               <Col span={1} className="space-x-2">
                 <EditTwoTone
                   className="cursor-pointer"
-                  onClick={() => showEditForm(note.id)}
+                  onClick={() => showEditForm(note)}
                 />
                 <Popconfirm title="Sure to delete?" onConfirm={() => deleteTheNote(note.id)}>
                   <a href="javascript:;">

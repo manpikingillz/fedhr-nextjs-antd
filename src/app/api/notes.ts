@@ -8,6 +8,7 @@ interface Note {
 
 export async function getNotes() {
   const response = await axios.get('notes/');
+  console.log('notes response: ', response)
   return response.data;
 }
 
