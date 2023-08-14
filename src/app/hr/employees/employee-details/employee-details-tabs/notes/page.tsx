@@ -2,7 +2,7 @@
 
 import { DeleteOutlined, SnippetsFilled, EditTwoTone } from '@ant-design/icons';
 import React, { useState } from 'react';
-import { createNote, getNotes } from '@/app/api/notes';
+import { createNote, getNotes, updateNote, deleteNote } from '@/app/api/notes';
 import { Button, Card, Col, Divider, Form, Popconfirm, Row, Input } from 'antd';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -14,6 +14,7 @@ const { TextArea } = Input;
 
 type Note = {
   note: string;
+  id: number
 };
 
 function Notes() {
@@ -44,9 +45,38 @@ function Notes() {
     },
   });
 
+  const noteUpdateMutation = useMutation(updateNote, {
+    onError: () => {
+      // What to do when an error occurs
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries('notes');
+    },
+  });
+
+  const noteDeleteMutation = useMutation(deleteNote, {
+    onError: () => {
+      // What to do when an error occurs
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries('notes');
+    },
+  });
+
   const addNote = async ({ note }: Note) => {
     console.log('note data from form: ', note);
     noteMutation.mutate({ note, employee: 1 });
+  };
+
+  const updateTheNote = async ({ note }: Note) => {
+    console.log('note updated from form: ', note);
+    noteUpdateMutation.mutate({ noteData: note , id: 1 });
+  };
+  const deleteTheNote = async (id: number) => {
+    console.log('note deleted from form: ', id);
+    noteDeleteMutation.mutate(id);
   };
 
   // Other functions
@@ -64,10 +94,12 @@ function Notes() {
 
   const onCancelUpdateNote = () => {
     setIsButtonHiddenUpdateNote(true);
+    setNoteselectedForUpdate(0)
   };
 
   const showEditForm = (noteId: number) => {
     setNoteselectedForUpdate(noteId)
+    setIsButtonHiddenUpdateNote(false)
   };
 
   if (errorNotes) return <h1> This is the error: {errorNotes.message}</h1>;
@@ -131,16 +163,20 @@ function Notes() {
                     {moment(note.created_at, 'hh:mm').format('hh:mm A')}
                   </span>
                   <br />
-                  <span>{note.note}</span>
+                  {
+                    noteselectedForUpdate == note.id ? '': <span>{note.note}</span>
+                  }
                 </div>
 
                 {noteselectedForUpdate == note.id && (
                   <NoteForm
                     formName={`note-update-form-${note.id}`}
-                    saveNoteHandler={addNote}
+                    saveNoteHandler={updateTheNote}
                     onFocusHandler={onFocusUpdateNote}
                     isButtonHidden={isButtonHiddenUpdateNote}
                     onCancelHandler={onCancelUpdateNote}
+                    note={note.note}
+                    isUpdate={true}
                   />
                 )}
               </Col>
@@ -149,7 +185,7 @@ function Notes() {
                   className="cursor-pointer"
                   onClick={() => showEditForm(note.id)}
                 />
-                <Popconfirm title="Sure to delete?" onConfirm={() => null}>
+                <Popconfirm title="Sure to delete?" onConfirm={() => deleteTheNote(note.id)}>
                   <a href="javascript:;">
                     <DeleteOutlined />
                   </a>
