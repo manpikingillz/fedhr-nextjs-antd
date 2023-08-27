@@ -16,6 +16,9 @@ import { NoteListData } from './types';
 import { getNotesApi } from './api';
 import NoteForm from './NoteForm';
 
+//TODO: Consider improvements https://chat.openai.com/c/7e3596f5-cfc0-41c4-be12-3103cb221f4e
+// on making the code in this file cleaner.
+
 function Notes() {
   // LOCAL STATE ==================================================
 
