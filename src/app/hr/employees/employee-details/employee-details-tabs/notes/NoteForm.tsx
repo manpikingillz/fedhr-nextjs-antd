@@ -1,16 +1,9 @@
 import { Button, Form, Input } from 'antd';
 import { useEffect } from 'react';
+import { NoteFormProps } from './types';
 const { TextArea } = Input;
 
-interface NoteFormProps {
-  formName: string
-  saveNoteHandler: any;
-  onFocusHandler: any;
-  isButtonHidden: boolean;
-  onCancelHandler: any;
-  note: string;
-  isUpdate: boolean
-}
+
 
 export default function NoteForm({
   formName,

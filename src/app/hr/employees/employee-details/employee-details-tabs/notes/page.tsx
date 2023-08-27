@@ -2,92 +2,116 @@
 
 import { DeleteOutlined, SnippetsFilled, EditTwoTone } from '@ant-design/icons';
 import React, { useState } from 'react';
-import { createNote, getNotes, updateNote, deleteNote } from '@/app/api/notes';
-import { Button, Card, Col, Divider, Form, Popconfirm, Row, Input } from 'antd';
+import { Card, Col, Divider, Popconfirm, Row } from 'antd';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import moment from 'moment';
 import Image from 'next/image';
-import NoteForm from '@/app/components/NoteForm';
-
-const { TextArea } = Input;
-
-type Note = {
-  note: string;
-  id: number,
-  employee: {
-    id?: number;
-    first_name?: string;
-    last_name?: string
-  }
-};
+import {
+  useCreateNoteMutation,
+  useUpdateNoteMutation,
+  useDeleteNoteMutation,
+} from './mutations';
+import { NoteListData } from './types';
+import { getNotesApi } from './api';
+import NoteForm from './NoteForm';
 
 function Notes() {
+  // LOCAL STATE ==================================================
+
+  // UI states
   const [isButtonHiddenCreateNote, setIsButtonHiddenCreateNote] =
     useState(true);
   const [isButtonHiddenUpdateNote, setIsButtonHiddenUpdateNote] =
     useState(true);
-  const [noteselectedForUpdate, setNoteselectedForUpdate] = useState<number>();
-  const [theNote, setTheNote] = useState<Note>()
 
-  // Fetch Notes
+  // Note selection and editing states
+  const [noteselectedForUpdate, setNoteselectedForUpdate] = useState<number>();
+  const [noteToUpdate, setNoteToUpdate] = useState<NoteListData>();
+
+  // FETCH / QUERY DATA ///////////////////////////
   const {
     data: notes,
     error: errorNotes,
     isFetching: isFetchingNotes,
     isLoading: isLoadingNotes,
     status: statusNotes,
-  } = useQuery({ queryKey: ['notes'], queryFn: getNotes });
+  } = useQuery<NoteListData[]>({ queryKey: ['notes'], queryFn: getNotesApi });
 
-  // Note Mutation
+  // MUTATIONS ////////////////////////////////////
   const queryClient = useQueryClient();
-  const noteMutation = useMutation(createNote, {
-    onError: () => {
-      // What to do when an error occurs
-    },
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries('notes');
-    },
-  });
 
-  const noteUpdateMutation = useMutation(updateNote, {
-    onError: () => {
-      // What to do when an error occurs
-    },
-    onSuccess: () => {
-      // Invalidate and refetch
-      setNoteselectedForUpdate(0)
-      queryClient.invalidateQueries('notes');
-    },
-  });
-
-  const noteDeleteMutation = useMutation(deleteNote, {
-    onError: () => {
-      // What to do when an error occurs
-    },
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries('notes');
-    },
-  });
-
-  const addNote = async ({ note }: Note) => {
-    noteMutation.mutate({ note, employee: 1 });
+  // CREATE MUTATION ========================================
+  const onSuccessNoteCreate = () => {
+    queryClient.refetchQueries(['notes']);
   };
 
-  const updateTheNote = async ({ note }: Note) => {
-    const noteData = {
-      'note': note,
-      'employee': theNote?.employee.id
-    }
-    noteUpdateMutation.mutate({ noteData, id: noteselectedForUpdate });
-  };
-  const deleteTheNote = async (id: number) => {
-    noteDeleteMutation.mutate(id);
+  const onErrorNoteCreate = () => {
+    // Handle Error
   };
 
-  // Other functions
+  const createNoteMutation = useCreateNoteMutation(
+    onSuccessNoteCreate,
+    onErrorNoteCreate
+  );
+
+  const createNote = async ({ note }: { note: string }) => {
+    const data = {
+      note: note,
+      employee: 1, //get from selected employee
+    };
+
+    createNoteMutation.mutate(data);
+  };
+
+  // UPDATE NOTE ========================================
+  const onSuccessNoteUpdate = () => {
+    setNoteselectedForUpdate(0);
+    queryClient.refetchQueries(['notes']);
+  };
+
+  const onErrorNoteUpdate = () => {
+    // Handle Error
+  };
+
+  const updateNoteMutation = useUpdateNoteMutation(
+    onSuccessNoteUpdate,
+    onErrorNoteUpdate
+  );
+
+  const updateNote = async ({ note }: { note: string }) => {
+    // the ! after noteToUpdate means we are sure noteToUpdate
+    // is non null. Means there is no situation where its null or undefined when
+    // we're accessing it.
+    // This helped solve the - is possibly 'undefined'.ts(18048) error where
+    // noteToUpdate was underlined by typescript
+    const data = {
+      note: note,
+      employee: noteToUpdate!.employee.id,
+    };
+
+    updateNoteMutation.mutate({ data, id: noteToUpdate!.id });
+  };
+
+  // DELETE MUTATION ====================================
+  const onSuccessNoteDelete = () => {
+    queryClient.refetchQueries(['notes']);
+  };
+
+  const onErrorNoteDelete = () => {
+    // Handle Error
+  };
+
+  const deleteNoteMutation = useDeleteNoteMutation(
+    onSuccessNoteDelete,
+    onErrorNoteDelete
+  );
+
+  const deleteNote = async (id: number) => {
+    deleteNoteMutation.mutate(id);
+  };
+
+  // OTHER FUNCTIONS
   const onFocusCreateNote = () => {
     setIsButtonHiddenCreateNote(false);
   };
@@ -102,16 +126,17 @@ function Notes() {
 
   const onCancelUpdateNote = () => {
     setIsButtonHiddenUpdateNote(true);
-    setNoteselectedForUpdate(0)
+    setNoteselectedForUpdate(0);
   };
 
-  const showEditForm = (note: Note) => {
-    setNoteselectedForUpdate(note.id)
-    setIsButtonHiddenUpdateNote(false)
-    setTheNote(note)
+  const showEditForm = (note: NoteListData) => {
+    setNoteselectedForUpdate(note.id);
+    setIsButtonHiddenUpdateNote(false);
+    setNoteToUpdate(note);
   };
 
   if (errorNotes) return <h1> This is the error: {errorNotes.message}</h1>;
+
   return (
     <div>
       {/* Note create Form */}
@@ -136,8 +161,8 @@ function Notes() {
           <Col span={22}>
             {
               <NoteForm
-                formName='note-create-form'
-                saveNoteHandler={addNote}
+                formName="note-create-form"
+                saveNoteHandler={createNote}
                 onFocusHandler={onFocusCreateNote}
                 isButtonHidden={isButtonHiddenCreateNote}
                 onCancelHandler={onCancelCreateNote}
@@ -147,7 +172,6 @@ function Notes() {
         </Row>
       </Card>
 
-      {/* Notes List */}
       <Card style={{ backgroundColor: '#fffff', borderColor: '#ffffff' }}>
         {notes?.map((note) => (
           <div key={note.id}>
@@ -171,15 +195,17 @@ function Notes() {
                     {moment(note.created_at, 'hh:mm').format('hh:mm A')}
                   </span>
                   <br />
-                  {
-                    noteselectedForUpdate == note.id ? '': <span>{note.note}</span>
-                  }
+                  {noteselectedForUpdate == note.id ? (
+                    ''
+                  ) : (
+                    <span>{note.note}</span>
+                  )}
                 </div>
 
                 {noteselectedForUpdate == note.id && (
                   <NoteForm
                     formName={`note-update-form-${note.id}`}
-                    saveNoteHandler={updateTheNote}
+                    saveNoteHandler={updateNote}
                     onFocusHandler={onFocusUpdateNote}
                     isButtonHidden={isButtonHiddenUpdateNote}
                     onCancelHandler={onCancelUpdateNote}
@@ -193,7 +219,10 @@ function Notes() {
                   className="cursor-pointer"
                   onClick={() => showEditForm(note)}
                 />
-                <Popconfirm title="Sure to delete?" onConfirm={() => deleteTheNote(note.id)}>
+                <Popconfirm
+                  title="Sure to delete?"
+                  onConfirm={() => deleteNote(note.id)}
+                >
                   <a href="javascript:;">
                     <DeleteOutlined />
                   </a>
