@@ -12,12 +12,15 @@ import {
   useUpdateNoteMutation,
   useDeleteNoteMutation,
 } from './mutations';
-import { NoteListData } from './types';
+import { NoteListData, NotesData } from './types';
 import { getNotesApi } from './api';
 import NoteForm from './NoteForm';
 
 //TODO: Consider improvements https://chat.openai.com/c/7e3596f5-cfc0-41c4-be12-3103cb221f4e
 // on making the code in this file cleaner.
+
+//TODO: Confirm that isLoading, and isFetching are well used.
+//TODO: Add pagination
 
 function Notes() {
   // LOCAL STATE ==================================================
@@ -39,7 +42,7 @@ function Notes() {
     isFetching: isFetchingNotes,
     isLoading: isLoadingNotes,
     status: statusNotes,
-  } = useQuery<NoteListData[]>({ queryKey: ['notes'], queryFn: getNotesApi });
+  } = useQuery<NotesData>({ queryKey: ['notes'], queryFn: getNotesApi });
 
   // MUTATIONS ////////////////////////////////////
   const queryClient = useQueryClient();
@@ -177,7 +180,7 @@ function Notes() {
       </Card>
 
       <Card style={{ backgroundColor: '#fffff', borderColor: '#ffffff' }}>
-        {notes?.map((note) => (
+        {notes?.results.map((note) => (
           <div key={note.id}>
             <Row>
               <Col span={2}>

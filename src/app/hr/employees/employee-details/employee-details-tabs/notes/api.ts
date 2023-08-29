@@ -1,5 +1,5 @@
 import axios from '@/utils/axios';
-import { NoteCreateData, NoteListData, NoteUpdateData } from './types';
+import { NoteCreateData, NoteListData, NoteUpdateData, NotesData } from './types';
 import { AxiosResponse } from 'axios';
 
 // export async function getNotesApi() {
@@ -41,8 +41,8 @@ async function api<T>(endpoint: string, data?: T) {
 
 // Define your specific API endpoints
 
-export async function getNotesApi(): Promise<NoteListData[]> {
-  return api<NoteListData[]>('notes/');
+export async function getNotesApi(): Promise<NotesData> {
+  return api('notes/');
 }
 
 export async function createNoteApi(data: NoteCreateData) {

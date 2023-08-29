@@ -10,6 +10,15 @@ export type NoteListData = {
   };
 };
 
+export type NotesData = {
+  limit: number,
+  offset: number,
+  count: number,
+  next: string,
+  previous: string,
+  results: NoteListData[]
+};
+
 export type NoteUpdateData = {
   note: string;
   employee: number;
