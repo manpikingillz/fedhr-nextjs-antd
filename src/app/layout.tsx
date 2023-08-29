@@ -36,10 +36,10 @@ export default function RootLayout({ children }: IProps) {
       <NextAuthSessionProvider>
         <QueryClientProvider client={queryClient}>
           <ConfigProvider theme={themeConfig}>
-            <body className={inter.className}>
-              {children}
-              <ReactQueryDevtools initialIsOpen={false} />
-            </body>
+              <body className={inter.className}>
+                {children}
+                <ReactQueryDevtools initialIsOpen={false} />
+              </body>
           </ConfigProvider>
         </QueryClientProvider>
       </NextAuthSessionProvider>

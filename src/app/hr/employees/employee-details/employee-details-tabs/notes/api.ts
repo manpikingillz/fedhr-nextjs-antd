@@ -1,6 +1,6 @@
 import axios from '@/utils/axios';
-import { NoteCreateData, NoteUpdateData } from './types';
-
+import { NoteCreateData, NoteListData, NoteUpdateData } from './types';
+import { AxiosResponse } from 'axios';
 
 // export async function getNotesApi() {
 //   const response = await axios.get('notes/');
@@ -27,7 +27,7 @@ import { NoteCreateData, NoteUpdateData } from './types';
 // Define a generic API function that takes the endpoint and data as arguments
 async function api<T>(endpoint: string, data?: T) {
   try {
-    const response = await axios({
+    const response: AxiosResponse<T> = await axios({
       method: data ? 'post' : 'get', // Use 'post' for endpoints that require data
       url: endpoint,
       data, // Include data if provided
@@ -41,15 +41,21 @@ async function api<T>(endpoint: string, data?: T) {
 
 // Define your specific API endpoints
 
-export async function getNotesApi() {
-  return api('notes/');
+export async function getNotesApi(): Promise<NoteListData[]> {
+  return api<NoteListData[]>('notes/');
 }
 
 export async function createNoteApi(data: NoteCreateData) {
   return api('notes/create/', data);
 }
 
-export async function updateNoteApi({ data, id }: { data: NoteUpdateData; id: number }) {
+export async function updateNoteApi({
+  data,
+  id,
+}: {
+  data: NoteUpdateData;
+  id: number;
+}) {
   return api(`notes/${id}/update/`, data);
 }
 

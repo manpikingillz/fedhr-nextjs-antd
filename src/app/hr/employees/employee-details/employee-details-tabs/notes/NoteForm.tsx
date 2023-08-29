@@ -21,7 +21,6 @@ export default function NoteForm({
     form.setFieldsValue({
       note: note
     })
-    console.log('form::: ', form)
   }
 
   useEffect(() => {

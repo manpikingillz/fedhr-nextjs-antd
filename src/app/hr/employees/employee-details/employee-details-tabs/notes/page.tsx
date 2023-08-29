@@ -51,7 +51,7 @@ function Notes() {
 
   const onErrorNoteCreate = (error: any) => {
     // Handle Error
-    console.log('An error ocurred while creating note: ', error)
+
   };
 
   const createNoteMutation = useCreateNoteMutation(
