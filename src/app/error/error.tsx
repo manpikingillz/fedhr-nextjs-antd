@@ -2,6 +2,10 @@
 
 import { message } from 'antd';
 
+// TODO: Fix this console warning
+//  Warning: [antd: message] Static function can not consume
+// context like dynamic theme. Please use 'App' component instead.
+
 export function showError(error: any) {
   let errorMessage = 'An unknown error occurred';
 
