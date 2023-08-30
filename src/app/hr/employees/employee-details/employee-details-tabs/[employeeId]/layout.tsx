@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useParams } from 'next/navigation';
+
 
 const items: MenuProps['items'] = [
   {
@@ -58,8 +59,12 @@ const items: MenuProps['items'] = [
 
 export default function EmployeesLayout({children}: {children: React.ReactNode}) {
     const [current, setCurrent] = useState('overview');
+
+    const params = useParams()
     const router = useRouter()
     const path = usePathname()
+
+    const employeeId = parseInt(params.employeeId)
 
     useEffect(() => {
         if (path === '/hr/employees') {
@@ -73,7 +78,7 @@ export default function EmployeesLayout({children}: {children: React.ReactNode})
 
         switch(key) {
             case 'personal-information':
-                router.push('/hr/employees/employee-details/employee-details-tabs/personal-information');
+                router.push(`/hr/employees/employee-details/employee-details-tabs/${employeeId}/personal-information`);
                 break;
             case 'employment-information':
                 router.push('/hr/employees/employee-details/employee-details-tabs/employment-information');
@@ -85,7 +90,7 @@ export default function EmployeesLayout({children}: {children: React.ReactNode})
                 router.push('/hr/employees/employee-details/employee-details-tabs/documents');
                 break;
             case 'notes':
-              router.push('/hr/employees/employee-details/employee-details-tabs/notes');
+              router.push(`/hr/employees/employee-details/employee-details-tabs/${employeeId}/notes`);
               break;
             case 'payroll':
               router.push('/hr/employees/employee-details/employee-details-tabs/payroll');

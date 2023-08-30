@@ -16,7 +16,7 @@ function Overview() {
       title: 'First Name',
       dataIndex: 'first_name',
       key: 'first_name',
-      render: (text) => <Link href="/hr/employees/employee-details/employee-details-tabs">{text}</Link>,
+      render: (text: string, employee: any) => <Link href={`/hr/employees/employee-details/employee-details-tabs/${employee.id}`}>{text}</Link>,
     },
     {
       title: 'Last Name',

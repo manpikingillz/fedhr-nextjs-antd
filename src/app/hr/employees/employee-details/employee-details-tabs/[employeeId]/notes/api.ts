@@ -32,9 +32,7 @@ async function api<T>(endpoint: string, data?: T) {
       url: endpoint,
       data, // Include data if provided
     });
-    if (response.config.method == 'get') {
-      console.log('log notes data: ', response.data)
-    }
+
     return response.data;
   } catch (error) {
     // Handle errors, log them, or throw custom exceptions

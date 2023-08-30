@@ -1,7 +1,7 @@
 'use client';
 
 import { DeleteOutlined, SnippetsFilled, EditTwoTone } from '@ant-design/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   Col,
@@ -25,6 +25,7 @@ import {
 import { NoteListData, NotesData } from './types';
 import { getNotesApi } from './api';
 import NoteForm from './NoteForm';
+import { useParams } from 'next/navigation';
 
 
 //TODO: Consider improvements https://chat.openai.com/c/7e3596f5-cfc0-41c4-be12-3103cb221f4e
@@ -48,9 +49,12 @@ function Notes() {
   // Pagination states
   const [offset, setOffset] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState(1);
-
+  // Form hoos
   const [createForm] = Form.useForm();
   const [updateForm] = Form.useForm();
+
+  // router hooks
+  const params = useParams()
 
   const limit = 5;
 
@@ -88,7 +92,8 @@ function Notes() {
   const createNote = async ({ note }: { note: string }) => {
     const data = {
       note: note,
-      employee: 1, //get from selected employee
+      //TODO: use actual employeeID
+      employee: parseInt(params.employee_id), //get from selected employee
     };
 
     createNoteMutation.mutate(data);
