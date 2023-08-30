@@ -30,6 +30,7 @@ export type NoteCreateData = {
 }
 
 export type NoteFormProps = {
+  formInstance: any,
   formName: string
   saveNoteHandler: any;
   onFocusHandler?: any;

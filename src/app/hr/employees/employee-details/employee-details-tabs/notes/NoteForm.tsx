@@ -6,6 +6,7 @@ const { TextArea } = Input;
 
 
 export default function NoteForm({
+  formInstance,
   formName,
   saveNoteHandler,
   onFocusHandler,
@@ -15,10 +16,10 @@ export default function NoteForm({
   isUpdate
 
 }: NoteFormProps) {
-  const [form] = Form.useForm();
+  // const [form] = Form.useForm();
 
   const handleSetFieldValue = () => {
-    form.setFieldsValue({
+    formInstance.setFieldsValue({
       note: note
     })
   }
@@ -28,7 +29,7 @@ export default function NoteForm({
   },[]);
   
   return (
-    <Form name={formName} onFinish={saveNoteHandler} form={form}>
+    <Form name={formName} onFinish={saveNoteHandler} form={formInstance}>
       <Form.Item
         name="note"
         rules={[{ required: true, message: 'Write a note!' }]}

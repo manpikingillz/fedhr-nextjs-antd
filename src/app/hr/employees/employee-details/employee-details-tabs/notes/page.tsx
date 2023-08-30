@@ -6,6 +6,7 @@ import {
   Card,
   Col,
   Divider,
+  Form,
   Pagination,
   Popconfirm,
   Result,
@@ -29,7 +30,6 @@ import NoteForm from './NoteForm';
 //TODO: Consider improvements https://chat.openai.com/c/7e3596f5-cfc0-41c4-be12-3103cb221f4e
 // on making the code in this file cleaner.
 
-//TODO: Confirm that isLoading, and isFetching are well used.
 //TODO: Make sure filtering works.
 
 function Notes() {
@@ -48,6 +48,9 @@ function Notes() {
   // Pagination states
   const [offset, setOffset] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [createForm] = Form.useForm();
+  const [updateForm] = Form.useForm();
 
   const limit = 5;
 
@@ -89,6 +92,7 @@ function Notes() {
     };
 
     createNoteMutation.mutate(data);
+    createForm.resetFields()
   };
 
   // UPDATE NOTE ========================================
@@ -192,6 +196,7 @@ function Notes() {
           <Col span={22}>
             {
               <NoteForm
+                formInstance={createForm}
                 formName="note-create-form"
                 saveNoteHandler={createNote}
                 onFocusHandler={onFocusCreateNote}
@@ -250,6 +255,7 @@ function Notes() {
 
                     {noteselectedForUpdate == note.id && (
                       <NoteForm
+                        formInstance={updateForm}
                         formName={`note-update-form-${note.id}`}
                         saveNoteHandler={updateNote}
                         onFocusHandler={onFocusUpdateNote}
