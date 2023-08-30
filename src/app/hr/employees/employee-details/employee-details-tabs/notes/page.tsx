@@ -2,7 +2,7 @@
 
 import { DeleteOutlined, SnippetsFilled, EditTwoTone } from '@ant-design/icons';
 import React, { useState } from 'react';
-import { Card, Col, Divider, Popconfirm, Row } from 'antd';
+import { Card, Col, Divider, Pagination, Popconfirm, Row } from 'antd';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import moment from 'moment';
@@ -35,6 +35,13 @@ function Notes() {
   const [noteselectedForUpdate, setNoteselectedForUpdate] = useState<number>();
   const [noteToUpdate, setNoteToUpdate] = useState<NoteListData>();
 
+  // Pagination states
+  const [offset, setOffset] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const limit = 5;
+
+
   // FETCH / QUERY DATA ///////////////////////////
   const {
     data: notes,
@@ -42,7 +49,12 @@ function Notes() {
     isFetching: isFetchingNotes,
     isLoading: isLoadingNotes,
     status: statusNotes,
-  } = useQuery<NotesData>({ queryKey: ['notes'], queryFn: getNotesApi });
+  } = useQuery<NotesData>({
+    //currentPage is so that we can have unique cache key since
+    //queryKey is used for caching as well.
+    queryKey: ['notes', currentPage],
+    queryFn: () => getNotesApi(limit, offset),
+  });
 
   // MUTATIONS ////////////////////////////////////
   const queryClient = useQueryClient();
@@ -54,7 +66,6 @@ function Notes() {
 
   const onErrorNoteCreate = (error: any) => {
     // Handle Error
-
   };
 
   const createNoteMutation = useCreateNoteMutation(
@@ -141,6 +152,13 @@ function Notes() {
     setIsButtonHiddenUpdateNote(false);
     setNoteToUpdate(note);
   };
+
+  // Pagination method
+  const onPageChange = (page: number) => {
+    setCurrentPage(page)
+    const _offset = (page-1)*limit
+    setOffset(_offset)
+  }
 
   if (errorNotes) return <h1> This is the error: {errorNotes.message}</h1>;
 
@@ -240,6 +258,12 @@ function Notes() {
           </div>
         ))}
       </Card>
+      <Pagination
+        current={currentPage}
+        total={notes?.count || 0}
+        pageSize={limit}
+        onChange={(page) => onPageChange(page)}
+      />
     </div>
   );
 }

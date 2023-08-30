@@ -32,6 +32,9 @@ async function api<T>(endpoint: string, data?: T) {
       url: endpoint,
       data, // Include data if provided
     });
+    if (response.config.method == 'get') {
+      console.log('log notes data: ', response.data)
+    }
     return response.data;
   } catch (error) {
     // Handle errors, log them, or throw custom exceptions
@@ -41,8 +44,9 @@ async function api<T>(endpoint: string, data?: T) {
 
 // Define your specific API endpoints
 
-export async function getNotesApi(): Promise<NotesData> {
-  return api('notes/');
+export async function getNotesApi(limit: number, offset: number): Promise<NotesData> {
+  const endpoint = `notes/?limit=${limit}&offset=${offset}`;
+  return api(endpoint);
 }
 
 export async function createNoteApi(data: NoteCreateData) {
