@@ -93,7 +93,7 @@ function Notes() {
     const data = {
       note: note,
       //TODO: use actual employeeID
-      employee: parseInt(params.employee_id), //get from selected employee
+      employee: parseInt(params.employeeId), //get from selected employee
     };
 
     createNoteMutation.mutate(data);
