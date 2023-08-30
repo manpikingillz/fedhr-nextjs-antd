@@ -2,7 +2,16 @@
 
 import { DeleteOutlined, SnippetsFilled, EditTwoTone } from '@ant-design/icons';
 import React, { useState } from 'react';
-import { Card, Col, Divider, Pagination, Popconfirm, Row } from 'antd';
+import {
+  Card,
+  Col,
+  Divider,
+  Pagination,
+  Popconfirm,
+  Result,
+  Row,
+  Skeleton,
+} from 'antd';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import moment from 'moment';
@@ -16,11 +25,12 @@ import { NoteListData, NotesData } from './types';
 import { getNotesApi } from './api';
 import NoteForm from './NoteForm';
 
+
 //TODO: Consider improvements https://chat.openai.com/c/7e3596f5-cfc0-41c4-be12-3103cb221f4e
 // on making the code in this file cleaner.
 
 //TODO: Confirm that isLoading, and isFetching are well used.
-//TODO: Add pagination
+//TODO: Make sure filtering works.
 
 function Notes() {
   // LOCAL STATE ==================================================
@@ -37,10 +47,9 @@ function Notes() {
 
   // Pagination states
   const [offset, setOffset] = useState<number>(0);
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1);
 
   const limit = 5;
-
 
   // FETCH / QUERY DATA ///////////////////////////
   const {
@@ -155,16 +164,13 @@ function Notes() {
 
   // Pagination method
   const onPageChange = (page: number) => {
-    setCurrentPage(page)
-    const _offset = (page-1)*limit
-    setOffset(_offset)
-  }
-
-  if (errorNotes) return <h1> This is the error: {errorNotes.message}</h1>;
+    setCurrentPage(page);
+    const _offset = (page - 1) * limit;
+    setOffset(_offset);
+  };
 
   return (
     <div>
-      {/* Note create Form */}
       <br />
       <h2 className="text-emerald-500">
         <SnippetsFilled />
@@ -197,73 +203,90 @@ function Notes() {
         </Row>
       </Card>
 
-      <Card style={{ backgroundColor: '#fffff', borderColor: '#ffffff' }}>
-        {notes?.results.map((note) => (
-          <div key={note.id}>
-            <Row>
-              <Col span={2}>
-                <Image
-                  src="/images/user_profile.jpg"
-                  alt="User Avatar"
-                  height={50}
-                  width={50}
-                />
-              </Col>
-              <Col span={21}>
-                <div>
-                  <span style={{ fontWeight: 'bold' }}>
-                    {note.employee?.first_name + ' ' + note.employee?.last_name}
-                  </span>
-                  <br />
-                  <span style={{ color: 'lightgrey' }}>
-                    {moment(note.created_at).format('ll')} at{' '}
-                    {moment(note.created_at, 'hh:mm').format('hh:mm A')}
-                  </span>
-                  <br />
-                  {noteselectedForUpdate == note.id ? (
-                    ''
-                  ) : (
-                    <span>{note.note}</span>
-                  )}
-                </div>
+      {errorNotes ? (
+        <Result
+          status="500"
+          // title="500"
+          subTitle="Sorry, we couldn't connect to the server."
+        />
+      ) : (
+        <Skeleton
+          loading={isLoadingNotes || isFetchingNotes}
+          active
+          avatar
+          className="py-3"
+        >
+          <Card style={{ backgroundColor: '#fffff', borderColor: '#ffffff' }}>
+            {notes?.results.map((note) => (
+              <div key={note.id}>
+                <Row>
+                  <Col span={2}>
+                    <Image
+                      src="/images/user_profile.jpg"
+                      alt="User Avatar"
+                      height={50}
+                      width={50}
+                    />
+                  </Col>
+                  <Col span={21}>
+                    <div>
+                      <span style={{ fontWeight: 'bold' }}>
+                        {note.employee?.first_name +
+                          ' ' +
+                          note.employee?.last_name}
+                      </span>
+                      <br />
+                      <span style={{ color: 'lightgrey' }}>
+                        {moment(note.created_at).format('ll')} at{' '}
+                        {moment(note.created_at, 'hh:mm').format('hh:mm A')}
+                      </span>
+                      <br />
+                      {noteselectedForUpdate == note.id ? (
+                        ''
+                      ) : (
+                        <span>{note.note}</span>
+                      )}
+                    </div>
 
-                {noteselectedForUpdate == note.id && (
-                  <NoteForm
-                    formName={`note-update-form-${note.id}`}
-                    saveNoteHandler={updateNote}
-                    onFocusHandler={onFocusUpdateNote}
-                    isButtonHidden={isButtonHiddenUpdateNote}
-                    onCancelHandler={onCancelUpdateNote}
-                    note={note.note}
-                    isUpdate={true}
-                  />
-                )}
-              </Col>
-              <Col span={1} className="space-x-2">
-                <EditTwoTone
-                  className="cursor-pointer"
-                  onClick={() => showEditForm(note)}
-                />
-                <Popconfirm
-                  title="Sure to delete?"
-                  onConfirm={() => deleteNote(note.id)}
-                >
-                  <a href="javascript:;">
-                    <DeleteOutlined />
-                  </a>
-                </Popconfirm>
-              </Col>
-            </Row>
-            <Divider />
-          </div>
-        ))}
-      </Card>
-      <Pagination
-        current={currentPage}
-        total={notes?.count || 0}
-        pageSize={limit}
-        onChange={(page) => onPageChange(page)}
-      />
+                    {noteselectedForUpdate == note.id && (
+                      <NoteForm
+                        formName={`note-update-form-${note.id}`}
+                        saveNoteHandler={updateNote}
+                        onFocusHandler={onFocusUpdateNote}
+                        isButtonHidden={isButtonHiddenUpdateNote}
+                        onCancelHandler={onCancelUpdateNote}
+                        note={note.note}
+                        isUpdate={true}
+                      />
+                    )}
+                  </Col>
+                  <Col span={1} className="space-x-2">
+                    <EditTwoTone
+                      className="cursor-pointer"
+                      onClick={() => showEditForm(note)}
+                    />
+                    <Popconfirm
+                      title="Sure to delete?"
+                      onConfirm={() => deleteNote(note.id)}
+                    >
+                      <a href="javascript:;">
+                        <DeleteOutlined />
+                      </a>
+                    </Popconfirm>
+                  </Col>
+                </Row>
+                <Divider />
+              </div>
+            ))}
+          </Card>
+          <Pagination
+            current={currentPage}
+            total={notes?.count || 0}
+            pageSize={limit}
+            onChange={(page) => onPageChange(page)}
+          />
+        </Skeleton>
+      )}
     </div>
   );
 }
