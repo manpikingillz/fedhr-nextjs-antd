@@ -12,7 +12,7 @@ import {
   Result,
   Row,
   Skeleton,
-  Input
+  Input,
 } from 'antd';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -27,7 +27,6 @@ import { NoteListData, NotesData } from './types';
 import { getNotesApi } from './api';
 import NoteForm from './NoteForm';
 import { useParams } from 'next/navigation';
-
 
 //TODO: Consider improvements https://chat.openai.com/c/7e3596f5-cfc0-41c4-be12-3103cb221f4e
 // on making the code in this file cleaner.
@@ -46,6 +45,7 @@ function Notes() {
   // Note selection and editing states
   const [noteselectedForUpdate, setNoteselectedForUpdate] = useState<number>();
   const [noteToUpdate, setNoteToUpdate] = useState<NoteListData>();
+  const [noteSearch, setNoteSearch] = useState<string | undefined>(undefined);
 
   // Pagination states
   const [offset, setOffset] = useState<number>(0);
@@ -55,11 +55,10 @@ function Notes() {
   const [updateForm] = Form.useForm();
 
   // router hooks
-  const params = useParams()
+  const params = useParams();
 
   const limit = 5;
   const { Search } = Input;
-
 
   // FETCH / QUERY DATA ///////////////////////////
   const {
@@ -68,11 +67,12 @@ function Notes() {
     isFetching: isFetchingNotes,
     isLoading: isLoadingNotes,
     status: statusNotes,
+    refetch,
   } = useQuery<NotesData>({
     //currentPage is so that we can have unique cache key since
     //queryKey is used for caching as well.
     queryKey: ['notes', currentPage],
-    queryFn: () => getNotesApi(limit, offset),
+    queryFn: () => getNotesApi(limit, offset, noteSearch),
   });
 
   // MUTATIONS ////////////////////////////////////
@@ -99,7 +99,7 @@ function Notes() {
     };
 
     createNoteMutation.mutate(data);
-    createForm.resetFields()
+    createForm.resetFields();
   };
 
   // UPDATE NOTE ========================================
@@ -180,6 +180,17 @@ function Notes() {
     setOffset(_offset);
   };
 
+  // Search
+  const onSearchHandler = (event: any) => {
+    setNoteSearch(event);
+  };
+
+  useEffect(() => {
+    if (noteSearch !== undefined) {
+      refetch();
+    }
+  }, [noteSearch]);
+
   return (
     <div>
       <br />
@@ -215,7 +226,12 @@ function Notes() {
         </Row>
       </Card>
 
-      <Search placeholder="Search Notes" className='pt-3' />
+      <Search
+        placeholder="Search Notes"
+        className="pt-3"
+        onSearch={(event) => onSearchHandler(event)}
+        showCount
+      />
 
       {errorNotes ? (
         <Result
