@@ -48,7 +48,7 @@ export default function App({ children }: { children: React.ReactNode }) {
       if (name) setFullName(name)
     }
 
-    if (path.includes('/hr/employees')) {
+    if (path.includes('/hr/employees/employees-tabs')) {
       setCurrent('employees');
     }
     if (path.includes('/hr/leave')) {
@@ -157,7 +157,7 @@ export default function App({ children }: { children: React.ReactNode }) {
         router.push('/hr/administration');
         break;
       case 'employees':
-        router.push('/hr/employees');
+        router.push('/hr/employees/employees-tabs');
         break;
       case 'recruitment':
         router.push('/hr/recruitment');
