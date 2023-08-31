@@ -28,6 +28,7 @@ import { NoteListData, NotesData } from './types';
 import { getNotesApi } from './api';
 import NoteForm from './NoteForm';
 import { useParams } from 'next/navigation';
+import ErrorPage from '@/app/error/errorPage';
 
 //TODO: Consider improvements https://chat.openai.com/c/7e3596f5-cfc0-41c4-be12-3103cb221f4e
 // on making the code in this file cleaner.
@@ -235,12 +236,7 @@ function Notes() {
       />
 
       {errorNotes ? (
-        // TODO: Create a component that will show result depending on the type of error
-        <Result
-          status="500"
-          // title="500"
-          subTitle="Sorry, we couldn't connect to the server."
-        />
+        <ErrorPage error={errorNotes} />
       ) : (
         <Skeleton
           loading={isLoadingNotes || isFetchingNotes}
@@ -324,7 +320,7 @@ function Notes() {
               />
             </div>
           ) : (
-            <Empty className='pt-3' />
+            <Empty className="pt-3" />
           )}
         </Skeleton>
       )}
