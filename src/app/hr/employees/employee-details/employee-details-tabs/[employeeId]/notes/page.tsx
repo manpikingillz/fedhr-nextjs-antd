@@ -13,6 +13,7 @@ import {
   Row,
   Skeleton,
   Input,
+  Empty,
 } from 'antd';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -234,6 +235,7 @@ function Notes() {
       />
 
       {errorNotes ? (
+        // TODO: Create a component that will show result depending on the type of error
         <Result
           status="500"
           // title="500"
@@ -246,76 +248,84 @@ function Notes() {
           avatar
           className="py-3"
         >
-          <Card style={{ backgroundColor: '#fffff', borderColor: '#ffffff' }}>
-            {notes?.results.map((note) => (
-              <div key={note.id}>
-                <Row>
-                  <Col span={2}>
-                    <Image
-                      src="/images/user_profile.jpg"
-                      alt="User Avatar"
-                      height={50}
-                      width={50}
-                    />
-                  </Col>
-                  <Col span={21}>
-                    <div>
-                      <span style={{ fontWeight: 'bold' }}>
-                        {note.employee?.first_name +
-                          ' ' +
-                          note.employee?.last_name}
-                      </span>
-                      <br />
-                      <span style={{ color: 'lightgrey' }}>
-                        {moment(note.created_at).format('ll')} at{' '}
-                        {moment(note.created_at, 'hh:mm').format('hh:mm A')}
-                      </span>
-                      <br />
-                      {noteselectedForUpdate == note.id ? (
-                        ''
-                      ) : (
-                        <span>{note.note}</span>
-                      )}
-                    </div>
+          {notes?.count ? (
+            <div>
+              <Card
+                style={{ backgroundColor: '#fffff', borderColor: '#ffffff' }}
+              >
+                {notes?.results.map((note) => (
+                  <div key={note.id}>
+                    <Row>
+                      <Col span={2}>
+                        <Image
+                          src="/images/user_profile.jpg"
+                          alt="User Avatar"
+                          height={50}
+                          width={50}
+                        />
+                      </Col>
+                      <Col span={21}>
+                        <div>
+                          <span style={{ fontWeight: 'bold' }}>
+                            {note.employee?.first_name +
+                              ' ' +
+                              note.employee?.last_name}
+                          </span>
+                          <br />
+                          <span style={{ color: 'lightgrey' }}>
+                            {moment(note.created_at).format('ll')} at{' '}
+                            {moment(note.created_at, 'hh:mm').format('hh:mm A')}
+                          </span>
+                          <br />
+                          {noteselectedForUpdate == note.id ? (
+                            ''
+                          ) : (
+                            <span>{note.note}</span>
+                          )}
+                        </div>
 
-                    {noteselectedForUpdate == note.id && (
-                      <NoteForm
-                        formInstance={updateForm}
-                        formName={`note-update-form-${note.id}`}
-                        saveNoteHandler={updateNote}
-                        onFocusHandler={onFocusUpdateNote}
-                        isButtonHidden={isButtonHiddenUpdateNote}
-                        onCancelHandler={onCancelUpdateNote}
-                        note={note.note}
-                        isUpdate={true}
-                      />
-                    )}
-                  </Col>
-                  <Col span={1} className="space-x-2">
-                    <EditTwoTone
-                      className="cursor-pointer"
-                      onClick={() => showEditForm(note)}
-                    />
-                    <Popconfirm
-                      title="Sure to delete?"
-                      onConfirm={() => deleteNote(note.id)}
-                    >
-                      <a href="javascript:;">
-                        <DeleteOutlined />
-                      </a>
-                    </Popconfirm>
-                  </Col>
-                </Row>
-                <Divider />
-              </div>
-            ))}
-          </Card>
-          <Pagination
-            current={currentPage}
-            total={notes?.count || 0}
-            pageSize={limit}
-            onChange={(page) => onPageChange(page)}
-          />
+                        {noteselectedForUpdate == note.id && (
+                          <NoteForm
+                            formInstance={updateForm}
+                            formName={`note-update-form-${note.id}`}
+                            saveNoteHandler={updateNote}
+                            onFocusHandler={onFocusUpdateNote}
+                            isButtonHidden={isButtonHiddenUpdateNote}
+                            onCancelHandler={onCancelUpdateNote}
+                            note={note.note}
+                            isUpdate={true}
+                          />
+                        )}
+                      </Col>
+                      <Col span={1} className="space-x-2">
+                        <EditTwoTone
+                          className="cursor-pointer"
+                          onClick={() => showEditForm(note)}
+                        />
+                        <Popconfirm
+                          title="Sure to delete?"
+                          onConfirm={() => deleteNote(note.id)}
+                        >
+                          <a href="javascript:;">
+                            <DeleteOutlined />
+                          </a>
+                        </Popconfirm>
+                      </Col>
+                    </Row>
+                    <Divider />
+                  </div>
+                ))}
+              </Card>
+              <Pagination
+                current={currentPage}
+                total={notes?.count || 0}
+                pageSize={limit}
+                onChange={(page) => onPageChange(page)}
+              />
+            </div>
+          ) : (
+            <Empty className='pt-3' />
+          )}
         </Skeleton>
       )}
     </div>
