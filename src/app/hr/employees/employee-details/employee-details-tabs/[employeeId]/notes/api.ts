@@ -50,10 +50,13 @@ async function api<T>(endpoint: string, data?: T) {
 export async function getNotesApi(
   limit: number,
   offset: number,
-  noteSearch?: string
+  noteSearch?: string,
+  employeeId?: number
 ): Promise<NotesData> {
   let endpoint = `notes/?limit=${limit}&offset=${offset}`;
   if (noteSearch) endpoint = endpoint + `&note=${noteSearch}`
+  if (employeeId) endpoint = endpoint + `&employee=${employeeId}`
+
   return api(endpoint);
 }
 

@@ -74,7 +74,7 @@ function Notes() {
     //currentPage is so that we can have unique cache key since
     //queryKey is used for caching as well.
     queryKey: ['notes', currentPage],
-    queryFn: () => getNotesApi(limit, offset, noteSearch),
+    queryFn: () => getNotesApi(limit, offset, noteSearch, parseInt(params.employeeId)),
   });
 
   // MUTATIONS ////////////////////////////////////
