@@ -81,40 +81,40 @@ export default function EmployeesLayout({children}: {children: React.ReactNode})
                 router.push(`/hr/employees/employee-details/employee-details-tabs/${employeeId}/personal-information`);
                 break;
             case 'employment-information':
-                router.push('/hr/employees/employee-details/employee-details-tabs/employment-information');
+                router.push(`/hr/employees/employee-details/employee-details-tabs/${employeeId}/employment-information`);
                 break;
             case 'time-off':
-                router.push('/hr/employees/employee-details/employee-details-tabs/time-off');
+                router.push(`/hr/employees/employee-details/employee-details-tabs/${employeeId}/time-off`);
                 break;
             case 'documents':
-                router.push('/hr/employees/employee-details/employee-details-tabs/documents');
+                router.push(`/hr/employees/employee-details/employee-details-tabs/${employeeId}/documents`);
                 break;
             case 'notes':
               router.push(`/hr/employees/employee-details/employee-details-tabs/${employeeId}/notes`);
               break;
             case 'payroll':
-              router.push('/hr/employees/employee-details/employee-details-tabs/payroll');
+              router.push(`/hr/employees/employee-details/employee-details-tabs/${employeeId}/payroll`);
               break;
             case 'benefits':
-              router.push('/hr/employees/employee-details/employee-details-tabs/benefits');
+              router.push(`/hr/employees/employee-details/employee-details-tabs/${employeeId}/benefits`);
               break;
             case 'training':
-              router.push('/hr/employees/employee-details/employee-details-tabs/training');
+              router.push(`/hr/employees/employee-details/employee-details-tabs/${employeeId}/training`);
               break;
             case 'assets':
-              router.push('/hr/employees/employee-details/employee-details-tabs/assets');
+              router.push(`/hr/employees/employee-details/employee-details-tabs/${employeeId}/assets`);
               break;
             case 'emergency':
-              router.push('/hr/employees/employee-details/employee-details-tabs/emergency');
+              router.push(`/hr/employees/employee-details/employee-details-tabs/${employeeId}/emergency`);
               break;
             case 'onboarding':
-              router.push('/hr/employees/employee-details/employee-details-tabs/onboarding');
+              router.push(`/hr/employees/employee-details/employee-details-tabs/${employeeId}/onboarding`);
               break;
             case 'offboarding':
-              router.push('/hr/employees/employee-details/employee-details-tabs/offboarding');
+              router.push(`/hr/employees/employee-details/employee-details-tabs/${employeeId}/offboarding`);
               break;
             default:
-                router.push('/hr/employees/employee-details/employee-details-tabs/personal-information');
+                router.push(`/hr/employees/employee-details/employee-details-tabs/${employeeId}/personal-information`);
                 break;
         }
 
