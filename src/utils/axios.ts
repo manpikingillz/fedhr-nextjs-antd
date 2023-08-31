@@ -38,7 +38,7 @@ instance.interceptors.request.use(async config => {
 instance.interceptors.response.use(response => {
   // Any status code that lie within the range of 2xx cause this function to trigger
   // Do something with response data
-  if (response.config.method === 'post') {
+  if (response.config.method === 'post' && !response.config.url?.includes('login')) {
     showSuccess(response)
   }
 

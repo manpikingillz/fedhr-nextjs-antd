@@ -12,6 +12,7 @@ import {
   Result,
   Row,
   Skeleton,
+  Input
 } from 'antd';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -57,6 +58,8 @@ function Notes() {
   const params = useParams()
 
   const limit = 5;
+  const { Search } = Input;
+
 
   // FETCH / QUERY DATA ///////////////////////////
   const {
@@ -92,7 +95,6 @@ function Notes() {
   const createNote = async ({ note }: { note: string }) => {
     const data = {
       note: note,
-      //TODO: use actual employeeID
       employee: parseInt(params.employeeId), //get from selected employee
     };
 
@@ -212,6 +214,8 @@ function Notes() {
           </Col>
         </Row>
       </Card>
+
+      <Search placeholder="Search Notes" className='pt-3' />
 
       {errorNotes ? (
         <Result
