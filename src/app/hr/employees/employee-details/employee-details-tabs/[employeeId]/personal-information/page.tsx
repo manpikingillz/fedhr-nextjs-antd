@@ -14,61 +14,65 @@ function PersonalInformation() {
 
   return (
     <>
-      <Card title="Basic Info" bordered={true} size="small">
+      <Card title="Basic Info" bordered={true} size="small" headStyle={{backgroundColor: '#F2F2F2'}}>
         <div className="flex">
           <div className='w-1/2'>
             <div className="flex mb-2">
-              <strong className="bg-gray-50	 flex-1 p-1 w-1/3">First Name:</strong>
-              <span className="flex-2 p-1 w-2/3 ">John</span>
+              <strong className="	 flex-1 p-1 w-1/3">First Name:</strong>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">John</span>
             </div>
             <div className="flex mb-2">
-              <strong className="bg-gray-50 flex-1 p-1  w-1/3">Middle Name:</strong>
-              <span className="flex-2 p-1 w-2/3 ">Doe</span>
+              <strong className=" flex-1 p-1  w-1/3">Middle Name:</strong>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">Doe</span>
             </div>
             <div className="flex mb-2">
-              <strong className="bg-gray-50 flex-1 p-1 w-1/3">Last Name:</strong>
-              <span className="flex-2 p-1 w-2/3 ">Smith</span>
+              <strong className=" flex-1 p-1 w-1/3">Last Name:</strong>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">Smith</span>
             </div>
             <div className="flex mb-2">
-              <strong className="bg-gray-50 flex-1 p-1 w-1/3">
+              <strong className=" flex-1 p-1 w-1/3">
                 Preferred Name:
               </strong>
-              <span className="flex-2 p-1 w-2/3 ">Johnny</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">Johnny</span>
             </div>
             <div className="flex mb-2">
-              <strong className="bg-gray-50 flex-1 p-1 w-1/3">Gender:</strong>
-              <span className="flex-2 p-1 w-2/3 ">Male</span>
+              <strong className=" flex-1 p-1 w-1/3">Gender:</strong>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">Male</span>
             </div>
             <div className="flex mb-2">
-              <strong className="bg-gray-50 flex-1 p-1 w-1/3">
-                Marital Status:
-              </strong>
-              <span className="flex-2 p-1 w-2/3 ">Single</span>
+              <strong className=" flex-1 p-1 w-1/3">Date of Birth:</strong>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">May 12, 1989</span>
             </div>
           </div>
 
           <div className='w-1/2'>
-            <div className="flex mb-2">
-              <strong className="bg-gray-50 flex-1 p-1 w-1/3">Nationality:</strong>
-              <span className="flex-2 p-1 w-2/3 ">Country 1</span>
+          <div className="flex mb-2">
+              <strong className=" flex-1 p-1 w-1/3">
+                Marital Status:
+              </strong>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">Single</span>
             </div>
             <div className="flex mb-2">
-              <strong className="bg-gray-50 flex-1 p-1 w-1/3">
+              <strong className=" flex-1 p-1 w-1/3">Nationality:</strong>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">Country 1</span>
+            </div>
+            <div className="flex mb-2">
+              <strong className=" flex-1 p-1 w-1/3">
                 Social Security Number:
               </strong>
-              <span className="flex-2 p-1 w-2/3 ">123-45-6789</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">123-45-6789</span>
             </div>
             <div className="flex mb-2">
-              <strong className="bg-gray-50 flex-1 p-1 w-1/3">
+              <strong className=" flex-1 p-1 w-1/3">
                 National Identification Number:
               </strong>
-              <span className="flex-2 p-1 w-2/3 ">987654321</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">987654321</span>
             </div>
             <div className="flex mb-2">
-              <strong className="bg-gray-50 flex-1 p-1 w-1/3">
+              <strong className=" flex-1 p-1 w-1/3">
                 Tax Identification Number:
               </strong>
-              <span className="flex-2 p-1 w-2/3 ">12-3456789</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">12-3456789</span>
             </div>
           </div>
         </div>
