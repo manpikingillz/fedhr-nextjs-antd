@@ -4,6 +4,7 @@ import { Card, Form, Input, Select, Button } from 'antd';
 import React from 'react';
 import { CalendarOutlined, UserOutlined } from '@ant-design/icons';
 import Education from './education/Education';
+import Visa from './visa/Visa';
 
 const { Option } = Select;
 
@@ -15,9 +16,14 @@ function PersonalInformation() {
 
   return (
     <>
-      <Card title="Basic Info" bordered={true} size="small" headStyle={{backgroundColor: '#F2F2F2'}}>
+      <Card
+        title="Basic Info"
+        bordered={true}
+        size="small"
+        headStyle={{ backgroundColor: '#F2F2F2' }}
+      >
         <div className="flex">
-          <div className='w-1/2'>
+          <div className="w-1/2">
             <div className="flex mb-2">
               <strong className="	 flex-1 p-1 w-1/3">First Name:</strong>
               <span className="flex-2 p-1 w-2/3 bg-gray-50">John</span>
@@ -31,9 +37,7 @@ function PersonalInformation() {
               <span className="flex-2 p-1 w-2/3 bg-gray-50">Smith</span>
             </div>
             <div className="flex mb-2">
-              <strong className=" flex-1 p-1 w-1/3">
-                Preferred Name:
-              </strong>
+              <strong className=" flex-1 p-1 w-1/3">Preferred Name:</strong>
               <span className="flex-2 p-1 w-2/3 bg-gray-50">Johnny</span>
             </div>
             <div className="flex mb-2">
@@ -46,11 +50,9 @@ function PersonalInformation() {
             </div>
           </div>
 
-          <div className='w-1/2'>
-          <div className="flex mb-2">
-              <strong className=" flex-1 p-1 w-1/3">
-                Marital Status:
-              </strong>
+          <div className="w-1/2">
+            <div className="flex mb-2">
+              <strong className=" flex-1 p-1 w-1/3">Marital Status:</strong>
               <span className="flex-2 p-1 w-2/3 bg-gray-50">Single</span>
             </div>
             <div className="flex mb-2">
@@ -155,40 +157,64 @@ function PersonalInformation() {
           </div>
         </Form> */}
 
-      <Card title="Contact Info" bordered={true} size="small" headStyle={{backgroundColor: '#F2F2F2'}} className='mt-3'>
+      <Card
+        title="Contact Info"
+        bordered={true}
+        size="small"
+        headStyle={{ backgroundColor: '#F2F2F2' }}
+        className="mt-3"
+      >
         <div className="flex">
-          <div className='w-1/2'>
+          <div className="w-1/2">
             <div className="flex mb-2">
               <strong className="	 flex-1 p-1 w-1/3">Work Phone:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">+256 780 384 234</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">
+                +256 780 384 234
+              </span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1  w-1/3">Mobile Phone:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">+256 789 374 384</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">
+                +256 789 374 384
+              </span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1 w-1/3">Home Phone:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">+257 703 233 842</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">
+                +257 703 233 842
+              </span>
             </div>
           </div>
-          <div className='w-1/2'>
+          <div className="w-1/2">
             <div className="flex mb-2">
               <strong className="	 flex-1 p-1 w-1/3">Work Email:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">johndoe@company.com</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">
+                johndoe@company.com
+              </span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1  w-1/3">Home Email:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">johndoe@gmail.com</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">
+                johndoe@gmail.com
+              </span>
             </div>
           </div>
         </div>
       </Card>
-      <Card title="Address Info" bordered={true} size="small" headStyle={{backgroundColor: '#F2F2F2'}} className='mt-3'>
+      <Card
+        title="Address Info"
+        bordered={true}
+        size="small"
+        headStyle={{ backgroundColor: '#F2F2F2' }}
+        className="mt-3"
+      >
         <div className="flex">
-          <div className='w-1/2'>
+          <div className="w-1/2">
             <div className="flex mb-2">
               <strong className="	 flex-1 p-1 w-1/3">Street 1:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">Ring Road, Kulambiro</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">
+                Ring Road, Kulambiro
+              </span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1  w-1/3">Street 2:</strong>
@@ -199,10 +225,12 @@ function PersonalInformation() {
               <span className="flex-2 p-1 w-2/3 bg-gray-50">Kampala</span>
             </div>
           </div>
-          <div className='w-1/2'>
+          <div className="w-1/2">
             <div className="flex mb-2">
               <strong className="	 flex-1 p-1 w-1/3">Province:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">Central Region</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">
+                Central Region
+              </span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1  w-1/3">Zip Code:</strong>
@@ -215,19 +243,29 @@ function PersonalInformation() {
           </div>
         </div>
       </Card>
-      <Card title="Social Links" bordered={true} size="small" headStyle={{backgroundColor: '#F2F2F2'}} className='mt-3'>
+      <Card
+        title="Social Links"
+        bordered={true}
+        size="small"
+        headStyle={{ backgroundColor: '#F2F2F2' }}
+        className="mt-3"
+      >
         <div className="flex">
-          <div className='w-1/2'>
+          <div className="w-1/2">
             <div className="flex mb-2">
               <strong className="	 flex-1 p-1 w-1/3">LinkedIn:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">https://www.linkedin.com/in/john-doe/</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">
+                https://www.linkedin.com/in/john-doe/
+              </span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1  w-1/3">Facebook:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">https://www.facebook.com/john-doe</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">
+                https://www.facebook.com/john-doe
+              </span>
             </div>
           </div>
-          <div className='w-1/2'>
+          <div className="w-1/2">
             <div className="flex mb-2">
               <strong className="	 flex-1 p-1 w-1/3">Twitter:</strong>
               <span className="flex-2 p-1 w-2/3 bg-gray-50">@johndoe</span>
@@ -239,13 +277,23 @@ function PersonalInformation() {
           </div>
         </div>
       </Card>
-      <Card title="Education" bordered={true} size="small" headStyle={{backgroundColor: '#F2F2F2'}} className='mt-3'>
-        <Education/>
+      <Card
+        title="Education"
+        bordered={true}
+        size="small"
+        headStyle={{ backgroundColor: '#F2F2F2' }}
+        className="mt-3"
+      >
+        <Education />
       </Card>
-      <Card title="Visa Information" bordered={true} size="small" headStyle={{backgroundColor: '#F2F2F2'}} className='mt-3'>
-        <p>Card content</p>
-        <p>Card content</p>
-        <p>Card content</p>
+      <Card
+        title="Visa Information"
+        bordered={true}
+        size="small"
+        headStyle={{ backgroundColor: '#F2F2F2' }}
+        className="mt-3"
+      >
+        <Visa />
       </Card>
     </>
   );
