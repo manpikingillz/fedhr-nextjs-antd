@@ -3,6 +3,7 @@
 import { Card, Form, Input, Select, Button } from 'antd';
 import React from 'react';
 import { CalendarOutlined, UserOutlined } from '@ant-design/icons';
+import Education from './education/Education';
 
 const { Option } = Select;
 
@@ -239,9 +240,7 @@ function PersonalInformation() {
         </div>
       </Card>
       <Card title="Education" bordered={true} size="small" headStyle={{backgroundColor: '#F2F2F2'}} className='mt-3'>
-        <p>Card content</p>
-        <p>Card content</p>
-        <p>Card content</p>
+        <Education/>
       </Card>
       <Card title="Visa Information" bordered={true} size="small" headStyle={{backgroundColor: '#F2F2F2'}} className='mt-3'>
         <p>Card content</p>
