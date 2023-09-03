@@ -2,17 +2,13 @@ import React from 'react';
 import { Button, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { PlusCircleOutlined } from '@ant-design/icons';
-interface EducationData {
-  key: string;
-  institution_name: string;
-  award: string;
-  major: string;
-  start_date: string;
-  end_date: string;
-  score: string;
-}
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
+import { getEducationsApi } from './api';
+import { Education } from './types';
 
-const columns: ColumnsType<EducationData> = [
+
+const columns: ColumnsType<Education> = [
   {
     title: 'Institution',
     dataIndex: 'institution_name',
@@ -22,6 +18,7 @@ const columns: ColumnsType<EducationData> = [
     title: 'Award',
     dataIndex: 'award',
     key: 'award',
+    render: (award: any) => <span>{award.education_award_name}</span>,
   },
   {
     title: 'Major',
@@ -40,35 +37,34 @@ const columns: ColumnsType<EducationData> = [
   },
 ];
 
-const data: EducationData[] = [
-  {
-    key: '1',
-    institution_name: 'University of Science and Technology',
-    award: 'Bachelor of Computer Engineering',
-    major: 'Hardware Engineering',
-    start_date: 'May 24, 2022',
-    end_date: 'May 24, 2023',
-    score: '4.9',
-  },
-  {
-    key: '1',
-    institution_name: 'Main University of Science',
-    award: 'Aritificial Intelligence',
-    major: 'AI',
-    start_date: 'May 24, 2022',
-    end_date: 'May 24, 2023',
-    score: '4.5',
-  },
-];
 
 const Education = () => {
+  const params = useParams();
+
+  // FETCH / QUERY DATA ///////////////////////////
+  const {
+    data: educations,
+    error: errorEducations,
+    isFetching: isFetchingEducations,
+    isLoading: isLoadingEducations,
+    status: statusEducations,
+  } = useQuery<Education>({
+    queryKey: ['education', params.employeeId],
+    queryFn: () => getEducationsApi(parseInt(params.employeeId)),
+  });
+
+
   return (
     <div className="flex flex-col">
-      <Button type="primary" className="self-end mb-2" icon={<PlusCircleOutlined />}>
+      <Button
+        type="primary"
+        className="self-end mb-2"
+        icon={<PlusCircleOutlined />}
+      >
         Add
       </Button>
-      
-      <Table columns={columns} dataSource={data} pagination={false} />
+
+      <Table columns={columns} dataSource={educations} pagination={false} />
     </div>
   );
 };
