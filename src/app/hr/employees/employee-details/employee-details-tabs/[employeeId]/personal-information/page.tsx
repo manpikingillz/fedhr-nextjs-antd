@@ -5,14 +5,28 @@ import React from 'react';
 import { CalendarOutlined, UserOutlined } from '@ant-design/icons';
 import Education from './education/Education';
 import Visa from './visa/Visa';
+import { useQuery } from '@tanstack/react-query';
+import { EmployeeDetail } from './types';
+import { getEmployee } from './api';
+import { useParams } from 'next/navigation';
 
 const { Option } = Select;
 
 function PersonalInformation() {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-    // Make API call to your Django backend here
-  };
+  // router hooks
+  const params = useParams();
+
+  // FETCH / QUERY DATA ///////////////////////////
+  const {
+    data: employee,
+    error: errorEmployee,
+    isFetching: isFetchingEmployee,
+    isLoading: isLoadingEmployee,
+    status: statusEmployee
+  } = useQuery<EmployeeDetail>({
+    queryKey: ['employee', params.employeeId],
+    queryFn: () => getEmployee(parseInt(params.employeeId)),
+  });
 
   return (
     <>
@@ -26,56 +40,56 @@ function PersonalInformation() {
           <div className="w-1/2">
             <div className="flex mb-2">
               <strong className="	 flex-1 p-1 w-1/3">First Name:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">John</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.first_name}</span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1  w-1/3">Middle Name:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">Doe</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.middle_name}</span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1 w-1/3">Last Name:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">Smith</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.last_name}</span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1 w-1/3">Preferred Name:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">Johnny</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.preferred_name}</span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1 w-1/3">Gender:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">Male</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.gender}</span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1 w-1/3">Date of Birth:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">May 12, 1989</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.date_of_birth}</span>
             </div>
           </div>
 
           <div className="w-1/2">
             <div className="flex mb-2">
               <strong className=" flex-1 p-1 w-1/3">Marital Status:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">Single</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.marital_status}</span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1 w-1/3">Nationality:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">Country 1</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.nationality}</span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1 w-1/3">
                 Social Security Number:
               </strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">123-45-6789</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.social_security_number}</span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1 w-1/3">
                 National Identification Number:
               </strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">987654321</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.national_identification_number}</span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1 w-1/3">
                 Tax Identification Number:
               </strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">12-3456789</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.tax_identification_number}</span>
             </div>
           </div>
         </div>
@@ -169,19 +183,19 @@ function PersonalInformation() {
             <div className="flex mb-2">
               <strong className="	 flex-1 p-1 w-1/3">Work Phone:</strong>
               <span className="flex-2 p-1 w-2/3 bg-gray-50">
-                +256 780 384 234
+                {employee?.work_phone}
               </span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1  w-1/3">Mobile Phone:</strong>
               <span className="flex-2 p-1 w-2/3 bg-gray-50">
-                +256 789 374 384
+                {employee?.mobile_number}
               </span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1 w-1/3">Home Phone:</strong>
               <span className="flex-2 p-1 w-2/3 bg-gray-50">
-                +257 703 233 842
+                {employee?.home_phone}
               </span>
             </div>
           </div>
@@ -189,13 +203,13 @@ function PersonalInformation() {
             <div className="flex mb-2">
               <strong className="	 flex-1 p-1 w-1/3">Work Email:</strong>
               <span className="flex-2 p-1 w-2/3 bg-gray-50">
-                johndoe@company.com
+                {employee?.email}
               </span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1  w-1/3">Home Email:</strong>
               <span className="flex-2 p-1 w-2/3 bg-gray-50">
-                johndoe@gmail.com
+                {employee?.home_email}
               </span>
             </div>
           </div>
@@ -213,32 +227,32 @@ function PersonalInformation() {
             <div className="flex mb-2">
               <strong className="	 flex-1 p-1 w-1/3">Street 1:</strong>
               <span className="flex-2 p-1 w-2/3 bg-gray-50">
-                Ring Road, Kulambiro
+                {employee?.street1}
               </span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1  w-1/3">Street 2:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">+Kisasi:</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.street2}</span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1 w-1/3">City:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">Kampala</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.city}</span>
             </div>
           </div>
           <div className="w-1/2">
             <div className="flex mb-2">
               <strong className="	 flex-1 p-1 w-1/3">Province:</strong>
               <span className="flex-2 p-1 w-2/3 bg-gray-50">
-                Central Region
+                {employee?.province}
               </span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1  w-1/3">Zip Code:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">00256</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.zip_code}</span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1  w-1/3">Country:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">Uganda</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.country}</span>
             </div>
           </div>
         </div>
@@ -255,24 +269,24 @@ function PersonalInformation() {
             <div className="flex mb-2">
               <strong className="	 flex-1 p-1 w-1/3">LinkedIn:</strong>
               <span className="flex-2 p-1 w-2/3 bg-gray-50">
-                https://www.linkedin.com/in/john-doe/
+                {employee?.linked_in}
               </span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1  w-1/3">Facebook:</strong>
               <span className="flex-2 p-1 w-2/3 bg-gray-50">
-                https://www.facebook.com/john-doe
+                {employee?.facebook}
               </span>
             </div>
           </div>
           <div className="w-1/2">
             <div className="flex mb-2">
               <strong className="	 flex-1 p-1 w-1/3">Twitter:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">@johndoe</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.twitter}</span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1  w-1/3">Instagram:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">@johndoe</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.instagram}</span>
             </div>
           </div>
         </div>
