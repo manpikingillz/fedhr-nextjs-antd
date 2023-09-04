@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { EmployeeDetail } from './types';
 import { getEmployee } from './api';
 import { useParams } from 'next/navigation';
+import VisaInformation from './visa/Visa';
 
 const { Option } = Select;
 
@@ -307,7 +308,7 @@ function PersonalInformation() {
         headStyle={{ backgroundColor: '#F2F2F2' }}
         className="mt-3"
       >
-        <Visa />
+        <VisaInformation />
       </Card>
     </>
   );

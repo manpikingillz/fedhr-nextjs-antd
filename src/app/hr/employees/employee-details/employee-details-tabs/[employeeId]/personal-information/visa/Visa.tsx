@@ -2,18 +2,13 @@ import React from 'react';
 import { Button, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { PlusCircleOutlined } from '@ant-design/icons';
+import { VisaInformationData } from './types';
+import { useParams } from 'next/navigation';
+import { getVisaInformationsApi } from './api';
+import { useQuery } from '@tanstack/react-query';
 
-interface VisaData {
-  key: string;
-  date: string;
-  visa: string;
-  issued_date: string;
-  issuing_country: string;
-  expiration_date: string;
-  note: string;
-}
 
-const columns: ColumnsType<VisaData> = [
+const columns: ColumnsType<VisaInformationData> = [
   {
     title: 'Date',
     dataIndex: 'date',
@@ -23,6 +18,7 @@ const columns: ColumnsType<VisaData> = [
     title: 'Visa',
     dataIndex: 'visa',
     key: 'visa',
+    render: (visa: any) => <span>{visa.visa_name}</span>,
   },
   {
     title: 'Issued Date',
@@ -33,6 +29,7 @@ const columns: ColumnsType<VisaData> = [
     title: 'Issuing Country',
     key: 'issuing_country',
     dataIndex: 'issuing_country',
+    render: (issuing_country: any) => <span>{issuing_country.country_name}</span>,
   },
   {
     title: 'Expiration Date',
@@ -45,29 +42,22 @@ const columns: ColumnsType<VisaData> = [
     dataIndex: 'note',
   },
 ];
-//TODO: Add status
-const data: VisaData[] = [
-  {
-    key: '1',
-    date: 'May 13, 2023',
-    visa: 'Permanent Resident',
-    issued_date: 'June 12, 2020',
-    issuing_country: 'United Status',
-    expiration_date: 'June 24, 2028',
-    note: '4.9',
-  },
-  {
-    key: '1',
-    date: 'University of Science and Technology',
-    visa: 'Bachelor of Computer Engineering',
-    issued_date: 'Hardware Engineering',
-    issuing_country: 'May 24, 2022',
-    expiration_date: 'May 24, 2023',
-    note: '4.9',
-  },
-];
 
-const Visa = () => {
+
+const VisaInformation = () => {
+  const params = useParams();
+
+  // FETCH / QUERY DATA ///////////////////////////
+  const {
+    data: visaInformations,
+    error: errorVisaInformations,
+    isFetching: isFetchingVisaInformations,
+    isLoading: isLoadingVisaInformations,
+    status: statusVisaInformations,
+  } = useQuery<VisaInformationData>({
+    queryKey: ['visa_information', params.employeeId],
+    queryFn: () => getVisaInformationsApi(parseInt(params.employeeId)),
+  });
   return (
     <div className="flex flex-col">
       <Button
@@ -77,9 +67,9 @@ const Visa = () => {
       >
         Add
       </Button>
-      <Table columns={columns} dataSource={data} pagination={false} />
+      <Table columns={columns} dataSource={visaInformations} pagination={false} />
     </div>
   );
 };
 
-export default Visa;
+export default VisaInformation;
