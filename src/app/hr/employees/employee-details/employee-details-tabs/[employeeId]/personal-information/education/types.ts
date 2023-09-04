@@ -1,4 +1,5 @@
-export type Education = {
+export type EducationData = {
+    id: string,
     employee: {
         id: number,
         first_name: string,

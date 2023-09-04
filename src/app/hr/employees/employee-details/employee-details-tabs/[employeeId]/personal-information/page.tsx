@@ -4,7 +4,6 @@ import { Card, Form, Input, Select, Button } from 'antd';
 import React from 'react';
 import { CalendarOutlined, UserOutlined } from '@ant-design/icons';
 import Education from './education/Education';
-import Visa from './visa/Visa';
 import { useQuery } from '@tanstack/react-query';
 import { EmployeeDetail } from './types';
 import { getEmployee } from './api';

@@ -54,10 +54,11 @@ const VisaInformation = () => {
     isFetching: isFetchingVisaInformations,
     isLoading: isLoadingVisaInformations,
     status: statusVisaInformations,
-  } = useQuery<VisaInformationData>({
-    queryKey: ['visa_information', params.employeeId],
+  } = useQuery<VisaInformationData[]>({
+    queryKey: ['visa_informations', params.employeeId],
     queryFn: () => getVisaInformationsApi(parseInt(params.employeeId)),
   });
+
   return (
     <div className="flex flex-col">
       <Button

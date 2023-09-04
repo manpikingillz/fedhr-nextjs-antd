@@ -5,10 +5,10 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { getEducationsApi } from './api';
-import { Education } from './types';
+import { EducationData } from './types';
 
 
-const columns: ColumnsType<Education> = [
+const columns: ColumnsType<EducationData> = [
   {
     title: 'Institution',
     dataIndex: 'institution_name',
@@ -48,8 +48,8 @@ const Education = () => {
     isFetching: isFetchingEducations,
     isLoading: isLoadingEducations,
     status: statusEducations,
-  } = useQuery<Education>({
-    queryKey: ['education', params.employeeId],
+  } = useQuery<EducationData[]>({
+    queryKey: ['educations', params.employeeId],
     queryFn: () => getEducationsApi(parseInt(params.employeeId)),
   });
 

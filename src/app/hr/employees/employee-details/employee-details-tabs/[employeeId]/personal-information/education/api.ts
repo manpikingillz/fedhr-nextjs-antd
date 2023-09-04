@@ -1,6 +1,6 @@
 import axios from '@/utils/axios';
 import { AxiosResponse } from 'axios';
-import { Education } from './types';
+import { EducationData } from './types';
 
 // Define a generic API function that takes the endpoint and data as arguments
 async function api<T>(endpoint: string, data?: T) {
@@ -19,19 +19,9 @@ async function api<T>(endpoint: string, data?: T) {
   }
 
   // Define your specific API endpoints
-
   export async function getEducationsApi(
     employeeId?: number
-  ): Promise<Education> {
-    let endpoint = `education/?employee=${employeeId}`;
-    console.log('endpoint: ', endpoint)
+  ): Promise<EducationData[]> {
+    let endpoint = `educations/?employee=${employeeId}`;
     return api(endpoint);
-  }
-
-  // Create an endpoint for adding new education record
-  export async function addEducationApi(
-    data: Education
-  ): Promise<Education> {
-    let endpoint = `education/create/`;
-    return api(endpoint, data);
   }

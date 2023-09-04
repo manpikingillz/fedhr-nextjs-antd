@@ -1,6 +1,6 @@
 import axios from '@/utils/axios';
 import { AxiosResponse } from 'axios';
-import { VisaInformation } from './types';
+import { VisaInformationData } from './types';
 
 // Define a generic API function that takes the endpoint and data as arguments
 async function api<T>(endpoint: string, data?: T) {
@@ -22,7 +22,7 @@ async function api<T>(endpoint: string, data?: T) {
 
   export async function getVisaInformationsApi(
     employeeId?: number
-  ): Promise<VisaInformation> {
-    let endpoint = `visa_information/?employee=${employeeId}`;
+  ): Promise<VisaInformationData[]> {
+    let endpoint = `visa_informations/?employee=${employeeId}`;
     return api(endpoint);
   }
