@@ -6,13 +6,14 @@ import { VisaInformationData } from './types';
 import { useParams } from 'next/navigation';
 import { getVisaInformationsApi } from './api';
 import { useQuery } from '@tanstack/react-query';
-
+import * as dayjs from 'dayjs'
 
 const columns: ColumnsType<VisaInformationData> = [
   {
     title: 'Date',
     dataIndex: 'date',
     key: 'date',
+    render: (date: string) => <span>{dayjs(date).format('MMM D, YYYY')}</span>
   },
   {
     title: 'Visa',
@@ -24,6 +25,7 @@ const columns: ColumnsType<VisaInformationData> = [
     title: 'Issued Date',
     dataIndex: 'issued_date',
     key: 'issued_date',
+    render: (issued_date: string) => <span>{dayjs(issued_date).format('MMM D, YYYY')}</span>
   },
   {
     title: 'Issuing Country',
@@ -35,6 +37,7 @@ const columns: ColumnsType<VisaInformationData> = [
     title: 'Expiration Date',
     key: 'expiration_date',
     dataIndex: 'expiration_date',
+    render: (expiration_date: string) => <span>{dayjs(expiration_date).format('MMM D, YYYY')}</span>,
   },
   {
     title: 'Note',

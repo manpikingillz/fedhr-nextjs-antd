@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { getEducationsApi } from './api';
 import { EducationData } from './types';
+import * as dayjs from 'dayjs'
 
 
 const columns: ColumnsType<EducationData> = [
@@ -29,6 +30,7 @@ const columns: ColumnsType<EducationData> = [
     title: 'Start Date',
     key: 'start_date',
     dataIndex: 'start_date',
+    render: (start_date: string) => <span>{dayjs(start_date).format('MMM D, YYYY')}</span>,
   },
   {
     title: 'Score',

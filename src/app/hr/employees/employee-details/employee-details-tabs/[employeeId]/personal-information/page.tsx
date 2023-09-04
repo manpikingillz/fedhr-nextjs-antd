@@ -9,6 +9,7 @@ import { EmployeeDetail } from './types';
 import { getEmployee } from './api';
 import { useParams } from 'next/navigation';
 import VisaInformation from './visa/Visa';
+import * as dayjs from 'dayjs'
 
 const { Option } = Select;
 
@@ -60,7 +61,7 @@ function PersonalInformation() {
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1 w-1/3">Date of Birth:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.date_of_birth}</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">{dayjs(employee?.date_of_birth).format('MMM D, YYYY')}</span>
             </div>
           </div>
 
