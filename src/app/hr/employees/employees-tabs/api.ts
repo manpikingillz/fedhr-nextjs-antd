@@ -1,6 +1,7 @@
 import axios from '@/utils/axios';
+
 import { AxiosResponse } from 'axios';
-import { EmployeeDetail, EmployeeUpdateData } from './types';
+import { EmployeeListData } from '../employee-details/employee-details-tabs/[employeeId]/personal-information/types';
 
 // Define a generic API function that takes the endpoint and data as arguments
 async function api<T>(endpoint: string, data?: T) {
@@ -19,15 +20,7 @@ async function api<T>(endpoint: string, data?: T) {
 }
 
 // Define your specific API endpoints
-export async function getEmployee(id?: number): Promise<EmployeeDetail> {
-  let endpoint = `employees/${id}/`;
+export async function getEmployeesApi(): Promise<EmployeeListData> {
+  let endpoint = `employees/`;
   return api(endpoint);
-}
-
-export async function updateEmployeeApi(
-  {data, id}: {data: EmployeeUpdateData, id: number}
-): Promise<any> {
-  let endpoint = `employees/${id}/update/`;
-  console.log('endpoint: ', endpoint, 'data: ', data)
-  return api(endpoint, data);
 }

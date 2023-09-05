@@ -1,15 +1,17 @@
 import { Button, Form, Input, Select, DatePicker } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { PersonalInformationFormProps } from './types';
+import { EmployeeDetail, EmployeeUpdateData, PersonalInformationFormProps } from './types';
 import { useEffect } from 'react';
+import { useParams } from 'next/navigation';
+import { useUpdateEmployeeMutation } from './mutations';
 
 const { Option } = Select;
 
 export function PersonalInformationForm({
-  savePersonalInformationHandler,
   employee,
 }: PersonalInformationFormProps) {
   const [form] = Form.useForm();
+  const params = useParams()
 
   const handleSetFieldValue = () => {
     form.setFieldsValue({
@@ -30,6 +32,14 @@ export function PersonalInformationForm({
   useEffect(() => {
     handleSetFieldValue();
   }, [employee]);
+
+  const updateEmployeeMutation = useUpdateEmployeeMutation()
+  const savePersonalInformationHandler = (employee: EmployeeUpdateData) => {
+    console.log('Received values of form: ', employee);
+    console.log('params: ', params)
+    const employeeId = parseInt(params.employeeId)
+    updateEmployeeMutation.mutate({data: employee, id: employeeId, })
+  };
 
   return (
     <Form
@@ -64,8 +74,8 @@ export function PersonalInformationForm({
         </Form.Item>
         <Form.Item label="Gender" name="gender">
           <Select placeholder="Select gender" className="w-full">
-            <Option value="male">Male</Option>
-            <Option value="female">Female</Option>
+            <Option value="MALE">Male</Option>
+            <Option value="FEMALE">Female</Option>
           </Select>
         </Form.Item>
         {/* <Form.Item label="DatePicker">
@@ -76,8 +86,8 @@ export function PersonalInformationForm({
       <div className="w-1/2 pl-4">
         <Form.Item label="Marital Status" name="marital_status">
           <Select placeholder="Select marital status" className="w-full">
-            <Option value="single">Single</Option>
-            <Option value="married">Married</Option>
+            <Option value="SINGLE">Single</Option>
+            <Option value="MARRIED">Married</Option>
           </Select>
         </Form.Item>
         <Form.Item label="Nationality" name="nationality">

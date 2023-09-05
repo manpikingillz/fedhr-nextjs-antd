@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import axios from '@/utils/axios';
 import React, { useState } from 'react';
@@ -6,17 +6,26 @@ import { useQuery } from '@tanstack/react-query';
 import { Table } from 'antd';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
+import type { ColumnsType } from 'antd/es/table';
+import { EmployeeListData } from '../employee-details/employee-details-tabs/[employeeId]/personal-information/types';
+import { getEmployeesApi } from './api';
 
 function Overview() {
-  const [loading, setLoading] = useState(false)
-  const { data: session } = useSession()
+  const [loading, setLoading] = useState(false);
+  const { data: session } = useSession();
 
-  const columns = [
+  const columns: ColumnsType<EmployeeListData> = [
     {
       title: 'First Name',
       dataIndex: 'first_name',
       key: 'first_name',
-      render: (text: string, employee: any) => <Link href={`/hr/employees/employee-details/employee-details-tabs/${employee.id}`}>{text}</Link>,
+      render: (text: string, employee: any) => (
+        <Link
+          href={`/hr/employees/employee-details/employee-details-tabs/${employee.id}`}
+        >
+          {text}
+        </Link>
+      ),
     },
     {
       title: 'Last Name',
@@ -26,32 +35,28 @@ function Overview() {
     {
       title: 'Email',
       dataIndex: 'email',
-      key: 'email'
-    }
+      key: 'email',
+    },
   ];
-
-  async function getEmployees() {
-    const response = await axios.get('employees/')
-    return response.data
-  }
 
   const {
     data: employees,
     error: errorEmployees,
     isFetching: isFetchingEmployees,
     isLoading: isLoadingEmployees,
-    status: statusEmployees
-  } = useQuery({queryKey: ['employees'], queryFn: getEmployees})
-
-  if (errorEmployees) return (<h1> This is the error: {errorEmployees.message}</h1>)
+    status: statusEmployees,
+  } = useQuery<EmployeeListData[]>({
+    queryKey: ['employees'],
+    queryFn: () => getEmployeesApi(),
+  });
 
   return (
-    <>
-      <button onClick={() => signIn()}>SignIn</button>
-        <button onClick={() => signOut()}>SignOut</button>
-      <Table dataSource={employees} columns={columns} loading={isFetchingEmployees} />;
-    </>
+    <Table
+      dataSource={employees}
+      columns={columns}
+      loading={isFetchingEmployees}
+    />
   );
-};
+}
 
 export default Overview;
