@@ -28,3 +28,8 @@ export type EmployeeDetail = {
     twitter: string,
     instagram: string
 }
+
+export type PersonalInformationFormProps = {
+    savePersonalInformationHandler: any,
+    employee: EmployeeDetail
+}

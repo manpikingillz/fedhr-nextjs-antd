@@ -1,17 +1,42 @@
 import { Button, Form, Input, Select, DatePicker } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import { PersonalInformationFormProps } from './types';
+import { useEffect } from 'react';
 
 const { Option } = Select;
 
-export function PersonalInformationForm() {
-  const onFinish = (data: any) => {
-    console.log('data: ', data);
+export function PersonalInformationForm({
+  savePersonalInformationHandler,
+  employee,
+}: PersonalInformationFormProps) {
+  const [form] = Form.useForm();
+
+  const handleSetFieldValue = () => {
+    form.setFieldsValue({
+      first_name: employee?.first_name,
+      middle_name: employee?.middle_name,
+      last_name: employee?.last_name,
+      preferred_name: employee?.preferred_name,
+      gender: employee?.gender,
+      date_of_birth: employee?.date_of_birth,
+      marital_status: employee?.marital_status,
+      nationality: employee?.nationality,
+      social_security_number: employee?.social_security_number,
+      national_identification_number: employee?.national_identification_number,
+      tax_identification_number: employee?.tax_identification_number,
+    });
   };
+
+  useEffect(() => {
+    handleSetFieldValue();
+  }, [employee]);
 
   return (
     <Form
+      name="personal-information-update-form"
+      form={form}
       labelAlign="left"
-      onFinish={onFinish}
+      onFinish={savePersonalInformationHandler}
       className="flex flex-wrap"
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
@@ -49,7 +74,7 @@ export function PersonalInformationForm() {
       </div>
 
       <div className="w-1/2 pl-4">
-      <Form.Item label="Marital Status" name="marital_status">
+        <Form.Item label="Marital Status" name="marital_status">
           <Select placeholder="Select marital status" className="w-full">
             <Option value="single">Single</Option>
             <Option value="married">Married</Option>
@@ -64,16 +89,10 @@ export function PersonalInformationForm() {
         <Form.Item label="SSN" name="social_security_number">
           <Input placeholder="Social Security Number" />
         </Form.Item>
-        <Form.Item
-          label="NIN"
-          name="national_identification_number"
-        >
+        <Form.Item label="NIN" name="national_identification_number">
           <Input placeholder="National Identification Number" />
         </Form.Item>
-        <Form.Item
-          label="TIN    "
-          name="tax_identification_number"
-        >
+        <Form.Item label="TIN    " name="tax_identification_number">
           <Input placeholder="Tax Identification Number" />
         </Form.Item>
       </div>

@@ -39,7 +39,6 @@ function PersonalInformation() {
 
   const onEditPersonalInformationHandler = () => {
     setIsEditPersonalInformation(!isEditPersonalInformation);
-    console.log('edit personal information: ', isEditPersonalInformation);
   };
 
   return (
@@ -60,7 +59,7 @@ function PersonalInformation() {
         }
       >
         {isEditPersonalInformation ? (
-          <PersonalInformationForm />
+          <PersonalInformationForm employee={employee} />
         ) : (
           <PersonalInformationView employee={employee} />
         )}
