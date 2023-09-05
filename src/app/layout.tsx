@@ -6,6 +6,7 @@ import ConfigProvider from 'antd/es/config-provider';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import NextAuthSessionProvider from '@/app/providers/sessionProvider';
+import React from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -36,10 +37,12 @@ export default function RootLayout({ children }: IProps) {
       <NextAuthSessionProvider>
         <QueryClientProvider client={queryClient}>
           <ConfigProvider theme={themeConfig}>
+            <React.StrictMode>
               <body className={inter.className}>
                 {children}
                 <ReactQueryDevtools initialIsOpen={false} />
               </body>
+            </React.StrictMode>
           </ConfigProvider>
         </QueryClientProvider>
       </NextAuthSessionProvider>

@@ -10,6 +10,7 @@ import { getEmployee } from './api';
 import { useParams } from 'next/navigation';
 import VisaInformation from './visa/Visa';
 import * as dayjs from 'dayjs'
+import { PersonalInformationForm } from './PersonalInformationForm';
 
 const { Option } = Select;
 
@@ -37,6 +38,7 @@ function PersonalInformation() {
         size="small"
         headStyle={{ backgroundColor: '#F2F2F2' }}
       >
+        {/* 
         <div className="flex">
           <div className="w-1/2">
             <div className="flex mb-2">
@@ -93,85 +95,10 @@ function PersonalInformation() {
               <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.tax_identification_number}</span>
             </div>
           </div>
-        </div>
+        </div> */}
+        <PersonalInformationForm />
       </Card>
-
-      {/* <Form layout="vertical" onFinish={onFinish} className="flex flex-wrap">
-          <div className="w-1/2 pr-4">
-            <Form.Item
-              label="First Name"
-              name="first_name"
-              rules={[
-                { required: true, message: 'Please input your first name!' },
-              ]}
-            >
-              <Input prefix={<UserOutlined />} placeholder="First Name" />
-            </Form.Item>
-            <Form.Item label="Middle Name" name="middle_name">
-              <Input prefix={<UserOutlined />} placeholder="Middle Name" />
-            </Form.Item>
-            <Form.Item
-              label="Last Name"
-              name="last_name"
-              rules={[
-                { required: true, message: 'Please input your last name!' },
-              ]}
-            >
-              <Input prefix={<UserOutlined />} placeholder="Last Name" />
-            </Form.Item>
-            <Form.Item label="Preferred Name" name="preferred_name">
-              <Input prefix={<UserOutlined />} placeholder="Preferred Name" />
-            </Form.Item>
-            <Form.Item label="Gender" name="gender">
-              <Select placeholder="Select gender" className="w-full">
-                <Option value="male">Male</Option>
-                <Option value="female">Female</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item label="Marital Status" name="marital_status">
-              <Select placeholder="Select marital status" className="w-full">
-                <Option value="single">Single</Option>
-                <Option value="married">Married</Option>
-              </Select>
-            </Form.Item>
-          </div>
-
-          <div className="w-1/2 pl-4">
-            <Form.Item label="Nationality" name="nationality">
-              <Select placeholder="Select country" className="w-full">
-                <Option value="country1">Country 1</Option>
-                <Option value="country2">Country 2</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item
-              label="Social Security Number"
-              name="social_security_number"
-            >
-              <Input placeholder="Social Security Number" />
-            </Form.Item>
-            <Form.Item
-              label="National Identification Number"
-              name="national_identification_number"
-            >
-              <Input placeholder="National Identification Number" />
-            </Form.Item>
-            <Form.Item
-              label="Tax Identification Number"
-              name="tax_identification_number"
-            >
-              <Input placeholder="Tax Identification Number" />
-            </Form.Item>
-          </div>
-
-          <div className="w-full">
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
-          </div>
-        </Form> */}
-
+      
       <Card
         title="Contact Info"
         bordered={true}

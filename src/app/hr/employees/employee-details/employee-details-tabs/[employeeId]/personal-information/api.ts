@@ -19,7 +19,6 @@ async function api<T>(endpoint: string, data?: T) {
   }
 
   // Define your specific API endpoints
-
   export async function getEmployee(id?: number
   ): Promise<EmployeeDetail> {
     let endpoint = `employees/${id}/`;
