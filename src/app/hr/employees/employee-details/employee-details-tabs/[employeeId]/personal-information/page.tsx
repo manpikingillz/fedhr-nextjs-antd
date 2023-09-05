@@ -2,20 +2,26 @@
 
 import { Card, Form, Input, Select, Button } from 'antd';
 import React from 'react';
-import { CalendarOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  CalendarOutlined,
+  UserOutlined,
+  EditOutlined,
+} from '@ant-design/icons';
 import Education from './education/Education';
 import { useQuery } from '@tanstack/react-query';
 import { EmployeeDetail } from './types';
 import { getEmployee } from './api';
 import { useParams } from 'next/navigation';
 import VisaInformation from './visa/Visa';
-import * as dayjs from 'dayjs'
+import * as dayjs from 'dayjs';
 import { PersonalInformationForm } from './PersonalInformationForm';
 import { PersonalInformationView } from './PersonalInformationView';
 
 const { Option } = Select;
 
 function PersonalInformation() {
+  const [isEditPersonalInformation, setIsEditPersonalInformation] =
+    React.useState(false);
   // router hooks
   const params = useParams();
 
@@ -25,11 +31,16 @@ function PersonalInformation() {
     error: errorEmployee,
     isFetching: isFetchingEmployee,
     isLoading: isLoadingEmployee,
-    status: statusEmployee
+    status: statusEmployee,
   } = useQuery<EmployeeDetail>({
     queryKey: ['employee', params.employeeId],
     queryFn: () => getEmployee(parseInt(params.employeeId)),
   });
+
+  const onEditPersonalInformationHandler = () => {
+    setIsEditPersonalInformation(!isEditPersonalInformation);
+    console.log('edit personal information: ', isEditPersonalInformation);
+  };
 
   return (
     <>
@@ -38,11 +49,25 @@ function PersonalInformation() {
         bordered={true}
         size="small"
         headStyle={{ backgroundColor: '#F2F2F2' }}
+        extra={
+          <a
+            onClick={onEditPersonalInformationHandler}
+            className="cursor-pointer"
+          >
+            <EditOutlined className="mr-2" />
+            Edit
+          </a>
+        }
       >
-        <PersonalInformationView employee={employee}/>
-        <PersonalInformationForm />
+        {isEditPersonalInformation ? (
+          <PersonalInformationForm />
+        ) : (
+          <PersonalInformationView employee={employee} />
+        )}
+        {/* <PersonalInformationView employee={employee}/>
+        <PersonalInformationForm /> */}
       </Card>
-      
+
       <Card
         title="Contact Info"
         bordered={true}
@@ -104,11 +129,15 @@ function PersonalInformation() {
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1  w-1/3">Street 2:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.street2}</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">
+                {employee?.street2}
+              </span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1 w-1/3">City:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.city}</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">
+                {employee?.city}
+              </span>
             </div>
           </div>
           <div className="w-1/2">
@@ -120,11 +149,15 @@ function PersonalInformation() {
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1  w-1/3">Zip Code:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.zip_code}</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">
+                {employee?.zip_code}
+              </span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1  w-1/3">Country:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.country}</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">
+                {employee?.country}
+              </span>
             </div>
           </div>
         </div>
@@ -154,11 +187,15 @@ function PersonalInformation() {
           <div className="w-1/2">
             <div className="flex mb-2">
               <strong className="	 flex-1 p-1 w-1/3">Twitter:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.twitter}</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">
+                {employee?.twitter}
+              </span>
             </div>
             <div className="flex mb-2">
               <strong className=" flex-1 p-1  w-1/3">Instagram:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">{employee?.instagram}</span>
+              <span className="flex-2 p-1 w-2/3 bg-gray-50">
+                {employee?.instagram}
+              </span>
             </div>
           </div>
         </div>
