@@ -23,6 +23,14 @@ const themeConfig = {
     colorPrimaryText: '#04ab6b',
     colorPrimaryTextActive: '#008556',
   },
+  components: {
+    Modal: {
+      /* here is your component tokens */
+      // headerBg: '#04ab6b',
+      // footerBg: '#04ab6b',
+      // contentBg: '#fff1',
+    },
+  },
 };
 
 interface IProps {
