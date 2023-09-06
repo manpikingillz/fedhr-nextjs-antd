@@ -39,7 +39,7 @@ export function ContactInfoForm({
 
   return (
     <Form
-      name="personal-information-update-form"
+      name="contact-info-update-form"
       form={form}
       labelAlign="left"
       onFinish={savePersonalInformationHandler}
