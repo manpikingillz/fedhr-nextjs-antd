@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation';
 import { getEducationListApi } from './api';
 import { EducationListData } from './types';
 import * as dayjs from 'dayjs'
+import EducationCreateModal from './EducationCreateModal';
 
 
 const columns: ColumnsType<EducationListData> = [
@@ -41,6 +42,8 @@ const columns: ColumnsType<EducationListData> = [
 
 
 const Education = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const params = useParams();
 
   // FETCH / QUERY DATA ///////////////////////////
@@ -55,13 +58,22 @@ const Education = () => {
     queryFn: () => getEducationListApi(parseInt(params.employeeId)),
   });
 
+  const onModalOpenHandler = () => {
+    setIsModalOpen(true)
+  }
+
+  const onModelCloseHandler = () => {
+    setIsModalOpen(false)
+  }
 
   return (
     <div className="flex flex-col">
+      <EducationCreateModal isModelOpen={isModalOpen} onModelClose={onModelCloseHandler}/>
       <Button
         type="primary"
         className="self-end mb-2"
         icon={<PlusCircleOutlined />}
+        onClick={onModalOpenHandler}
       >
         Add
       </Button>
