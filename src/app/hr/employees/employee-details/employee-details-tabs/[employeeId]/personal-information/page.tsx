@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, Form, Input, Select, Button } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   CalendarOutlined,
   UserOutlined,
@@ -9,19 +9,21 @@ import {
 } from '@ant-design/icons';
 import Education from './education/Education';
 import { useQuery } from '@tanstack/react-query';
-import { EmployeeDetail } from './types';
+import { EmployeeDetailData } from './types';
 import { getEmployeeApi } from './api';
 import { useParams } from 'next/navigation';
 import VisaInformation from './visa/Visa';
 import * as dayjs from 'dayjs';
 import { PersonalInformationForm } from './PersonalInformationForm';
 import { PersonalInformationView } from './PersonalInformationView';
+import { ContactInfoView } from './ContactInfoView';
+import { ContactInfoForm } from './ContactInfoForm';
 
 const { Option } = Select;
 
 function PersonalInformation() {
-  const [isEditPersonalInformation, setIsEditPersonalInformation] =
-    React.useState(false);
+  const [isEditPersonalInformation, setIsEditPersonalInformation] = useState(false);
+  const [isEditContactInfo, setIsEditContactInfo] = useState(false);
   // router hooks
   const params = useParams();
 
@@ -32,13 +34,17 @@ function PersonalInformation() {
     isFetching: isFetchingEmployee,
     isLoading: isLoadingEmployee,
     status: statusEmployee,
-  } = useQuery<EmployeeDetail>({
+  } = useQuery<EmployeeDetailData>({
     queryKey: ['employee', params.employeeId],
     queryFn: () => getEmployeeApi(parseInt(params.employeeId)),
   });
 
+  //Other functions
   const onEditPersonalInformationHandler = () => {
     setIsEditPersonalInformation(!isEditPersonalInformation);
+  };
+  const onEditContactInfoHandler = () => {
+    setIsEditContactInfo(!isEditContactInfo);
   };
 
   return (
@@ -63,8 +69,6 @@ function PersonalInformation() {
         ) : (
           <PersonalInformationView employee={employee} />
         )}
-        {/* <PersonalInformationView employee={employee}/>
-        <PersonalInformationForm /> */}
       </Card>
 
       <Card
@@ -73,43 +77,21 @@ function PersonalInformation() {
         size="small"
         headStyle={{ backgroundColor: '#F2F2F2' }}
         className="mt-3"
+        extra={
+          <a
+            onClick={onEditContactInfoHandler}
+            className="cursor-pointer"
+          >
+            <EditOutlined className="mr-2" />
+            Edit
+          </a>
+        }
       >
-        <div className="flex">
-          <div className="w-1/2">
-            <div className="flex mb-2">
-              <strong className="	 flex-1 p-1 w-1/3">Work Phone:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">
-                {employee?.work_phone}
-              </span>
-            </div>
-            <div className="flex mb-2">
-              <strong className=" flex-1 p-1  w-1/3">Mobile Phone:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">
-                {employee?.mobile_number}
-              </span>
-            </div>
-            <div className="flex mb-2">
-              <strong className=" flex-1 p-1 w-1/3">Home Phone:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">
-                {employee?.home_phone}
-              </span>
-            </div>
-          </div>
-          <div className="w-1/2">
-            <div className="flex mb-2">
-              <strong className="	 flex-1 p-1 w-1/3">Work Email:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">
-                {employee?.email}
-              </span>
-            </div>
-            <div className="flex mb-2">
-              <strong className=" flex-1 p-1  w-1/3">Home Email:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">
-                {employee?.home_email}
-              </span>
-            </div>
-          </div>
-        </div>
+        {isEditContactInfo ? (
+          <ContactInfoForm employee={employee}/>
+        ) : (
+          <ContactInfoView employee={employee}/>
+        )}
       </Card>
       <Card
         title="Address Info"

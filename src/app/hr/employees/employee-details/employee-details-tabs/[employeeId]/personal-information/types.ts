@@ -30,8 +30,7 @@ export type EmployeeDetailData = {
 }
 
 export type PersonalInformationFormProps = {
-    savePersonalInformationHandler: any,
-    employee: EmployeeDetail
+    employee: EmployeeDetailData
 }
 
 export type EmployeeUpdateData = {
