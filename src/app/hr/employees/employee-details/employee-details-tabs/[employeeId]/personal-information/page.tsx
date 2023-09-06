@@ -20,6 +20,8 @@ import { ContactInfoView } from './ContactInfoView';
 import { ContactInfoForm } from './ContactInfoForm';
 import { AddressInfoView } from './AddressInfoView';
 import { AddressInfoForm } from './AddressInfoForm';
+import { SocialLinksInfoView } from './SocialLinksInfoView';
+import { SocialLinksInfoForm } from './SocialLinksInfoForm';
 
 const { Option } = Select;
 
@@ -27,6 +29,7 @@ function PersonalInformation() {
   const [isEditPersonalInformation, setIsEditPersonalInformation] = useState(false);
   const [isEditContactInfo, setIsEditContactInfo] = useState(false);
   const [isEditAddressInfo, setIsEditAddressInfo] = useState(false);
+  const [isEditSocialLinksInfo, setIsEditSocialLinksInfo] = useState(false);
 
   // router hooks
   const params = useParams();
@@ -53,6 +56,10 @@ function PersonalInformation() {
   const onEditAddressInfoHandler = () => {
     setIsEditAddressInfo(!isEditAddressInfo);
   };
+
+  const onEditSocialLinksInfoHandler = () => {
+    setIsEditSocialLinksInfo(!isEditSocialLinksInfo);
+  }
 
   return (
     <>
@@ -128,37 +135,21 @@ function PersonalInformation() {
         size="small"
         headStyle={{ backgroundColor: '#F2F2F2' }}
         className="mt-3"
+        extra={
+          <a
+            onClick={onEditSocialLinksInfoHandler}
+            className="cursor-pointer"
+          >
+            <EditOutlined className="mr-2" />
+            Edit
+          </a>
+        }
       >
-        <div className="flex">
-          <div className="w-1/2">
-            <div className="flex mb-2">
-              <strong className="	 flex-1 p-1 w-1/3">LinkedIn:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">
-                {employee?.linked_in}
-              </span>
-            </div>
-            <div className="flex mb-2">
-              <strong className=" flex-1 p-1  w-1/3">Facebook:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">
-                {employee?.facebook}
-              </span>
-            </div>
-          </div>
-          <div className="w-1/2">
-            <div className="flex mb-2">
-              <strong className="	 flex-1 p-1 w-1/3">Twitter:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">
-                {employee?.twitter}
-              </span>
-            </div>
-            <div className="flex mb-2">
-              <strong className=" flex-1 p-1  w-1/3">Instagram:</strong>
-              <span className="flex-2 p-1 w-2/3 bg-gray-50">
-                {employee?.instagram}
-              </span>
-            </div>
-          </div>
-        </div>
+        {isEditSocialLinksInfo ? (
+          <SocialLinksInfoForm employee={employee}/>
+        ) : (
+          <SocialLinksInfoView employee={employee}/>
+        )}
       </Card>
       <Card
         title="Education"
