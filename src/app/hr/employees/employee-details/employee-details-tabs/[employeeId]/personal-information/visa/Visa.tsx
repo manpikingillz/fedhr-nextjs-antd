@@ -1,14 +1,14 @@
 import React from 'react';
-import { Button, Space, Table, Tag } from 'antd';
+import { Button, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { VisaInformationData } from './types';
+import { VisaInformationListData } from './types';
 import { useParams } from 'next/navigation';
-import { getVisaInformationsApi } from './api';
+import { getVisaInformationListApi } from './api';
 import { useQuery } from '@tanstack/react-query';
 import * as dayjs from 'dayjs'
 
-const columns: ColumnsType<VisaInformationData> = [
+const columns: ColumnsType<VisaInformationListData> = [
   {
     title: 'Date',
     dataIndex: 'date',
@@ -57,9 +57,9 @@ const VisaInformation = () => {
     isFetching: isFetchingVisaInformations,
     isLoading: isLoadingVisaInformations,
     status: statusVisaInformations,
-  } = useQuery<VisaInformationData[]>({
+  } = useQuery<VisaInformationListData[]>({
     queryKey: ['visa_informations', params.employeeId],
-    queryFn: () => getVisaInformationsApi(parseInt(params.employeeId)),
+    queryFn: () => getVisaInformationListApi(parseInt(params.employeeId)),
   });
 
   return (
@@ -74,6 +74,6 @@ const VisaInformation = () => {
       <Table columns={columns} dataSource={visaInformations} pagination={false} />
     </div>
   );
-};
+}
 
 export default VisaInformation;

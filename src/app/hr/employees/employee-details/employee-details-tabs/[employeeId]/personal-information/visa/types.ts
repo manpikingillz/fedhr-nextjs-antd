@@ -1,4 +1,4 @@
-export type VisaInformationData = {
+export type VisaInformationListData = {
     id: number,
     employee: {
         id: number,

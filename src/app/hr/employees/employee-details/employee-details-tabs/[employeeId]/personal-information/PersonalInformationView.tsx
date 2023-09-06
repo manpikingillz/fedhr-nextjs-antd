@@ -1,7 +1,7 @@
 import * as dayjs from 'dayjs'
-import { EmployeeDetail } from './types'
+import { EmployeeDetailData} from './types'
 
-export function PersonalInformationView({employee}: {employee: EmployeeDetail}) {
+export function PersonalInformationView({employee}: {employee: EmployeeDetailData}) {
     return (
         <div className="flex">
           <div className="w-1/2">

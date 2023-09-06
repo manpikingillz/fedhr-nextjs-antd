@@ -1,8 +1,8 @@
-import { EmployeeDetail, EmployeeUpdateData } from './types';
+import { EmployeeDetailData, EmployeeUpdateData } from './types';
 import { api } from '@/utils/api-utils';
 
 // Define your specific API endpoints
-export async function getEmployeeApi(id?: number): Promise<EmployeeDetail> {
+export async function getEmployeeApi(id?: number): Promise<EmployeeDetailData> {
   let endpoint = `employees/${id}/`;
   return api(endpoint);
 }

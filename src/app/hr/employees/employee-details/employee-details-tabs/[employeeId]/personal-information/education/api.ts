@@ -1,27 +1,10 @@
-import axios from '@/utils/axios';
-import { AxiosResponse } from 'axios';
-import { EducationData } from './types';
-
-// Define a generic API function that takes the endpoint and data as arguments
-async function api<T>(endpoint: string, data?: T) {
-    try {
-      const response: AxiosResponse<T> = await axios({
-        method: data ? 'post' : 'get', // Use 'post' for endpoints that require data
-        url: endpoint,
-        data, // Include data if provided
-      });
-
-      return response.data;
-    } catch (error) {
-      // Handle errors, log them, or throw custom exceptions
-      throw error;
-    }
-  }
+import { EducationListData } from './types';
+import { api } from '@/utils/api-utils';
 
   // Define your specific API endpoints
-  export async function getEducationsApi(
+  export async function getEducationListApi(
     employeeId?: number
-  ): Promise<EducationData[]> {
+  ): Promise<EducationListData[]> {
     let endpoint = `educations/?employee=${employeeId}`;
     return api(endpoint);
   }

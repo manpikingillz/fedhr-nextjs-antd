@@ -4,7 +4,6 @@ import { NoteFormProps } from './types';
 const { TextArea } = Input;
 
 
-
 export default function NoteForm({
   formInstance,
   formName,
@@ -27,7 +26,7 @@ export default function NoteForm({
   useEffect(() => {
     handleSetFieldValue()
   },[]);
-  
+
   return (
     <Form name={formName} onFinish={saveNoteHandler} form={formInstance}>
       <Form.Item

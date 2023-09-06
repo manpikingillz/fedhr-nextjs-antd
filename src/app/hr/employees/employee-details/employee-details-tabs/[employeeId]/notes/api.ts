@@ -1,58 +1,18 @@
-import axios from '@/utils/axios';
 import {
   NoteCreateData,
-  NoteListData,
+  NotePaginatedListData,
   NoteUpdateData,
-  NotesData,
 } from './types';
-import { AxiosResponse } from 'axios';
+import { api } from '@/utils/api-utils';
 
-// export async function getNotesApi() {
-//   const response = await axios.get('notes/');
-//   return response.data;
-// }
-
-// export async function createNoteApi(data: NoteCreateData) {
-//   const response = await axios.post('notes/create/', data);
-//   return response.data;
-// }
-
-// export async function updateNoteApi({data, id}: {data: NoteUpdateData, id: number}) {
-//   const response = await axios.post(`notes/${id}/update/`, data);
-//   return response.data;
-// }
-
-// export async function deleteNoteApi(id: number) {
-//   const response = await axios.post(`notes/${id}/delete/`, id);
-//   return response.data;
-// }
-
-//********* Add some re-usability */
-
-// Define a generic API function that takes the endpoint and data as arguments
-async function api<T>(endpoint: string, data?: T) {
-  try {
-    const response: AxiosResponse<T> = await axios({
-      method: data ? 'post' : 'get', // Use 'post' for endpoints that require data
-      url: endpoint,
-      data, // Include data if provided
-    });
-
-    return response.data;
-  } catch (error) {
-    // Handle errors, log them, or throw custom exceptions
-    throw error;
-  }
-}
 
 // Define your specific API endpoints
-
-export async function getNotesApi(
+export async function getNoteListApi(
   limit: number,
   offset: number,
   noteSearch?: string,
   employeeId?: number
-): Promise<NotesData> {
+): Promise<NotePaginatedListData> {
   let endpoint = `notes/?limit=${limit}&offset=${offset}`;
   if (noteSearch) endpoint = endpoint + `&note=${noteSearch}`
   if (employeeId) endpoint = endpoint + `&employee=${employeeId}`
@@ -77,3 +37,26 @@ export async function updateNoteApi({
 export async function deleteNoteApi(id: number) {
   return api(`notes/${id}/delete/`, id);
 }
+
+
+// The boiler plate we would have if we didn't create api util
+
+// export async function getNotesApi() {
+//   const response = await axios.get('notes/');
+//   return response.data;
+// }
+
+// export async function createNoteApi(data: NoteCreateData) {
+//   const response = await axios.post('notes/create/', data);
+//   return response.data;
+// }
+
+// export async function updateNoteApi({data, id}: {data: NoteUpdateData, id: number}) {
+//   const response = await axios.post(`notes/${id}/update/`, data);
+//   return response.data;
+// }
+
+// export async function deleteNoteApi(id: number) {
+//   const response = await axios.post(`notes/${id}/delete/`, id);
+//   return response.data;
+// }

@@ -1,4 +1,4 @@
-export type EmployeeDetail = {
+export type EmployeeDetailData = {
     first_name: string,
     middle_name: string,
     last_name: string,

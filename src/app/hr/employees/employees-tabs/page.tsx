@@ -8,7 +8,7 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import type { ColumnsType } from 'antd/es/table';
 import { EmployeeListData } from '../employee-details/employee-details-tabs/[employeeId]/personal-information/types';
-import { getEmployeesApi } from './api';
+import { getEmployeeListApi } from './api';
 
 function Overview() {
   const [loading, setLoading] = useState(false);
@@ -47,7 +47,7 @@ function Overview() {
     status: statusEmployees,
   } = useQuery<EmployeeListData[]>({
     queryKey: ['employees'],
-    queryFn: () => getEmployeesApi(),
+    queryFn: () => getEmployeeListApi(),
   });
 
   return (
