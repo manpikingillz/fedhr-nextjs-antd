@@ -1,18 +1,55 @@
 import { Button, Form, Input, Select, DatePicker } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { EmployeeDetail, EmployeeUpdateData, PersonalInformationFormProps } from './types';
+import {
+  EmployeeUpdateData,
+  PersonalInformationFormProps,
+} from './types';
 import { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { useUpdateEmployeeMutation } from './mutations';
+import { useQuery } from '@tanstack/react-query';
+import { getCountryListApi } from '@/app/api/country-api';
+import { CountryListData } from '@/app/api/country-types';
 
 const { Option } = Select;
 
 export function PersonalInformationForm({
   employee,
 }: PersonalInformationFormProps) {
+  // Form hooks
   const [form] = Form.useForm();
-  const params = useParams()
 
+  // router hooks
+  const params = useParams();
+
+  // FETCH DATA
+  // Construct a useQuery hook that will fetch the country data
+  // using the getCountryListApi function. Follow the notes example
+
+  const {
+    data: countries,
+    error: errorCountries,
+    isFetching: isFetchingCountries,
+    isLoading: isLoadingCountries,
+    status: statusNotes,
+  } = useQuery<CountryListData[]>({
+    queryKey: ['country-list'],
+    queryFn: () => getCountryListApi(),
+  });
+
+  useEffect(() => {
+    handleSetFieldValue();
+  }, [employee]);
+
+  // MUTATIONS
+  // Update Employee Mutation
+  const updateEmployeeMutation = useUpdateEmployeeMutation();
+  const savePersonalInformationHandler = (employee: EmployeeUpdateData) => {
+    const employeeId = parseInt(params.employeeId);
+    updateEmployeeMutation.mutate({ data: employee, id: employeeId });
+  };
+
+  // FORM Functions
   const handleSetFieldValue = () => {
     form.setFieldsValue({
       first_name: employee?.first_name,
@@ -29,16 +66,25 @@ export function PersonalInformationForm({
     });
   };
 
-  useEffect(() => {
-    handleSetFieldValue();
-  }, [employee]);
+  const countryOptions = () => {
+    return countries?.map((country: any) => ({
+      value: country.id,
+      label: country.country_name,
+    }));
+  };
 
-  const updateEmployeeMutation = useUpdateEmployeeMutation()
-  const savePersonalInformationHandler = (employee: EmployeeUpdateData) => {
-    console.log('Received values of form: ', employee);
-    console.log('params: ', params)
-    const employeeId = parseInt(params.employeeId)
-    updateEmployeeMutation.mutate({data: employee, id: employeeId, })
+  const genderOptions = () => {
+    return [
+      { value: 'MALE', label: 'Male' },
+      { value: 'FEMALE', label: 'Female' },
+    ];
+  };
+
+  const maritalStatusOptions = () => {
+    return [
+      { value: 'SINGLE', label: 'Single' },
+      { value: 'MARRIED', label: 'Married' },
+    ];
   };
 
   return (
@@ -73,10 +119,11 @@ export function PersonalInformationForm({
           <Input prefix={<UserOutlined />} placeholder="Preferred Name" />
         </Form.Item>
         <Form.Item label="Gender" name="gender">
-          <Select placeholder="Select gender" className="w-full">
-            <Option value="MALE">Male</Option>
-            <Option value="FEMALE">Female</Option>
-          </Select>
+          <Select
+            placeholder="Select gender"
+            className="w-full"
+            options={genderOptions()}
+          />
         </Form.Item>
         {/* <Form.Item label="DatePicker">
           <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
@@ -85,16 +132,18 @@ export function PersonalInformationForm({
 
       <div className="w-1/2 pl-4">
         <Form.Item label="Marital Status" name="marital_status">
-          <Select placeholder="Select marital status" className="w-full">
-            <Option value="SINGLE">Single</Option>
-            <Option value="MARRIED">Married</Option>
-          </Select>
+          <Select
+            placeholder="Select marital status"
+            className="w-full"
+            options={maritalStatusOptions()}
+          />
         </Form.Item>
         <Form.Item label="Nationality" name="nationality">
-          <Select placeholder="Select country" className="w-full">
-            <Option value="country1">Country 1</Option>
-            <Option value="country2">Country 2</Option>
-          </Select>
+          <Select
+            placeholder="Select country"
+            className="w-full"
+            options={countryOptions()}
+          />
         </Form.Item>
         <Form.Item label="SSN" name="social_security_number">
           <Input placeholder="Social Security Number" />
