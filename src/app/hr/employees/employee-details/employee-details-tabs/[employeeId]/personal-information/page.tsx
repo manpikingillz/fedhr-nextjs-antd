@@ -10,7 +10,7 @@ import {
 import Education from './education/Education';
 import { useQuery } from '@tanstack/react-query';
 import { EmployeeDetail } from './types';
-import { getEmployee } from './api';
+import { getEmployeeApi } from './api';
 import { useParams } from 'next/navigation';
 import VisaInformation from './visa/Visa';
 import * as dayjs from 'dayjs';
@@ -34,7 +34,7 @@ function PersonalInformation() {
     status: statusEmployee,
   } = useQuery<EmployeeDetail>({
     queryKey: ['employee', params.employeeId],
-    queryFn: () => getEmployee(parseInt(params.employeeId)),
+    queryFn: () => getEmployeeApi(parseInt(params.employeeId)),
   });
 
   const onEditPersonalInformationHandler = () => {
