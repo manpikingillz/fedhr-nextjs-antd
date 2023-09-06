@@ -1,14 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Form, Input, Select, DatePicker, Modal, Card } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-// import { EmployeeUpdateData, PersonalInformationFormProps } from './types';
 import { useParams } from 'next/navigation';
-// import { useUpdateEmployeeMutation } from './mutations';
 import { useQuery } from '@tanstack/react-query';
-import { getCountryListApi } from '@/app/api/country-api';
-import { CountryListData } from '@/app/api/country-types';
 import { EmployeeUpdateData } from '../types';
-import { useUpdateEmployeeMutation } from '../mutations';
+import { EducationAwardListData, EducationCreateData } from './types';
+import { getEducationAwardListApi } from './api';
+import { useCreateEducationMutation } from './mutations';
 
 const { Option } = Select;
 
@@ -19,6 +16,7 @@ const EducationCreateModal = ({
   isModelOpen: boolean;
   onModelClose: () => void;
 }) => {
+  const formRef = useRef(null);
   // Form hooks
   const [form] = Form.useForm();
 
@@ -30,14 +28,14 @@ const EducationCreateModal = ({
   // using the getCountryListApi function. Follow the notes example
 
   const {
-    data: countries,
-    error: errorCountries,
-    isFetching: isFetchingCountries,
-    isLoading: isLoadingCountries,
-    status: statusNotes,
-  } = useQuery<CountryListData[]>({
-    queryKey: ['country-list'],
-    queryFn: () => getCountryListApi(),
+    data: educationAwards,
+    error: errorEducationAwards,
+    isFetching: isFetchingEducationAwards,
+    isLoading: isLoadingEducationAwards,
+    status: statusEducationAwards,
+  } = useQuery<EducationAwardListData[]>({
+    queryKey: ['education_award-list'],
+    queryFn: () => getEducationAwardListApi(),
   });
 
   //   useEffect(() => {
@@ -46,10 +44,12 @@ const EducationCreateModal = ({
 
   // MUTATIONS
   // Update Employee Mutation
-  const updateEmployeeMutation = useUpdateEmployeeMutation();
-  const savePersonalInformationHandler = (employee: EmployeeUpdateData) => {
+  const createEducationMutation = useCreateEducationMutation();
+  const savePersonalInformationHandler = (education: EducationCreateData) => {
     const employeeId = parseInt(params.employeeId);
-    updateEmployeeMutation.mutate({ data: employee, id: employeeId });
+    education['employee'] = employeeId;
+    console.log('education: ', education)
+    createEducationMutation.mutate({data: education});
   };
 
   // FORM Functions
@@ -70,14 +70,17 @@ const EducationCreateModal = ({
   //   };
 
   const awardOptions = () => {
-    return countries?.map((country: any) => ({
-      value: country.id,
-      label: country.country_name,
+    return educationAwards?.map((educationAward: any) => ({
+      value: educationAward.id,
+      label: educationAward.education_award_name,
     }));
   };
 
   // Modal functions
   const handleOk = () => {
+    if (formRef.current) {
+      formRef.current.submit();
+    }
     onModelClose();
   };
 
@@ -98,6 +101,7 @@ const EducationCreateModal = ({
         <Card className='bg-gray-50'>
         <Form
         //   layout="vertical"
+          ref={formRef}
           name="education-create-form"
           form={form}
           onFinish={savePersonalInformationHandler}
