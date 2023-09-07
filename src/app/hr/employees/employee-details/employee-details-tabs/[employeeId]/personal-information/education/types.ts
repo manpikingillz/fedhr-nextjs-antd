@@ -1,5 +1,5 @@
 export type EducationListData = {
-  id: string;
+  id: number;
   employee: {
     id: number;
     first_name: string;
@@ -29,9 +29,7 @@ export type EducationCreateData = {
 export type EducationUpdateData = {
   employee: number;
   institution_name: string;
-  award: {
-    id: number;
-  };
+  award: number;
   major: string;
   start_date: string;
   end_date: string;
@@ -47,5 +45,5 @@ export type EducationFormProps = {
   isModelOpen: boolean;
   onModelClose: () => void;
   formInstance: any;
-  education: EducationUpdateData;
+  educationData: EducationListData;
 };

@@ -7,15 +7,19 @@ import {
   EducationAwardListData,
   EducationCreateData,
   EducationFormProps,
+  EducationUpdateData,
 } from './types';
 import { getEducationAwardListApi } from './api';
-import { useCreateEducationMutation } from './mutations';
+import {
+  useCreateEducationMutation,
+  useUpdateEducationMutation,
+} from './mutations';
 
 const EducationCreateUpdateModal = ({
   isModelOpen,
   onModelClose,
   formInstance,
-  education,
+  educationData,
 }: EducationFormProps) => {
   // Form hooks
   const formRef = useRef(null);
@@ -36,29 +40,46 @@ const EducationCreateUpdateModal = ({
   });
 
   useEffect(() => {
-    if (education) {
+    if (educationData) {
       handleSetFieldValue();
     }
-  }, [education]);
+  }, [educationData]);
 
   // MUTATIONS
   // Update Employee Mutation
   const createEducationMutation = useCreateEducationMutation();
-  const savePersonalInformationHandler = (education: EducationCreateData) => {
+  const updateEducationMutation = useUpdateEducationMutation();
+
+  const createEducation = (_education: EducationCreateData) => {
     const employeeId = parseInt(params.employeeId);
-    education['employee'] = employeeId;
-    createEducationMutation.mutate({ data: education });
+    _education['employee'] = employeeId;
+    createEducationMutation.mutate({ data: _education });
+  };
+
+  const updateEducation = (_education: EducationUpdateData) => {
+    _education['employee'] = educationData?.employee?.id;
+    updateEducationMutation.mutate({ data: _education, id: educationData?.id });
+  };
+
+  const savePersonalInformationHandler = (
+    _education: EducationCreateData | EducationUpdateData
+  ) => {
+    if (Object.keys(educationData).length) {
+      updateEducation(_education);
+    } else {
+      createEducation(_education);
+    }
   };
 
   // FORM Functions
   const handleSetFieldValue = () => {
     formInstance.setFieldsValue({
-      institution_name: education?.institution_name,
-      award: education?.award?.id,
-      major: education?.major,
-      start_date: education?.start_date,
-      end_date: education?.end_date,
-      score: education?.score,
+      institution_name: educationData?.institution_name,
+      award: educationData?.award?.id,
+      major: educationData?.major,
+      start_date: educationData?.start_date,
+      end_date: educationData?.end_date,
+      score: educationData?.score,
     });
   };
 

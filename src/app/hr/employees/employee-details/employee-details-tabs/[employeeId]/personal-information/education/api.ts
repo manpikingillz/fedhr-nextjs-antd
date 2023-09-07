@@ -2,6 +2,7 @@ import {
   EducationAwardListData,
   EducationCreateData,
   EducationListData,
+  EducationUpdateData,
 } from './types';
 import { api } from '@/utils/api-utils';
 
@@ -26,4 +27,14 @@ export async function createEducationApi({
   data: EducationCreateData;
 }) {
   return api('educations/create/', data);
+}
+
+export async function updateEducationApi({
+  data,
+  id,
+}: {
+  data: EducationUpdateData;
+  id: number;
+}) {
+  return api(`educations/${id}/update/`, data);
 }

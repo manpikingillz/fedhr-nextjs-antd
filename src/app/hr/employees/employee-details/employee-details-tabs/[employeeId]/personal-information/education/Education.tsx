@@ -14,7 +14,7 @@ import * as dayjs from 'dayjs';
 import EducationCreateUpdateModal from './EducationCreateUpdateModal';
 
 const createColumns = (
-  onModalOpen: (education_item: EducationUpdateData) => void
+  onModalOpen: (education_item: EducationListData) => void
 ): ColumnsType<EducationListData> => [
   {
     title: 'Institution',
@@ -70,8 +70,8 @@ const createColumns = (
 
 const Education = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [educationToEdit, setEducationToEdit] = useState<EducationUpdateData>(
-    {} as EducationUpdateData
+  const [educationToEdit, setEducationToEdit] = useState<EducationListData>(
+    {} as EducationListData
   );
   const [educationFormInstance] = Form.useForm();
 
@@ -90,7 +90,7 @@ const Education = () => {
   });
 
   const onModalOpenHandler = () => {
-    setEducationToEdit({} as EducationUpdateData);
+    setEducationToEdit({} as EducationListData);
     setIsModalOpen(true);
   };
 
@@ -98,7 +98,7 @@ const Education = () => {
     setIsModalOpen(false);
   };
 
-  const onModalEditOpenHandler = (_education: EducationUpdateData) => {
+  const onModalEditOpenHandler = (_education: EducationListData) => {
     setEducationToEdit(_education);
     setIsModalOpen(true);
   };
@@ -111,7 +111,7 @@ const Education = () => {
         formInstance={educationFormInstance}
         isModelOpen={isModalOpen}
         onModelClose={onModelCloseHandler}
-        education={educationToEdit}
+        educationData={educationToEdit}
       />
       <Button
         type="primary"
