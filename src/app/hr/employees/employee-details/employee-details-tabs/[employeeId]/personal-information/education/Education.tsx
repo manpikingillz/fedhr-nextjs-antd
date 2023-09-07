@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
-import { Button, Table } from 'antd';
+import { Button, Divider, Form, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { PlusCircleOutlined } from '@ant-design/icons';
+import {
+  PlusCircleOutlined,
+  EditTwoTone,
+  DeleteTwoTone,
+} from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { getEducationListApi } from './api';
-import { EducationListData } from './types';
-import * as dayjs from 'dayjs'
-import EducationCreateModal from './EducationCreateModal';
+import { EducationListData, EducationUpdateData } from './types';
+import * as dayjs from 'dayjs';
+import EducationCreateUpdateModal from './EducationCreateUpdateModal';
 
-
-const columns: ColumnsType<EducationListData> = [
+const createColumns = (
+  onModalOpen: (education_item: EducationUpdateData) => void
+): ColumnsType<EducationListData> => [
   {
     title: 'Institution',
     dataIndex: 'institution_name',
@@ -31,18 +36,44 @@ const columns: ColumnsType<EducationListData> = [
     title: 'Start Date',
     key: 'start_date',
     dataIndex: 'start_date',
-    render: (start_date: string) => <span>{dayjs(start_date).format('MMM D, YYYY')}</span>,
+    render: (start_date: string) => (
+      <span>{dayjs(start_date).format('MMM D, YYYY')}</span>
+    ),
+  },
+  {
+    title: 'End Date',
+    key: 'end_date',
+    dataIndex: 'end_date',
+    render: (end_date: string) => (
+      <span>{dayjs(end_date).format('MMM D, YYYY')}</span>
+    ),
   },
   {
     title: 'Score',
     key: 'score',
     dataIndex: 'score',
   },
+  {
+    title: 'Action',
+    render: (education) => (
+      <span>
+        <EditTwoTone
+          className="cursor-pointer"
+          onClick={() => onModalOpen(education)}
+        />
+        <Divider type="vertical" />
+        <DeleteTwoTone className="cursor-pointer" />
+      </span>
+    ),
+  },
 ];
-
 
 const Education = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [educationToEdit, setEducationToEdit] = useState<EducationUpdateData>(
+    {} as EducationUpdateData
+  );
+  const [educationFormInstance] = Form.useForm();
 
   const params = useParams();
 
@@ -59,16 +90,29 @@ const Education = () => {
   });
 
   const onModalOpenHandler = () => {
-    setIsModalOpen(true)
-  }
+    setEducationToEdit({} as EducationUpdateData);
+    setIsModalOpen(true);
+  };
 
   const onModelCloseHandler = () => {
-    setIsModalOpen(false)
-  }
+    setIsModalOpen(false);
+  };
+
+  const onModalEditOpenHandler = (_education: EducationUpdateData) => {
+    setEducationToEdit(_education);
+    setIsModalOpen(true);
+  };
+
+  const columns = createColumns(onModalEditOpenHandler);
 
   return (
     <div className="flex flex-col">
-      <EducationCreateModal isModelOpen={isModalOpen} onModelClose={onModelCloseHandler}/>
+      <EducationCreateUpdateModal
+        formInstance={educationFormInstance}
+        isModelOpen={isModalOpen}
+        onModelClose={onModelCloseHandler}
+        education={educationToEdit}
+      />
       <Button
         type="primary"
         className="self-end mb-2"
