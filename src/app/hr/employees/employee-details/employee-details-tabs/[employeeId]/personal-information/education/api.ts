@@ -38,3 +38,7 @@ export async function updateEducationApi({
 }) {
   return api(`educations/${id}/update/`, data);
 }
+
+export async function deleteEducationApi(id: number) {
+  return api(`educations/${id}/delete/`, id);
+}

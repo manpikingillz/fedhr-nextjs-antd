@@ -6,15 +6,17 @@ import {
   EditTwoTone,
   DeleteTwoTone,
 } from '@ant-design/icons';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { getEducationListApi } from './api';
 import { EducationListData, EducationUpdateData } from './types';
 import * as dayjs from 'dayjs';
 import EducationCreateUpdateModal from './EducationCreateUpdateModal';
+import { useDeleteEducationMutation } from './mutations';
 
 const createColumns = (
-  onModalOpen: (education_item: EducationListData) => void
+  onModalOpen?: (education_item: EducationListData) => void,
+  onDelete?: (id: number) => void
 ): ColumnsType<EducationListData> => [
   {
     title: 'Institution',
@@ -62,7 +64,7 @@ const createColumns = (
           onClick={() => onModalOpen(education)}
         />
         <Divider type="vertical" />
-        <DeleteTwoTone className="cursor-pointer" />
+        <DeleteTwoTone className="cursor-pointer"  onClick={() => onDelete(education.id)}/>
       </span>
     ),
   },
@@ -103,7 +105,15 @@ const Education = () => {
     setIsModalOpen(true);
   };
 
-  const columns = createColumns(onModalEditOpenHandler);
+  const queryClient = useQueryClient();
+
+  const deleteEducationMutation = useDeleteEducationMutation()
+  const onDeleteHandler = (id: number) => {
+    deleteEducationMutation.mutate(id)
+    queryClient.refetchQueries(['educations']);
+  };
+
+  const columns = createColumns(onModalEditOpenHandler, onDeleteHandler);
 
   return (
     <div className="flex flex-col">
