@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Divider, Form, Table } from 'antd';
+import { Button, Divider, Form, Popconfirm, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import {
   PlusCircleOutlined,
@@ -64,7 +64,15 @@ const createColumns = (
           onClick={() => onModalOpen(education)}
         />
         <Divider type="vertical" />
-        <DeleteTwoTone className="cursor-pointer"  onClick={() => onDelete(education.id)}/>
+        <Popconfirm
+          title="Delete"
+          description="Are you sure to delete?"
+          onConfirm={() => onDelete(education.id)}
+          okText="Yes"
+          cancelText="No"
+        >
+          <DeleteTwoTone className="cursor-pointer" />
+        </Popconfirm>
       </span>
     ),
   },
@@ -107,9 +115,9 @@ const Education = () => {
 
   const queryClient = useQueryClient();
 
-  const deleteEducationMutation = useDeleteEducationMutation()
+  const deleteEducationMutation = useDeleteEducationMutation();
   const onDeleteHandler = (id: number) => {
-    deleteEducationMutation.mutate(id)
+    deleteEducationMutation.mutate(id);
     queryClient.refetchQueries(['educations']);
   };
 
