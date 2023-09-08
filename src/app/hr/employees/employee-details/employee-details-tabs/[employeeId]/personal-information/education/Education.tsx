@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Divider, Form, Popconfirm, Table } from 'antd';
+import { Button, Divider, Empty, Form, Popconfirm, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import {
   PlusCircleOutlined,
@@ -13,6 +13,7 @@ import { EducationListData, EducationUpdateData } from './types';
 import * as dayjs from 'dayjs';
 import EducationCreateUpdateModal from './EducationCreateUpdateModal';
 import { useDeleteEducationMutation } from './mutations';
+import { ErrorPage, ErrorMessage } from '@/app/error/errorPage';
 
 const createColumns = (
   onModalOpen?: (education_item: EducationListData) => void,
@@ -140,7 +141,17 @@ const Education = () => {
         Add
       </Button>
 
-      <Table columns={columns} dataSource={educations} pagination={false} />
+      {errorEducations ? (
+        <ErrorMessage error={errorEducations} />
+      ) : (
+        <Table
+          columns={columns}
+          dataSource={educations}
+          pagination={false}
+          loading={isFetchingEducations || isLoadingEducations}
+          locale={{ emptyText: <Empty className="pt-3" /> }}
+        />
+      )}
     </div>
   );
 };
