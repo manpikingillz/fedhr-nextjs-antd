@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Form, Input, Select, Button } from 'antd';
+import { Card, Form, Input, Select, Button, Skeleton } from 'antd';
 import React, { useState } from 'react';
 import {
   CalendarOutlined,
@@ -22,11 +22,13 @@ import { AddressInfoView } from './AddressInfoView';
 import { AddressInfoForm } from './AddressInfoForm';
 import { SocialLinksInfoView } from './SocialLinksInfoView';
 import { SocialLinksInfoForm } from './SocialLinksInfoForm';
+import { ErrorPage } from '@/app/error/errorPage';
 
 const { Option } = Select;
 
 function PersonalInformation() {
-  const [isEditPersonalInformation, setIsEditPersonalInformation] = useState(false);
+  const [isEditPersonalInformation, setIsEditPersonalInformation] =
+    useState(false);
   const [isEditContactInfo, setIsEditContactInfo] = useState(false);
   const [isEditAddressInfo, setIsEditAddressInfo] = useState(false);
   const [isEditSocialLinksInfo, setIsEditSocialLinksInfo] = useState(false);
@@ -59,116 +61,121 @@ function PersonalInformation() {
 
   const onEditSocialLinksInfoHandler = () => {
     setIsEditSocialLinksInfo(!isEditSocialLinksInfo);
-  }
+  };
 
   return (
     <>
-      <Card
-        title="Basic Info"
-        bordered={true}
-        size="small"
-        headStyle={{ backgroundColor: '#F2F2F2' }}
-        extra={
-          <a
-            onClick={onEditPersonalInformationHandler}
-            className="cursor-pointer"
+      {errorEmployee ? (
+        <ErrorPage error={errorEmployee} />
+      ) : (
+        <div>
+          <Card
+            title="Basic Info"
+            bordered={true}
+            size="small"
+            headStyle={{ backgroundColor: '#F2F2F2' }}
+            extra={
+              <a
+                onClick={onEditPersonalInformationHandler}
+                className="cursor-pointer"
+              >
+                <EditOutlined className="mr-2" />
+                Edit
+              </a>
+            }
+            loading={isLoadingEmployee || isFetchingEmployee}
           >
-            <EditOutlined className="mr-2" />
-            Edit
-          </a>
-        }
-      >
-        {isEditPersonalInformation ? (
-          <PersonalInformationForm employee={employee} />
-        ) : (
-          <PersonalInformationView employee={employee} />
-        )}
-      </Card>
+            {isEditPersonalInformation ? (
+              <PersonalInformationForm employee={employee} />
+            ) : (
+              <PersonalInformationView employee={employee} />
+            )}
+          </Card>
 
-      <Card
-        title="Contact Info"
-        bordered={true}
-        size="small"
-        headStyle={{ backgroundColor: '#F2F2F2' }}
-        className="mt-3"
-        extra={
-          <a
-            onClick={onEditContactInfoHandler}
-            className="cursor-pointer"
+          <Card
+            title="Contact Info"
+            bordered={true}
+            size="small"
+            headStyle={{ backgroundColor: '#F2F2F2' }}
+            className="mt-3"
+            extra={
+              <a onClick={onEditContactInfoHandler} className="cursor-pointer">
+                <EditOutlined className="mr-2" />
+                Edit
+              </a>
+            }
+            loading={isLoadingEmployee || isFetchingEmployee}
           >
-            <EditOutlined className="mr-2" />
-            Edit
-          </a>
-        }
-      >
-        {isEditContactInfo ? (
-          <ContactInfoForm employee={employee}/>
-        ) : (
-          <ContactInfoView employee={employee}/>
-        )}
-      </Card>
-      <Card
-        title="Address Info"
-        bordered={true}
-        size="small"
-        headStyle={{ backgroundColor: '#F2F2F2' }}
-        className="mt-3"
-        extra={
-          <a
-            onClick={onEditAddressInfoHandler}
-            className="cursor-pointer"
+            {isEditContactInfo ? (
+              <ContactInfoForm employee={employee} />
+            ) : (
+              <ContactInfoView employee={employee} />
+            )}
+          </Card>
+          <Card
+            title="Address Info"
+            bordered={true}
+            size="small"
+            headStyle={{ backgroundColor: '#F2F2F2' }}
+            className="mt-3"
+            extra={
+              <a onClick={onEditAddressInfoHandler} className="cursor-pointer">
+                <EditOutlined className="mr-2" />
+                Edit
+              </a>
+            }
+            loading={isLoadingEmployee || isFetchingEmployee}
           >
-            <EditOutlined className="mr-2" />
-            Edit
-          </a>
-        }
-      >
-        {isEditAddressInfo ? (
-          <AddressInfoForm employee={employee}/>
-        ) : (
-          <AddressInfoView employee={employee}/>
-        )}
-      </Card>
-      <Card
-        title="Social Links"
-        bordered={true}
-        size="small"
-        headStyle={{ backgroundColor: '#F2F2F2' }}
-        className="mt-3"
-        extra={
-          <a
-            onClick={onEditSocialLinksInfoHandler}
-            className="cursor-pointer"
+            {isEditAddressInfo ? (
+              <AddressInfoForm employee={employee} />
+            ) : (
+              <AddressInfoView employee={employee} />
+            )}
+          </Card>
+          <Card
+            title="Social Links"
+            bordered={true}
+            size="small"
+            headStyle={{ backgroundColor: '#F2F2F2' }}
+            className="mt-3"
+            extra={
+              <a
+                onClick={onEditSocialLinksInfoHandler}
+                className="cursor-pointer"
+              >
+                <EditOutlined className="mr-2" />
+                Edit
+              </a>
+            }
+            loading={isLoadingEmployee || isFetchingEmployee}
           >
-            <EditOutlined className="mr-2" />
-            Edit
-          </a>
-        }
-      >
-        {isEditSocialLinksInfo ? (
-          <SocialLinksInfoForm employee={employee}/>
-        ) : (
-          <SocialLinksInfoView employee={employee}/>
-        )}
-      </Card>
-      <Card
-        title="Education"
-        bordered={true}
-        size="small"
-        headStyle={{ backgroundColor: '#F2F2F2' }}
-        className="mt-3"
-      >
-        <Education />
-      </Card>
-      <Card
-        title="Visa Information"
-        bordered={true}
-        size="small"
-        headStyle={{ backgroundColor: '#F2F2F2' }}
-        className="mt-3"
-      >
-        <VisaInformation />
-      </Card>
+            {isEditSocialLinksInfo ? (
+              <SocialLinksInfoForm employee={employee} />
+            ) : (
+              <SocialLinksInfoView employee={employee} />
+            )}
+          </Card>
+
+          <Card
+            title="Education"
+            bordered={true}
+            size="small"
+            headStyle={{ backgroundColor: '#F2F2F2' }}
+            className="mt-3"
+          >
+            <Education />
+          </Card>
+          <Card
+            title="Visa Information"
+            bordered={true}
+            size="small"
+            headStyle={{ backgroundColor: '#F2F2F2' }}
+            className="mt-3"
+          >
+            <VisaInformation />
+          </Card>
+        </div>
+      )}
     </>
   );
 }
