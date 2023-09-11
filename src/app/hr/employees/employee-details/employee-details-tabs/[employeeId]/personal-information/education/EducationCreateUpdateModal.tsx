@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Form, Input, Select, DatePicker, Modal, Card } from 'antd';
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
+import * as dayjs from 'dayjs';
 
 import {
   EducationAwardListData,
@@ -53,6 +54,9 @@ const EducationCreateUpdateModal = ({
   const createEducation = (_education: EducationCreateData) => {
     const employeeId = parseInt(params.employeeId);
     _education['employee'] = employeeId;
+    _education['start_date'] = dayjs(_education['start_date']).format('YYYY-MM-DD')
+    _education['end_date'] = dayjs(_education['end_date']).format('YYYY-MM-DD')
+    console.log('education: ', _education)
     createEducationMutation.mutate({ data: _education });
   };
 
@@ -96,12 +100,16 @@ const EducationCreateUpdateModal = ({
     if (formRef.current) {
       formRef.current.submit();
     }
-    onModelClose();
+
+    if (createEducationMutation.isSuccess || updateEducationMutation.isSuccess) {
+      onModelClose();
+    }
   };
 
   const handleCancel = () => {
     onModelClose();
   };
+
 
   return (
     <>
@@ -148,11 +156,10 @@ const EducationCreateUpdateModal = ({
               <Input placeholder="Major" />
             </Form.Item>
             <Form.Item label="Start Date" name="start_date">
-              {/* <Input placeholder="Start Date" /> */}
-              <DatePicker />
+              <DatePicker className='w-full' />
             </Form.Item>
             <Form.Item label="End Date" name="end_date">
-              <Input placeholder="End Date" />
+              <DatePicker className='w-full' />
             </Form.Item>
             <Form.Item label="Score" name="score">
               <Input placeholder="Score" />
