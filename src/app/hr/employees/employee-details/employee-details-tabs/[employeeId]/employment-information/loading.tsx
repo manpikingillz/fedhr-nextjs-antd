@@ -1,3 +1,5 @@
+'use client'
+
 import LoadingComponent from '@/app/components/LoadingComponent';
 
 export default function Loading() {

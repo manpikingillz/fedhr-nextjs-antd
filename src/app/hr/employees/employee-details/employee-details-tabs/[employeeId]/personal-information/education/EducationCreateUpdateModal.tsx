@@ -148,7 +148,8 @@ const EducationCreateUpdateModal = ({
               <Input placeholder="Major" />
             </Form.Item>
             <Form.Item label="Start Date" name="start_date">
-              <Input placeholder="Start Date" />
+              {/* <Input placeholder="Start Date" /> */}
+              <DatePicker />
             </Form.Item>
             <Form.Item label="End Date" name="end_date">
               <Input placeholder="End Date" />
