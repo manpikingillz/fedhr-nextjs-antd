@@ -112,6 +112,7 @@ const EducationCreateUpdateModal = ({
         open={isModelOpen}
         onOk={handleOk}
         onCancel={handleCancel}
+        confirmLoading={createEducationMutation.isLoading || updateEducationMutation.isLoading}
       >
         <Card className="bg-gray-50">
           <Form

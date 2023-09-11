@@ -114,7 +114,7 @@ export function AddressInfoForm({
 
       <div className="w-full flex justify-end">
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={updateEmployeeMutation.isLoading}>
             Save
           </Button>
         </Form.Item>
