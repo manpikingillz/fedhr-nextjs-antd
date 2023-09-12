@@ -1,10 +1,9 @@
 'use client';
 
-import axios from '@/utils/axios';
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Table } from 'antd';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import type { ColumnsType } from 'antd/es/table';
 import { EmployeeListData } from '../employee-details/employee-details-tabs/[employeeId]/personal-information/types';
@@ -21,7 +20,7 @@ function Overview() {
       key: 'first_name',
       render: (text: string, employee: any) => (
         <Link
-          href={`/hr/employees/employee-details/employee-details-tabs/${employee.id}`}
+          href={`/hr/employees/employee-details/employee-details-tabs/${employee.id}/personal-information`}
         >
           {text}
         </Link>
