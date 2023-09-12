@@ -7,7 +7,7 @@ import {
 import { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { useUpdateEmployeeMutation } from './mutations';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getCountryListApi } from '@/app/api/country-api';
 import { CountryListData } from '@/app/api/country-types';
 
@@ -15,6 +15,7 @@ const { Option } = Select;
 
 export function PersonalInformationForm({
   employee,
+  refetchCallback
 }: PersonalInformationFormProps) {
   // Form hooks
   const [form] = Form.useForm();
@@ -47,6 +48,7 @@ export function PersonalInformationForm({
   const savePersonalInformationHandler = (employee: EmployeeUpdateData) => {
     const employeeId = parseInt(params.employeeId);
     updateEmployeeMutation.mutate({ data: employee, id: employeeId });
+    refetchCallback()
   };
 
   // FORM Functions

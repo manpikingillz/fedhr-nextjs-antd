@@ -8,7 +8,7 @@ import {
   EditOutlined,
 } from '@ant-design/icons';
 import Education from './education/Education';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { EmployeeDetailData } from './types';
 import { getEmployeeApi } from './api';
 import { useParams } from 'next/navigation';
@@ -43,9 +43,10 @@ function PersonalInformation() {
     isFetching: isFetchingEmployee,
     isLoading: isLoadingEmployee,
     status: statusEmployee,
+    refetch
   } = useQuery<EmployeeDetailData>({
     queryKey: ['employee', params.employeeId],
-    queryFn: () => getEmployeeApi(parseInt(params.employeeId)),
+    queryFn: () => getEmployeeApi(parseInt(params.employeeId))
   });
 
   //Other functions
@@ -62,6 +63,11 @@ function PersonalInformation() {
   const onEditSocialLinksInfoHandler = () => {
     setIsEditSocialLinksInfo(!isEditSocialLinksInfo);
   };
+  const queryClient = useQueryClient()
+  const refetchCallback = () => {
+    refetch()
+    setIsEditPersonalInformation(!isEditPersonalInformation);
+  }
 
   return (
     <>
@@ -86,7 +92,7 @@ function PersonalInformation() {
             loading={isLoadingEmployee || isFetchingEmployee}
           >
             {isEditPersonalInformation ? (
-              <PersonalInformationForm employee={employee} />
+              <PersonalInformationForm employee={employee} refetchCallback={refetchCallback} />
             ) : (
               <PersonalInformationView employee={employee} />
             )}

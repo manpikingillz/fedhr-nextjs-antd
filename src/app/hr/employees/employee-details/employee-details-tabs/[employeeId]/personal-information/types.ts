@@ -30,7 +30,8 @@ export type EmployeeDetailData = {
 }
 
 export type PersonalInformationFormProps = {
-    employee: EmployeeDetailData
+    employee: EmployeeDetailData,
+    refetchCallback: () => void
 }
 
 export type EmployeeUpdateData = {
