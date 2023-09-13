@@ -10,7 +10,7 @@ export type NoteListData = {
   };
 };
 
-export type NotesData = {
+export type NotePaginatedListData = {
   limit: number,
   offset: number,
   count: number,

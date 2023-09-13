@@ -1,6 +1,12 @@
-import { useMutation, UseMutationOptions } from '@tanstack/react-query';
 import { createNoteApi, deleteNoteApi, updateNoteApi } from './api';
+import { customMutation } from '@/utils/mutation-utils';
 
+// Create custom mutation hooks using the reusable function
+export const useCreateNoteMutation = customMutation(createNoteApi);
+export const useUpdateNoteMutation = customMutation(updateNoteApi);
+export const useDeleteNoteMutation = customMutation(deleteNoteApi);
+
+// This is the boiler plate we would have if we didn't create customMutation
 
 // export const useCreateNoteMutation = (
 //   onSuccessCallback?: () => void,
@@ -63,26 +69,5 @@ import { createNoteApi, deleteNoteApi, updateNoteApi } from './api';
 // };
 
 
-// Define a reusable function for creating custom mutation hooks
-const customNoteMutation = <TData, TVariables>(
-  mutationFn: (variables: TVariables) => Promise<TData>,
-  options?: UseMutationOptions<TData>
-) => {
-  return (
-    onSuccessCallback?: () => void,
-    onErrorCallback?: (error: any) => void
-  ) => {
-    const mutation = useMutation(mutationFn, {
-      onError: onErrorCallback,
-      onSuccess: onSuccessCallback,
-      ...options, // You can pass additional mutation options here
-    });
 
-    return mutation;
-  };
-};
 
-// Create custom mutation hooks using the reusable function
-export const useCreateNoteMutation = customNoteMutation(createNoteApi);
-export const useUpdateNoteMutation = customNoteMutation(updateNoteApi);
-export const useDeleteNoteMutation = customNoteMutation(deleteNoteApi);

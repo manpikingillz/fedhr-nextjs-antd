@@ -9,7 +9,6 @@ import {
   Form,
   Pagination,
   Popconfirm,
-  Result,
   Row,
   Skeleton,
   Input,
@@ -24,8 +23,8 @@ import {
   useUpdateNoteMutation,
   useDeleteNoteMutation,
 } from './mutations';
-import { NoteListData, NotesData } from './types';
-import { getNotesApi } from './api';
+import { NoteListData, NotePaginatedListData } from './types';
+import { getNoteListApi } from './api';
 import NoteForm from './NoteForm';
 import { useParams } from 'next/navigation';
 import ErrorPage from '@/app/error/errorPage';
@@ -52,11 +51,12 @@ function Notes() {
   // Pagination states
   const [offset, setOffset] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState(1);
-  // Form hoos
+
+  // Form hooks
   const [createForm] = Form.useForm();
   const [updateForm] = Form.useForm();
 
-  // router hooks
+  // Router hooks
   const params = useParams();
 
   const limit = 5;
@@ -70,11 +70,11 @@ function Notes() {
     isLoading: isLoadingNotes,
     status: statusNotes,
     refetch,
-  } = useQuery<NotesData>({
+  } = useQuery<NotePaginatedListData>({
     //currentPage is so that we can have unique cache key since
     //queryKey is used for caching as well.
     queryKey: ['notes', currentPage],
-    queryFn: () => getNotesApi(limit, offset, noteSearch, parseInt(params.employeeId)),
+    queryFn: () => getNoteListApi(limit, offset, noteSearch, parseInt(params.employeeId)),
   });
 
   // MUTATIONS ////////////////////////////////////
