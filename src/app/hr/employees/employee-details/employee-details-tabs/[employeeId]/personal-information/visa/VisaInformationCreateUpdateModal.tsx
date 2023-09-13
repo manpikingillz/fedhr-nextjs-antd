@@ -87,6 +87,19 @@ const VisaInformationCreateUpdateModal = ({
     _visaInformation: VisaInformationUpdateData
   ) => {
     _visaInformation['employee'] = visaInformationData?.employee?.id;
+
+    _visaInformation['date'] = _visaInformation['date']? dayjs(_visaInformation['date']).format(
+      'YYYY-MM-DD'
+    ): null;
+
+    _visaInformation['issued_date'] = _visaInformation['issued_date'] ? dayjs(
+      _visaInformation['issued_date']
+    ).format('YYYY-MM-DD') : null;
+
+    _visaInformation['expiration_date'] = _visaInformation['expiration_date'] ? dayjs(
+      _visaInformation['expiration_date']
+    ).format('YYYY-MM-DD') : null;
+
     updateVisaInformationMutation.mutate({
       data: _visaInformation,
       id: visaInformationData?.id,
@@ -106,11 +119,11 @@ const VisaInformationCreateUpdateModal = ({
   // FORM Functions
   const handleSetFieldValue = () => {
     formInstance.setFieldsValue({
-      date: visaInformationData?.date,
+      date: dayjs(visaInformationData?.date),
       visa: visaInformationData?.visa?.id,
-      issued_date: visaInformationData?.issued_date,
-      issuing_country: visaInformationData?.issuing_country,
-      expiration_date: visaInformationData?.expiration_date,
+      issued_date: dayjs(visaInformationData?.issued_date),
+      issuing_country: visaInformationData?.issuing_country.id,
+      expiration_date: dayjs(visaInformationData?.expiration_date),
       note: visaInformationData?.note,
     });
   };

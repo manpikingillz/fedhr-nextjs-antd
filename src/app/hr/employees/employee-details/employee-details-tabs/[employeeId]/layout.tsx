@@ -67,7 +67,6 @@ export default function EmployeesLayout({children}: {children: React.ReactNode})
     const employeeId = parseInt(params.employeeId)
 
     useEffect(() => {
-      console.log('params, router, path: ', params, router, path)
         if (path.includes('/hr/employees')) {
             const pathKey = path.split('/').at(-1)
             setCurrent(pathKey)
