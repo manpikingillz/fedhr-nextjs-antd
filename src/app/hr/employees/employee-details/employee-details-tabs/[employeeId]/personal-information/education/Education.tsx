@@ -126,12 +126,13 @@ const Education = () => {
 
   return (
     <div className="flex flex-col">
+      {isModalOpen &&
       <EducationCreateUpdateModal
         formInstance={educationFormInstance}
         isModelOpen={isModalOpen}
         onModelClose={onModelCloseHandler}
         educationData={educationToEdit}
-      />
+      />}
       <Button
         type="primary"
         className="self-end mb-2"

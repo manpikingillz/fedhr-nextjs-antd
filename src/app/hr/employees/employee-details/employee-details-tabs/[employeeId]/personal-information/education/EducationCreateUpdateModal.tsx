@@ -54,13 +54,15 @@ const EducationCreateUpdateModal = ({
   const createEducation = (_education: EducationCreateData) => {
     const employeeId = parseInt(params.employeeId);
     _education['employee'] = employeeId;
-    _education['start_date'] = dayjs(_education['start_date']).format('YYYY-MM-DD')
-    _education['end_date'] = dayjs(_education['end_date']).format('YYYY-MM-DD')
+    _education['start_date'] = dayjs(_education['start_date']).format('YYYY-MM-DD');
+    _education['end_date'] = dayjs(_education['end_date']).format('YYYY-MM-DD');
     createEducationMutation.mutate({ data: _education });
   };
 
   const updateEducation = (_education: EducationUpdateData) => {
     _education['employee'] = educationData?.employee?.id;
+    _education['start_date'] = _education['start_date'] ? dayjs(_education['start_date']).format('YYYY-MM-DD'): null;
+    _education['end_date'] = _education['end_date'] ? dayjs(_education['end_date']).format('YYYY-MM-DD'): null;
     updateEducationMutation.mutate({ data: _education, id: educationData?.id });
   };
 
@@ -80,8 +82,8 @@ const EducationCreateUpdateModal = ({
       institution_name: educationData?.institution_name,
       award: educationData?.award?.id,
       major: educationData?.major,
-      start_date: educationData?.start_date,
-      end_date: educationData?.end_date,
+      start_date: dayjs(educationData?.start_date),
+      end_date: dayjs(educationData?.end_date),
       score: educationData?.score,
     });
   };
@@ -108,7 +110,6 @@ const EducationCreateUpdateModal = ({
   const handleCancel = () => {
     onModelClose();
   };
-
 
   return (
     <>
