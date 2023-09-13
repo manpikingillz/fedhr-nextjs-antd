@@ -5,17 +5,17 @@ export type VisaInformationListData = {
     first_name: string;
     last_name: string;
   };
-  date: string;
+  date?: string;
   visa: {
     id: number;
     visa_name: string;
   };
-  issued_date: string;
+  issued_date?: string;
   issuing_country: {
     id: number;
     country_name: string;
   };
-  expiration_date: string;
+  expiration_date?: string;
   note: string;
 };
 

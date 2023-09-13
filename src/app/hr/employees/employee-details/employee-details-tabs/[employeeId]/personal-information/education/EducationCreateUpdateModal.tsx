@@ -82,8 +82,8 @@ const EducationCreateUpdateModal = ({
       institution_name: educationData?.institution_name,
       award: educationData?.award?.id,
       major: educationData?.major,
-      start_date: dayjs(educationData?.start_date),
-      end_date: dayjs(educationData?.end_date),
+      start_date: educationData?.start_date ? dayjs(educationData?.start_date) : null,
+      end_date: educationData?.end_date ? dayjs(educationData?.end_date) : null,
       score: educationData?.score,
     });
   };

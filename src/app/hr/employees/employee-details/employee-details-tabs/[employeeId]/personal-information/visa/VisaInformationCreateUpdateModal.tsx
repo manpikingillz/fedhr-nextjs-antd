@@ -119,11 +119,11 @@ const VisaInformationCreateUpdateModal = ({
   // FORM Functions
   const handleSetFieldValue = () => {
     formInstance.setFieldsValue({
-      date: dayjs(visaInformationData?.date),
+      date: visaInformationData?.date ? dayjs(visaInformationData?.date) : null,
       visa: visaInformationData?.visa?.id,
-      issued_date: dayjs(visaInformationData?.issued_date),
-      issuing_country: visaInformationData?.issuing_country.id,
-      expiration_date: dayjs(visaInformationData?.expiration_date),
+      issued_date: visaInformationData?.issued_date ? dayjs(visaInformationData?.issued_date) : null,
+      issuing_country: visaInformationData?.issuing_country?.id,
+      expiration_date: visaInformationData?.expiration_date ? dayjs(visaInformationData?.expiration_date) : null,
       note: visaInformationData?.note,
     });
   };

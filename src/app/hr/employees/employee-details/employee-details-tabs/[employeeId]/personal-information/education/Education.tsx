@@ -40,7 +40,7 @@ const createColumns = (
     key: 'start_date',
     dataIndex: 'start_date',
     render: (start_date: string) => (
-      <span>{dayjs(start_date).format('MMM D, YYYY')}</span>
+      <span>{start_date ? dayjs(start_date).format('MMM D, YYYY') : null}</span>
     ),
   },
   {
@@ -48,7 +48,7 @@ const createColumns = (
     key: 'end_date',
     dataIndex: 'end_date',
     render: (end_date: string) => (
-      <span>{dayjs(end_date).format('MMM D, YYYY')}</span>
+      <span>{end_date ? dayjs(end_date).format('MMM D, YYYY') : null}</span>
     ),
   },
   {

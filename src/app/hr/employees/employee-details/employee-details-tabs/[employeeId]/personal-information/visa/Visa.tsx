@@ -23,7 +23,7 @@ const createColumns = (
     title: 'Date',
     dataIndex: 'date',
     key: 'date',
-    render: (date: string) => <span>{dayjs(date).format('MMM D, YYYY')}</span>,
+    render: (date: string) => <span>{date ? dayjs(date).format('MMM D, YYYY') : ''}</span>,
   },
   {
     title: 'Visa',
@@ -36,7 +36,7 @@ const createColumns = (
     dataIndex: 'issued_date',
     key: 'issued_date',
     render: (issued_date: string) => (
-      <span>{dayjs(issued_date).format('MMM D, YYYY')}</span>
+      <span>{issued_date ? dayjs(issued_date).format('MMM D, YYYY'): ''}</span>
     ),
   },
   {
@@ -52,7 +52,7 @@ const createColumns = (
     key: 'expiration_date',
     dataIndex: 'expiration_date',
     render: (expiration_date: string) => (
-      <span>{dayjs(expiration_date).format('MMM D, YYYY')}</span>
+      <span>{expiration_date ? dayjs(expiration_date).format('MMM D, YYYY') : ''}</span>
     ),
   },
   {
