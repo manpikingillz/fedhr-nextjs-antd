@@ -56,7 +56,6 @@ const EducationCreateUpdateModal = ({
     _education['employee'] = employeeId;
     _education['start_date'] = dayjs(_education['start_date']).format('YYYY-MM-DD')
     _education['end_date'] = dayjs(_education['end_date']).format('YYYY-MM-DD')
-    console.log('education: ', _education)
     createEducationMutation.mutate({ data: _education });
   };
 
