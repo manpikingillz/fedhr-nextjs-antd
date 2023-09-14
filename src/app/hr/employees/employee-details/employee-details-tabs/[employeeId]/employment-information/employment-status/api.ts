@@ -36,9 +36,9 @@ export async function updateEmploymentStatusApi({
   data: EmploymentStatusUpdateData;
   id: number;
 }) {
-  return api(`employment-status/employment-status/${id}/`, data);
+  return api(`employment-status/employment-status/${id}/`, data, 'put');
 }
 
 export async function deleteEmploymentStatusApi(id: number) {
-  return api(`employment-status/employment-status/${id}/`);
+  return api(`employment-status/employment-status/${id}/`, undefined, 'delete');
 }

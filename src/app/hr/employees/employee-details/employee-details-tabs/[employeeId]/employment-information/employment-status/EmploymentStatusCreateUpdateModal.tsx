@@ -70,9 +70,9 @@ const EmploymentStatusCreateUpdateModal = ({
     _employmentStatus: EmploymentStatusCreateData | EmploymentStatusUpdateData
   ) => {
     if (Object.keys(employmentStatusData).length) {
-      createEmploymentStatus(_employmentStatus);
-    } else {
       updateEmploymentStatus(_employmentStatus);
+    } else {
+      createEmploymentStatus(_employmentStatus);
     }
   };
 
