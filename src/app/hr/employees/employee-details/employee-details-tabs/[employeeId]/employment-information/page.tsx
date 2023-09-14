@@ -6,6 +6,7 @@ import type { CollapseProps } from 'antd';
 import { Collapse, theme } from 'antd';
 import EmploymentStatusList from './employment-status/EmploymentStatus';
 import JobInformationList from './job-information/JobInformation';
+import CompensationList from './compensation/Compensation';
 
 
 const getItems: (panelStyle: CSSProperties) => CollapseProps['items'] = (panelStyle) => [
@@ -26,7 +27,7 @@ const getItems: (panelStyle: CSSProperties) => CollapseProps['items'] = (panelSt
   {
     key: '3',
     label: <b>Compensation</b>,
-    children: <div>Test</div>,
+    children: <div><CompensationList/></div>,
     // extra: genExtra(),
     style: panelStyle,
   },
