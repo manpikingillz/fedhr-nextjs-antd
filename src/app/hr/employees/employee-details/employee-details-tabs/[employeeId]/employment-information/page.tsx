@@ -4,6 +4,7 @@ import { SettingOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
+import EmploymentStatusList from './employment-status/EmploymentStatus';
 
 
 function EmploymentInformation() {
@@ -25,7 +26,7 @@ function EmploymentInformation() {
     {
       key: '1',
       label: 'Employment Status',
-      children: <div>Test</div>,
+      children: <div><EmploymentStatusList/></div>,
       extra: genExtra(),
     },
     {
@@ -43,7 +44,7 @@ function EmploymentInformation() {
     {
       key: '4',
       label: 'Manager & Direct Reports',
-      children: <div>Test</div>,
+      children: <div>  Test </div>,
       extra: genExtra(),
     },
   ];
