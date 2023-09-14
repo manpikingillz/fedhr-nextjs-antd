@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import EmploymentStatusList from './employment-status/EmploymentStatus';
+import JobInformationList from './job-information/JobInformation';
 
 
 function EmploymentInformation() {
@@ -32,7 +33,7 @@ function EmploymentInformation() {
     {
       key: '2',
       label: 'Job Information',
-      children: <div>Test</div>,
+      children: <div><JobInformationList/></div>,
       extra: genExtra(),
     },
     {
