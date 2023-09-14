@@ -57,10 +57,10 @@ function EmploymentInformation() {
   );
 
   const panelStyle: React.CSSProperties = {
-    marginBottom: 24,
-    background: token.colorFillAlter,
-    borderRadius: token.borderRadiusLG,
-    border: 'none',
+    // marginBottom: 24,
+    // background: token.colorFillAlter,
+    // borderRadius: token.borderRadiusLG,
+    // border: 'none',
   };
 
   return (
@@ -68,11 +68,12 @@ function EmploymentInformation() {
       <Collapse
         defaultActiveKey={['1']}
         onChange={onChange}
-        expandIconPosition="end"
+        expandIconPosition="start"
         items={getItems(panelStyle)}
         expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
         style={{ background: token.colorBgContainer }}
         bordered={false}
+        
       />
     </div>
   );
