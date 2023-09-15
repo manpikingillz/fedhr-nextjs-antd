@@ -4,6 +4,7 @@ import { SettingOutlined, UserOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import type { CollapseProps } from 'antd';
 import { Collapse, Divider, Typography } from 'antd';
+import EmergencyContactList from './EmergencyContact';
 
 
 function Emergency() {
@@ -25,7 +26,7 @@ function Emergency() {
     {
       key: '1',
       label: 'Emergency',
-      children: <div>Test</div>,
+      children: <div><EmergencyContactList/></div>,
       extra: genExtra(),
     }
   ];
@@ -39,7 +40,7 @@ function Emergency() {
       <Collapse
         defaultActiveKey={['1']}
         onChange={onChange}
-        expandIconPosition="end"
+        expandIconPosition="start"
         items={items}
       />
     </div>
