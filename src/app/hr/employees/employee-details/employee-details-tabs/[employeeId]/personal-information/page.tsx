@@ -1,11 +1,10 @@
 'use client';
 
-import { Card, Form, Input, Select, Button, Skeleton } from 'antd';
+import { Card, Typography, Divider } from 'antd';
 import React, { useState } from 'react';
 import {
-  CalendarOutlined,
-  UserOutlined,
   EditOutlined,
+  ProfileTwoTone
 } from '@ant-design/icons';
 import Education from './education/Education';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -13,7 +12,6 @@ import { EmployeeDetailData } from './types';
 import { getEmployeeApi } from './api';
 import { useParams } from 'next/navigation';
 import VisaInformation from './visa/Visa';
-import * as dayjs from 'dayjs';
 import { PersonalInformationForm } from './PersonalInformationForm';
 import { PersonalInformationView } from './PersonalInformationView';
 import { ContactInfoView } from './ContactInfoView';
@@ -24,7 +22,6 @@ import { SocialLinksInfoView } from './SocialLinksInfoView';
 import { SocialLinksInfoForm } from './SocialLinksInfoForm';
 import { ErrorPage } from '@/app/error/errorPage';
 
-const { Option } = Select;
 
 function PersonalInformation() {
   const [isEditPersonalInformation, setIsEditPersonalInformation] =
@@ -71,6 +68,9 @@ function PersonalInformation() {
 
   return (
     <>
+      <ProfileTwoTone className='text-2xl ml-4'/>
+      <Typography.Text className='text-2xl ml-4 text-blue-600'>Personal Information </Typography.Text>
+      <Divider className='mt-2'/>
       {errorEmployee ? (
         <ErrorPage error={errorEmployee} />
       ) : (

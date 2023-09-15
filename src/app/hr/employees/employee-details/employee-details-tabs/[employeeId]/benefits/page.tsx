@@ -1,9 +1,9 @@
 'use client'
 
-import { SettingOutlined } from '@ant-design/icons';
+import { SettingOutlined, ContainerOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import type { CollapseProps } from 'antd';
-import { Collapse } from 'antd';
+import { Collapse, Divider, Typography } from 'antd';
 
 
 function Benefits() {
@@ -45,6 +45,9 @@ function Benefits() {
 
   return (
     <div>
+      <ContainerOutlined className='text-2xl ml-4 text-blue-600'/>
+      <Typography.Text className='text-2xl ml-4 text-blue-600'> Benefits </Typography.Text>
+      <Divider className='mt-2'/>
       <Collapse
         defaultActiveKey={['1']}
         onChange={onChange}

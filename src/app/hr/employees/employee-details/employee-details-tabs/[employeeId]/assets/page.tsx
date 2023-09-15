@@ -1,9 +1,9 @@
 'use client'
 
-import { SettingOutlined } from '@ant-design/icons';
+import { SettingOutlined, InsertRowLeftOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import type { CollapseProps } from 'antd';
-import { Collapse } from 'antd';
+import { Collapse, Divider, Typography } from 'antd';
 
 
 function Assets() {
@@ -33,6 +33,9 @@ function Assets() {
 
   return (
     <div>
+      <InsertRowLeftOutlined className='text-2xl ml-4 text-blue-600'/>
+      <Typography.Text className='text-2xl ml-4 text-blue-600'> Assets </Typography.Text>
+      <Divider className='mt-2'/>
       <Collapse
         defaultActiveKey={['1']}
         onChange={onChange}

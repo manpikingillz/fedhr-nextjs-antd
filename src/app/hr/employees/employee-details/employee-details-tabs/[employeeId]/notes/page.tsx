@@ -1,6 +1,6 @@
 'use client';
 
-import { DeleteOutlined, SnippetsFilled, EditTwoTone } from '@ant-design/icons';
+import { DeleteOutlined, CopyOutlined, EditTwoTone } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import {
   Card,
@@ -13,6 +13,7 @@ import {
   Skeleton,
   Input,
   Empty,
+  Typography,
 } from 'antd';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -195,12 +196,9 @@ function Notes() {
 
   return (
     <div>
-      <br />
-      <h2 className="text-emerald-500">
-        <SnippetsFilled />
-        &nbsp;Notes
-      </h2>
-      <br />
+      <CopyOutlined className='text-2xl ml-4 text-blue-600'/>
+      <Typography.Text className='text-2xl ml-4 text-blue-600'> Notes </Typography.Text>
+      <Divider className='mt-2'/>
 
       <Card style={{ backgroundColor: '#f5f5f5', borderColor: '#f5f5f5' }}>
         <Row>
