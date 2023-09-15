@@ -1,9 +1,9 @@
 'use client'
 
-import { SettingOutlined, CaretRightOutlined } from '@ant-design/icons';
+import { SettingOutlined, CaretRightOutlined, ContactsTwoTone } from '@ant-design/icons';
 import React, { CSSProperties, useState } from 'react';
 import type { CollapseProps } from 'antd';
-import { Collapse, theme } from 'antd';
+import { Collapse, Divider, Typography, theme } from 'antd';
 import EmploymentStatusList from './employment-status/EmploymentStatus';
 import JobInformationList from './job-information/JobInformation';
 import CompensationList from './compensation/Compensation';
@@ -67,6 +67,9 @@ function EmploymentInformation() {
 
   return (
     <div>
+      <ContactsTwoTone className='text-2xl ml-4'/>
+      <Typography.Text className='text-2xl ml-4 text-blue-600'>Employment Information </Typography.Text>
+      <Divider className='mt-2'/>
       <Collapse
         defaultActiveKey={['1']}
         onChange={onChange}
