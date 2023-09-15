@@ -7,6 +7,7 @@ import { Collapse, theme } from 'antd';
 import EmploymentStatusList from './employment-status/EmploymentStatus';
 import JobInformationList from './job-information/JobInformation';
 import CompensationList from './compensation/Compensation';
+import DirectReports from './direct-reports/DirectReports';
 
 
 const getItems: (panelStyle: CSSProperties) => CollapseProps['items'] = (panelStyle) => [
@@ -34,7 +35,7 @@ const getItems: (panelStyle: CSSProperties) => CollapseProps['items'] = (panelSt
   {
     key: '4',
     label: <b>Direct Reports</b>,
-    children: <div>  Test </div>,
+    children: <div> <DirectReports/></div>,
     // extra: genExtra(),
     style: panelStyle,
   },
@@ -74,8 +75,8 @@ function EmploymentInformation() {
         expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
         style={{ background: token.colorBgContainer }}
         bordered={false}
-        
       />
+
     </div>
   );
 };
