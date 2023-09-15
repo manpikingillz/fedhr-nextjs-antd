@@ -15,6 +15,7 @@ import {
   DatePicker,
   Divider,
   Form,
+  Skeleton,
   Typography,
   theme,
 } from 'antd';
@@ -23,11 +24,15 @@ import JobInformationList from './job-information/JobInformation';
 import CompensationList from './compensation/Compensation';
 import DirectReports from './direct-reports/DirectReports';
 import { useUpdateEmployeeMutation } from '../personal-information/mutations';
-import { EmployeeDetailData, EmployeeUpdateData } from '../personal-information/types';
+import {
+  EmployeeDetailData,
+  EmployeeUpdateData,
+} from '../personal-information/types';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import  * as dayjs  from 'dayjs';
+import * as dayjs from 'dayjs';
 import { useParams } from 'next/navigation';
 import { getEmployeeApi } from '../personal-information/api';
+import { ErrorMessage } from '@/app/error/errorPage';
 
 const getItems: (panelStyle: CSSProperties) => CollapseProps['items'] = (
   panelStyle
@@ -81,12 +86,10 @@ const getItems: (panelStyle: CSSProperties) => CollapseProps['items'] = (
 
 function EmploymentInformation() {
   const { token } = theme.useToken();
-  const params = useParams()
+  const params = useParams();
 
   const [formInstance] = Form.useForm();
   const [isButtonHidden, setIsButtonHidden] = useState(true);
-  ;
-
   // FETCH DATA
   const {
     data: employee,
@@ -94,10 +97,10 @@ function EmploymentInformation() {
     isFetching: isFetchingEmployee,
     isLoading: isLoadingEmployee,
     status: statusEmployee,
-    refetch
+    refetch,
   } = useQuery<EmployeeDetailData>({
     queryKey: ['employee', params.employeeId],
-    queryFn: () => getEmployeeApi(parseInt(params.employeeId))
+    queryFn: () => getEmployeeApi(parseInt(params.employeeId)),
   });
 
   const queryClient = useQueryClient();
@@ -105,7 +108,9 @@ function EmploymentInformation() {
 
   const saveEmployeeHandler = (employee: EmployeeUpdateData) => {
     const employeeId = parseInt(params.employeeId);
-    employee['hire_date'] = employee['hire_date'] ? dayjs(employee['hire_date']).format('YYYY-MM-DD'): null;
+    employee['hire_date'] = employee['hire_date']
+      ? dayjs(employee['hire_date']).format('YYYY-MM-DD')
+      : null;
     updateEmployeeMutation.mutate({ data: employee, id: employeeId });
     queryClient.refetchQueries(['employee', params.employeeId]);
   };
@@ -114,13 +119,13 @@ function EmploymentInformation() {
     if (employee) {
       handleSetFieldValue();
     }
-  })
+  });
 
   const handleSetFieldValue = () => {
     formInstance.setFieldsValue({
       hire_date: employee?.hire_date ? dayjs(employee?.hire_date) : null,
     });
-  }
+  };
 
   const onChange = (key: string | string[]) => {
     console.log(key);
@@ -157,38 +162,44 @@ function EmploymentInformation() {
         Employment Information{' '}
       </Typography.Text>
       <Divider className="mt-2" />
-      <Form
-        name="employee-create-update-form"
-        form={formInstance}
-        onFinish={saveEmployeeHandler}
-        labelAlign="left"
-        className="flex"
-      >
-        <Form.Item
-          label="Hire Date"
-          name="hire_date"
-          rules={[{ required: true, message: 'Please input Hire Date!' }]}
-        >
-          <DatePicker onChange={onHireDateChangeHandler} />
-        </Form.Item>
-        <div className="flex">
-          <Form.Item hidden={isButtonHidden}>
-            <Button htmlType="submit" type="link">
-              Save
-            </Button>
-          </Form.Item>
-          <Form.Item hidden={isButtonHidden}>
-            <Button
-              type="ghost"
-              shape="circle"
-              icon={<CloseCircleOutlined />}
-              style={{ borderRadius: '20px' }}
-              onClick={onCancelHandler}
-              hidden={isButtonHidden}
-            />
-          </Form.Item>
-        </div>
-      </Form>
+      {errorEmployee ? (
+        <ErrorMessage error={errorEmployee} />
+      ) : (
+        <Skeleton loading={isLoadingEmployee || isFetchingEmployee} active>
+          <Form
+            name="employee-create-update-form"
+            form={formInstance}
+            onFinish={saveEmployeeHandler}
+            labelAlign="left"
+            className="flex"
+          >
+            <Form.Item
+              label="Hire Date"
+              name="hire_date"
+              rules={[{ required: true, message: 'Please input Hire Date!' }]}
+            >
+              <DatePicker onChange={onHireDateChangeHandler} />
+            </Form.Item>
+            <div className="flex">
+              <Form.Item hidden={isButtonHidden}>
+                <Button htmlType="submit" type="link">
+                  Save
+                </Button>
+              </Form.Item>
+              <Form.Item hidden={isButtonHidden}>
+                <Button
+                  type="ghost"
+                  shape="circle"
+                  icon={<CloseCircleOutlined />}
+                  style={{ borderRadius: '20px' }}
+                  onClick={onCancelHandler}
+                  hidden={isButtonHidden}
+                />
+              </Form.Item>
+            </div>
+          </Form>
+        </Skeleton>
+      )}
       <Collapse
         defaultActiveKey={['1']}
         onChange={onChange}
