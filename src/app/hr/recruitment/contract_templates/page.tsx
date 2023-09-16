@@ -1,13 +1,13 @@
 'use client'
 
 import {$getRoot, $getSelection} from 'lexical';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
 import {PlainTextPlugin} from '@lexical/react/LexicalPlainTextPlugin';
 import {ContentEditable} from '@lexical/react/LexicalContentEditable';
 import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
-import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin';
+// import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 
@@ -37,12 +37,40 @@ function onError(error) {
   console.error(error);
 }
 
+
+// When the editor changes, you can get notified via the
+// OnChangePlugin!
+function OnChangePlugin({ onChange }) {
+  // Access the editor through the LexicalComposerContext
+  const [editor] = useLexicalComposerContext();
+  // Wrap our listener in useEffect to handle the teardown and avoid stale references.
+  useEffect(() => {
+    // most listeners return a teardown function that can be called to clean them up.
+    return editor.registerUpdateListener(({editorState}) => {
+      // call onChange here to pass the latest state up to the parent.
+      onChange(editorState);
+    });
+  }, [editor, onChange]);
+  // return null;
+
+}
+
 export default function Editor() {
+  const [editorState, setEditorState] = useState();
+  function onChange(editorState) {
+    // Call toJSON on the EditorState object, which produces a serialization safe string
+    const editorStateJSON = editorState.toJSON();
+    // However, we still have a JavaScript object, so we need to convert it to an actual string with JSON.stringify
+    setEditorState(JSON.stringify(editorStateJSON));
+    console.log('editorStateJSON: ', JSON.stringify(editorStateJSON));
+  }
+
   const initialConfig = {
     namespace: 'MyEditor',
     theme,
     onError,
   };
+  
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
@@ -53,6 +81,7 @@ export default function Editor() {
       />
       <HistoryPlugin />
       <MyCustomAutoFocusPlugin />
+      <OnChangePlugin onChange={onChange}/>
     </LexicalComposer>
   );
 }
