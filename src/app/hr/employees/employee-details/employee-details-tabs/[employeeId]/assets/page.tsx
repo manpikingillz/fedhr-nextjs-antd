@@ -4,6 +4,7 @@ import { SettingOutlined, InsertRowLeftOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import type { CollapseProps } from 'antd';
 import { Collapse, Divider, Typography } from 'antd';
+import AssetList from './Asset';
 
 
 function Assets() {
@@ -25,7 +26,7 @@ function Assets() {
     {
       key: '1',
       label: 'Assets',
-      children: <div>Test</div>,
+      children: <div><AssetList/></div>,
       extra: genExtra(),
     }
   ];

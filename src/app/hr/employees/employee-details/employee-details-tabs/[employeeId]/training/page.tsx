@@ -4,6 +4,7 @@ import { SettingOutlined, SolutionOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import type { CollapseProps } from 'antd';
 import { Collapse, Divider, Typography } from 'antd';
+import TrainingList from './Training';
 
 
 function Training() {
@@ -24,16 +25,16 @@ function Training() {
   const items: CollapseProps['items'] = [
     {
       key: '1',
-      label: 'Upcoming Training',
-      children: <div>Test</div>,
+      label: 'Training',
+      children: <div><TrainingList /></div>,
       extra: genExtra(),
     },
-    {
-      key: '2',
-      label: 'Completed',
-      children: <div>Test</div>,
-      extra: genExtra(),
-    }
+    // {
+    //   key: '2',
+    //   label: 'Completed',
+    //   children: <div>Test</div>,
+    //   extra: genExtra(),
+    // }
   ];
 
 
