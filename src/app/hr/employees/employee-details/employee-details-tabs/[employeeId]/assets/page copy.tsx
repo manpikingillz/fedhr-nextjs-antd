@@ -1,13 +1,13 @@
 'use client'
 
-import { SettingOutlined, InsertRowLeftOutlined } from '@ant-design/icons';
+import { SettingOutlined, UserOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import type { CollapseProps } from 'antd';
 import { Collapse, Divider, Typography } from 'antd';
-import AssetList from './Asset';
+import EmergencyContactList from './EmergencyContact';
 
 
-function Assets() {
+function Emergency() {
 
   const onChange = (key: string | string[]) => {
     console.log(key);
@@ -25,8 +25,8 @@ function Assets() {
   const items: CollapseProps['items'] = [
     {
       key: '1',
-      label: 'Assets',
-      children: <div><AssetList/></div>,
+      label: 'Emergency',
+      children: <div><EmergencyContactList/></div>,
       extra: genExtra(),
     }
   ];
@@ -34,17 +34,17 @@ function Assets() {
 
   return (
     <div>
-      <InsertRowLeftOutlined className='text-2xl ml-4 text-blue-600'/>
-      <Typography.Text className='text-2xl ml-4 text-blue-600'> Assets </Typography.Text>
+      <UserOutlined className='text-2xl ml-4 text-blue-600'/>
+      <Typography.Text className='text-2xl ml-4 text-blue-600'> Emergency Contacts </Typography.Text>
       <Divider className='mt-2'/>
       <Collapse
         defaultActiveKey={['1']}
         onChange={onChange}
-        expandIconPosition="end"
+        expandIconPosition="start"
         items={items}
       />
     </div>
   );
 };
 
-export default Assets;
+export default Emergency;
