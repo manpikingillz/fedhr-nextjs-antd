@@ -14,6 +14,8 @@ import MenuBar from './MenuBar';
 const CustomEditor = () => {
   const [editorContent, setEditorContent] = useState(''); // Initialize the state
 
+  const variable = 'John Doe'
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -26,7 +28,7 @@ const CustomEditor = () => {
         limit: 10000,
       }),
     ],
-    content: '<h1>This is my Initial Content</h1>',
+    content: `<h1>Hello ${variable}. This is my Initial Content</h1>`,
   });
 
   useEffect(() => {
