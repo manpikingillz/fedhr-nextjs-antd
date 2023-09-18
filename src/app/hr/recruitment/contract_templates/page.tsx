@@ -1,83 +1,18 @@
-'use client'
+'use client';
 
-import './styles.scss'
+import './styles.scss';
 
-import { TiptapCollabProvider } from '@hocuspocus/provider'
-import CharacterCount from '@tiptap/extension-character-count'
-import Collaboration from '@tiptap/extension-collaboration'
-import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
-import Highlight from '@tiptap/extension-highlight'
-import TaskItem from '@tiptap/extension-task-item'
-import TaskList from '@tiptap/extension-task-list'
-import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import React, {
-  useCallback, useEffect,
-  useState,
-} from 'react'
-import * as Y from 'yjs'
-
-// import { variables } from '../../../variables.js'
-import MenuBar from './MenuBar'
-
-const colors = ['#958DF1', '#F98181', '#FBBC88', '#FAF594', '#70CFF8', '#94FADB', '#B9F18D']
-const names = [
-  'Lea Thompson',
-  'Cyndi Lauper',
-  'Tom Cruise',
-  'Madonna',
-  'Jerry Hall',
-  'Joan Collins',
-  'Winona Ryder',
-  'Christina Applegate',
-  'Alyssa Milano',
-  'Molly Ringwald',
-  'Ally Sheedy',
-  'Debbie Harry',
-  'Olivia Newton-John',
-  'Elton John',
-  'Michael J. Fox',
-  'Axl Rose',
-  'Emilio Estevez',
-  'Ralph Macchio',
-  'Rob Lowe',
-  'Jennifer Grey',
-  'Mickey Rourke',
-  'John Cusack',
-  'Matthew Broderick',
-  'Justine Bateman',
-  'Lisa Bonet',
-]
-
-const getRandomElement = list => list[Math.floor(Math.random() * list.length)]
-
-const getRandomRoom = () => {
-  const roomNumbers = [10, 11, 12] //variables.collabRooms?.trim()?.split(',') ?? [10, 11, 12]
-
-  return getRandomElement(roomNumbers.map(number => `rooms.${number}`))
-}
-const getRandomColor = () => getRandomElement(colors)
-const getRandomName = () => getRandomElement(names)
-
-const room = getRandomRoom()
-
-// const ydoc = new Y.Doc()
-// const websocketProvider = new TiptapCollabProvider({
-//   appId: '7j9y6m10',
-//   name: room,
-//   document: ydoc,
-// })
-
-const getInitialUser = () => {
-  return JSON.parse(localStorage.getItem('currentUser')) || {
-    name: getRandomName(),
-    color: getRandomColor(),
-  }
-}
+import CharacterCount from '@tiptap/extension-character-count';
+import Highlight from '@tiptap/extension-highlight';
+import TaskItem from '@tiptap/extension-task-item';
+import TaskList from '@tiptap/extension-task-list';
+import { EditorContent, useEditor } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import React, { useCallback, useEffect, useState } from 'react';
+import MenuBar from './MenuBar';
 
 const CustomEditor = () => {
-  const [status, setStatus] = useState('connecting')
-  const [currentUser, setCurrentUser] = useState(getInitialUser)
+  const [editorContent, setEditorContent] = useState(''); // Initialize the state
 
   const editor = useEditor({
     extensions: [
@@ -90,52 +25,35 @@ const CustomEditor = () => {
       CharacterCount.configure({
         limit: 10000,
       }),
-    //   Collaboration.configure({
-    //     document: ydoc,
-    //   }),
-    //   CollaborationCursor.configure({
-    //     provider: websocketProvider,
-    //   }),
     ],
-    content: '<h1>This is my Initial Content</h1>'
-  })
+    content: '<h1>This is my Initial Content</h1>',
+  });
 
-//   useEffect(() => {
-//     // Update status changes
-//     websocketProvider.on('status', event => {
-//       setStatus(event.status)
-//     })
-//   }, [])
+  useEffect(() => {
+    if (editor) {
+      const updateContent = () => {
+        setEditorContent(editor.getHTML());
+      };
 
-  // Save current user to localStorage and emit to editor
-//   useEffect(() => {
-//     if (editor && currentUser) {
-//       localStorage.setItem('currentUser', JSON.stringify(currentUser))
-//       editor.chain().focus().updateUser(currentUser).run()
-//     }
-//   }, [editor, currentUser])
+      editor.on('update', updateContent);
 
-//   const setName = useCallback(() => {
-//     const name = (window.prompt('Name') || '').trim().substring(0, 32)
+      return () => {
+        editor.off('update', updateContent);
+      };
+    }
+    console.log('contettt:::: ', editorContent);
+  }, [editor]);
 
-//     if (name) {
-//       return setCurrentUser({ ...currentUser, name })
-//     }
-//   }, [currentUser])
+  useEffect(() => {
+    console.log('content:::: ', editorContent);
+  }, [editorContent]);
 
   return (
     <div className="editor">
       {editor && <MenuBar editor={editor} />}
-      <EditorContent className="editor__content" editor={editor}/>
-      <div className="editor__footer">
-        <div className={`editor__status editor__status--${status}`}>
-          {status === 'connected'
-            ? `${editor.storage.collaborationCursor.users.length} user${editor.storage.collaborationCursor.users.length === 1 ? '' : 's'} online in ${room}`
-            : 'offline'}
-        </div>
-      </div>
+      <EditorContent className="editor__content" editor={editor} />
     </div>
-  )
-}
+  );
+};
 
 export default CustomEditor;
