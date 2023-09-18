@@ -6,13 +6,14 @@ import CharacterCount from '@tiptap/extension-character-count';
 import Highlight from '@tiptap/extension-highlight';
 import TaskItem from '@tiptap/extension-task-item';
 import TaskList from '@tiptap/extension-task-list';
+import TextStyle from '@tiptap/extension-text-style';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import React, { useCallback, useEffect, useState } from 'react';
 import MenuBar from './MenuBar';
 
 const CustomEditor = () => {
-  const [editorContent, setEditorContent] = useState('<h1>Hello {{fullName}}. This is my Initial Content</h1>'); // Initialize the state
+  const [editorContent, setEditorContent] = useState('Hello <mark>{{fullName}}</mark>. This is my Initial Content'); // Initialize the state
 
   const fullName = 'John Doe'
 
@@ -24,6 +25,7 @@ const CustomEditor = () => {
       Highlight,
       TaskList,
       TaskItem,
+      TextStyle,
       CharacterCount.configure({
         limit: 10000,
       }),
