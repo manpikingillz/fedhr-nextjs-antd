@@ -1,155 +1,141 @@
 'use client'
 
-import {$getRoot, $getSelection} from 'lexical';
-import {useEffect, useState} from 'react';
+import './styles.scss'
 
-import {LexicalComposer} from '@lexical/react/LexicalComposer';
-import {PlainTextPlugin} from '@lexical/react/LexicalPlainTextPlugin';
-import {ContentEditable} from '@lexical/react/LexicalContentEditable';
-import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
-// import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
+import { TiptapCollabProvider } from '@hocuspocus/provider'
+import CharacterCount from '@tiptap/extension-character-count'
+import Collaboration from '@tiptap/extension-collaboration'
+import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
+import Highlight from '@tiptap/extension-highlight'
+import TaskItem from '@tiptap/extension-task-item'
+import TaskList from '@tiptap/extension-task-list'
+import { EditorContent, useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import React, {
+  useCallback, useEffect,
+  useState,
+} from 'react'
+import * as Y from 'yjs'
 
-const theme = {
-  // Theme styling goes here
-  ltr: 'ltr',
-  rtl: 'rtl',
-  paragraph: 'editor-paragraph',
-  quote: 'editor-quote',
-  heading: {
-    h1: 'editor-heading-h1',
-    h2: 'editor-heading-h2',
-    h3: 'editor-heading-h3',
-    h4: 'editor-heading-h4',
-    h5: 'editor-heading-h5',
-    h6: 'editor-heading-h6',
-  },
-  list: {
-    nested: {
-      listitem: 'editor-nested-listitem',
-    },
-    ol: 'editor-list-ol',
-    ul: 'editor-list-ul',
-    listitem: 'editor-listItem',
-    listitemChecked: 'editor-listItemChecked',
-    listitemUnchecked: 'editor-listItemUnchecked',
-  },
-  hashtag: 'editor-hashtag',
-  image: 'editor-image',
-  link: 'editor-link',
-  text: {
-    bold: 'editor-textBold',
-    code: 'editor-textCode',
-    italic: 'editor-textItalic',
-    strikethrough: 'editor-textStrikethrough',
-    subscript: 'editor-textSubscript',
-    superscript: 'editor-textSuperscript',
-    underline: 'editor-textUnderline',
-    underlineStrikethrough: 'editor-textUnderlineStrikethrough',
-  },
-  code: 'editor-code',
-  codeHighlight: {
-    atrule: 'editor-tokenAttr',
-    attr: 'editor-tokenAttr',
-    boolean: 'editor-tokenProperty',
-    builtin: 'editor-tokenSelector',
-    cdata: 'editor-tokenComment',
-    char: 'editor-tokenSelector',
-    class: 'editor-tokenFunction',
-    'class-name': 'editor-tokenFunction',
-    comment: 'editor-tokenComment',
-    constant: 'editor-tokenProperty',
-    deleted: 'editor-tokenProperty',
-    doctype: 'editor-tokenComment',
-    entity: 'editor-tokenOperator',
-    function: 'editor-tokenFunction',
-    important: 'editor-tokenVariable',
-    inserted: 'editor-tokenSelector',
-    keyword: 'editor-tokenAttr',
-    namespace: 'editor-tokenVariable',
-    number: 'editor-tokenProperty',
-    operator: 'editor-tokenOperator',
-    prolog: 'editor-tokenComment',
-    property: 'editor-tokenProperty',
-    punctuation: 'editor-tokenPunctuation',
-    regex: 'editor-tokenVariable',
-    selector: 'editor-tokenSelector',
-    string: 'editor-tokenSelector',
-    symbol: 'editor-tokenProperty',
-    tag: 'editor-tokenProperty',
-    url: 'editor-tokenOperator',
-    variable: 'editor-tokenVariable'
+// import { variables } from '../../../variables.js'
+import MenuBar from './MenuBar'
+
+const colors = ['#958DF1', '#F98181', '#FBBC88', '#FAF594', '#70CFF8', '#94FADB', '#B9F18D']
+const names = [
+  'Lea Thompson',
+  'Cyndi Lauper',
+  'Tom Cruise',
+  'Madonna',
+  'Jerry Hall',
+  'Joan Collins',
+  'Winona Ryder',
+  'Christina Applegate',
+  'Alyssa Milano',
+  'Molly Ringwald',
+  'Ally Sheedy',
+  'Debbie Harry',
+  'Olivia Newton-John',
+  'Elton John',
+  'Michael J. Fox',
+  'Axl Rose',
+  'Emilio Estevez',
+  'Ralph Macchio',
+  'Rob Lowe',
+  'Jennifer Grey',
+  'Mickey Rourke',
+  'John Cusack',
+  'Matthew Broderick',
+  'Justine Bateman',
+  'Lisa Bonet',
+]
+
+const getRandomElement = list => list[Math.floor(Math.random() * list.length)]
+
+const getRandomRoom = () => {
+  const roomNumbers = [10, 11, 12] //variables.collabRooms?.trim()?.split(',') ?? [10, 11, 12]
+
+  return getRandomElement(roomNumbers.map(number => `rooms.${number}`))
+}
+const getRandomColor = () => getRandomElement(colors)
+const getRandomName = () => getRandomElement(names)
+
+const room = getRandomRoom()
+
+// const ydoc = new Y.Doc()
+// const websocketProvider = new TiptapCollabProvider({
+//   appId: '7j9y6m10',
+//   name: room,
+//   document: ydoc,
+// })
+
+const getInitialUser = () => {
+  return JSON.parse(localStorage.getItem('currentUser')) || {
+    name: getRandomName(),
+    color: getRandomColor(),
   }
 }
 
-// Lexical React plugins are React components, which makes them
-// highly composable. Furthermore, you can lazy load plugins if
-// desired, so you don't pay the cost for plugins until you
-// actually use them.
-function MyCustomAutoFocusPlugin() {
-  const [editor] = useLexicalComposerContext();
+const CustomEditor = () => {
+  const [status, setStatus] = useState('connecting')
+  const [currentUser, setCurrentUser] = useState(getInitialUser)
 
-  useEffect(() => {
-    // Focus the editor when the effect fires!
-    editor.focus();
-  }, [editor]);
+  const editor = useEditor({
+    extensions: [
+      StarterKit.configure({
+        history: false,
+      }),
+      Highlight,
+      TaskList,
+      TaskItem,
+      CharacterCount.configure({
+        limit: 10000,
+      }),
+    //   Collaboration.configure({
+    //     document: ydoc,
+    //   }),
+    //   CollaborationCursor.configure({
+    //     provider: websocketProvider,
+    //   }),
+    ],
+    content: '<h1>This is my Initial Content</h1>'
+  })
 
-  return null;
-}
+//   useEffect(() => {
+//     // Update status changes
+//     websocketProvider.on('status', event => {
+//       setStatus(event.status)
+//     })
+//   }, [])
 
-// Catch any errors that occur during Lexical updates and log them
-// or throw them as needed. If you don't throw them, Lexical will
-// try to recover gracefully without losing user data.
-function onError(error) {
-  console.error(error);
-}
+  // Save current user to localStorage and emit to editor
+//   useEffect(() => {
+//     if (editor && currentUser) {
+//       localStorage.setItem('currentUser', JSON.stringify(currentUser))
+//       editor.chain().focus().updateUser(currentUser).run()
+//     }
+//   }, [editor, currentUser])
 
+//   const setName = useCallback(() => {
+//     const name = (window.prompt('Name') || '').trim().substring(0, 32)
 
-// When the editor changes, you can get notified via the
-// OnChangePlugin!
-function OnChangePlugin({ onChange }) {
-  // Access the editor through the LexicalComposerContext
-  const [editor] = useLexicalComposerContext();
-  // Wrap our listener in useEffect to handle the teardown and avoid stale references.
-  useEffect(() => {
-    // most listeners return a teardown function that can be called to clean them up.
-    return editor.registerUpdateListener(({editorState}) => {
-      // call onChange here to pass the latest state up to the parent.
-      onChange(editorState);
-    });
-  }, [editor, onChange]);
-  // return null;
-
-}
-
-export default function Editor() {
-  const [editorState, setEditorState] = useState();
-  function onChange(editorState) {
-    // Call toJSON on the EditorState object, which produces a serialization safe string
-    const editorStateJSON = editorState.toJSON();
-    // However, we still have a JavaScript object, so we need to convert it to an actual string with JSON.stringify
-    setEditorState(JSON.stringify(editorStateJSON));
-    console.log('editorStateJSON: ', JSON.stringify(editorStateJSON));
-  }
-
-  const initialConfig = {
-    namespace: 'MyEditor',
-    theme,
-    onError,
-  };
-  
+//     if (name) {
+//       return setCurrentUser({ ...currentUser, name })
+//     }
+//   }, [currentUser])
 
   return (
-    <LexicalComposer initialConfig={initialConfig}>
-      <PlainTextPlugin
-        contentEditable={<ContentEditable />}
-        placeholder={<div className="editor-placeholder">Enter some text...</div>}
-        ErrorBoundary={LexicalErrorBoundary}
-      />
-      <HistoryPlugin />
-      <MyCustomAutoFocusPlugin />
-      <OnChangePlugin onChange={onChange}/>
-    </LexicalComposer>
-  );
+    <div className="editor">
+      {editor && <MenuBar editor={editor} />}
+      <EditorContent className="editor__content" editor={editor}/>
+      <div className="editor__footer">
+        <div className={`editor__status editor__status--${status}`}>
+          {status === 'connected'
+            ? `${editor.storage.collaborationCursor.users.length} user${editor.storage.collaborationCursor.users.length === 1 ? '' : 's'} online in ${room}`
+            : 'offline'}
+        </div>
+      </div>
+    </div>
+  )
 }
+
+export default CustomEditor;
