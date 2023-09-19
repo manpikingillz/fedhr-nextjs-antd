@@ -11,28 +11,42 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import React, { useEffect, useState } from 'react';
 import MenuBar from './MenuBar';
+import { List } from 'antd';
+import { EditTwoTone } from '@ant-design/icons';
 
 type TemplateField = {
-    fieldNname?: string,
-    displayNname: string,
-    description: string
-}
+  fieldName?: string;
+  displayName: string;
+  description: string;
+};
 
-const fields = [
-    {
-        field_name: 'full_name',
-        display_name: 'Full Name',
-        description: 'Full name of the employee'
-    },
-    {
-        field_name: 'job_position',
-        display_name: 'Job Position',
-        description: 'Job position of the employee'
-    }
-]
+const fields: TemplateField[] = [
+  {
+    fieldName: 'first_name',
+    displayName: 'Employee First Name',
+    description: 'e.g Henry',
+  },
+  {
+    fieldName: 'last_name',
+    displayName: 'Last Name',
+    description: 'e.g Tayebwa',
+  },
+  {
+    fieldName: 'job_position',
+    displayName: 'Job Position',
+    description: 'e.g Software Engineer',
+  },
+  {
+    fieldName: 'department',
+    displayName: 'Department',
+    description: 'e.g Finance',
+  },
+];
 
 const CustomEditor = () => {
-  const [editorContent, setEditorContent] = useState('Hello <mark>{{Full Name}}</mark>. This is my Initial Content'); // Initialize the state
+  const [editorContent, setEditorContent] = useState(
+    'Hello <mark>{{Full Name}}</mark>. This is my Initial Content'
+  ); // Initialize the state
 
   const editor = useEditor({
     extensions: [
@@ -45,9 +59,9 @@ const CustomEditor = () => {
       TextStyle,
       CharacterCount.configure({
         limit: 10000,
-      })
+      }),
     ],
-    content: editorContent
+    content: editorContent,
   });
 
   useEffect(() => {
@@ -68,52 +82,78 @@ const CustomEditor = () => {
     console.log('content:::: ', editorContent);
   }, [editorContent]);
 
-    const replaceTemplateFieldsWithActualData = (fieldDisplayName: string, fieldData: string) => {
-        const updatedContent = editorContent.replace(`{{${fieldDisplayName}}}`, fieldData);
+  const replaceTemplateFieldsWithActualData = (
+    fieldDisplayName: string,
+    fieldData: string
+  ) => {
+    const updatedContent = editorContent.replace(
+      `{{${fieldDisplayName}}}`,
+      fieldData
+    );
 
-        // Set the updated content inside the editor
-        if (editor) editor.chain().setContent(updatedContent).run();
+    // Set the updated content inside the editor
+    if (editor) editor.chain().setContent(updatedContent).run();
 
-        setEditorContent(updatedContent);
-    };
+    setEditorContent(updatedContent);
+  };
 
-    const addTemplateFieldsIntoEditor = (field: TemplateField) => {
-        // INSERT new content into the editor on the cursor position.
-        insertTextAtCursor(`{{${field.displayNname}}}`);
-    }
+  const addTemplateFieldsIntoEditor = (field: TemplateField) => {
+    // INSERT new content into the editor on the cursor position.
+    insertTextAtCursor(`{{${field.displayName}}}`);
+  };
 
-    const insertTextAtCursor = (text: string) => {
-        const { state, dispatch } = editor.view;
+  const insertTextAtCursor = (text: string) => {
+    const { state, dispatch } = editor.view;
 
-        // Create a transaction that inserts the text at the current cursor position
-        const transaction = state.tr.insertText(text);
+    // Create a transaction that inserts the text at the current cursor position
+    const transaction = state.tr.insertText(text);
 
-        // Dispatch the transaction to the editor
-        dispatch(transaction);
-    }
+    // Dispatch the transaction to the editor
+    dispatch(transaction);
+  };
 
-    const onClickHandler = () => {
-        replaceTemplateFieldsWithActualData('Full Name', 'Gilbert')
-    }
-
+  const onClickHandler = () => {
+    replaceTemplateFieldsWithActualData('Full Name', 'Gilbert');
+  };
 
   return (
     <>
-    <div className="editor">
-      {editor && <MenuBar editor={editor} />}
-      <EditorContent className="editor__content" editor={editor} />
-      <button className='w-40' onClick={onClickHandler}>Replace data</button>
-    </div>
-    <div>
-        <h1>Fields</h1>
-        <ul>
-            {fields.map((field, index) => (
-                <li key={index} onClick={() => addTemplateFieldsIntoEditor(field)} className='cursor-pointer'>
-                    <span>{field.display_name}</span>
-                </li>
-            ))}
-        </ul>
-    </div>
+      <div className="flex w-full">
+        <div className="editor w-3/4">
+          {editor && <MenuBar editor={editor} />}
+          <EditorContent className="editor__content" editor={editor} />
+          <button className="w-40" onClick={onClickHandler}>
+            Replace data
+          </button>
+        </div>
+
+        <div className="w-1/4">
+          <h1 className="ml-4 mb-2 text-gray-700">
+            <EditTwoTone className="mr-2" />
+            Template Placeholders
+          </h1>
+          <p className="ml-4 mb-2 text-gray-500">
+            You can insert these into the template and they will be replaced
+            with the actual values when the document is created.
+          </p>
+          <List
+            size="small"
+            itemLayout="horizontal"
+            dataSource={fields}
+            renderItem={(field: TemplateField, index) => (
+              <List.Item
+                className="cursor-pointer"
+                onClick={() => addTemplateFieldsIntoEditor(field)}
+              >
+                <List.Item.Meta
+                  title={field.displayName}
+                  description={field.description}
+                />
+              </List.Item>
+            )}
+          />
+        </div>
+      </div>
     </>
   );
 };
