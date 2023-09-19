@@ -54,7 +54,7 @@ const CustomEditor = () => {
     console.log('content:::: ', editorContent);
   }, [editorContent]);
 
-    const replaceData = () => {
+    const replaceData = ({field_name, display_name}: {field_name?: string, display_name?: string}) => {
         console.log('replace data');
         const updatedContent = editorContent.replace('{{fullName}}', fullName);
         console.log('updatedContent:::: ', updatedContent)
@@ -74,12 +74,53 @@ const CustomEditor = () => {
         setEditorContent(updatedContent);
     };
 
+    const addFieldsIntoContent = ({field_name, display_name}: {field_name: string, display_name: string}) => {
+        // INSERT new content into the editor on the cursor position. Its not a replacement but inserting new content.
+        insertTextAtCursor(`{{${display_name}}}`);
+
+    }
+
+    const insertTextAtCursor = (text) => {
+        const { state, dispatch } = editor.view;
+
+        // Create a transaction that inserts the text at the current cursor position
+        const transaction = state.tr.insertText(text);
+        console.log('transaction:::: ', transaction)
+
+        // Dispatch the transaction to the editor
+        dispatch(transaction);
+    }
+
+    const fields = [
+        {
+            field_name: 'full_name',
+            display_name: 'Full Name'
+        },
+        {
+            field_name: 'job_position',
+            display_name: 'Job Position'
+        }
+    ]
+
+
   return (
+    <>
     <div className="editor">
       {editor && <MenuBar editor={editor} />}
       <EditorContent className="editor__content" editor={editor} />
       <button className='w-40' onClick={replaceData}>Replace data</button>
     </div>
+    <div>
+        <h1>Fields</h1>
+        <ul>
+            {fields.map((field, index) => (
+                <li key={index} onClick={() => addFieldsIntoContent(field)} className='cursor-pointer'>
+                    <span>{field.display_name}</span>
+                </li>
+            ))}
+        </ul>
+    </div>
+    </>
   );
 };
 
