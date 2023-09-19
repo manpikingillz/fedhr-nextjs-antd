@@ -740,6 +740,13 @@
   resolved "https://registry.yarnpkg.com/@tiptap/extension-text/-/extension-text-2.1.10.tgz#db297fb5d2ee50ef7a14650539e3d335f772f755"
   integrity sha512-ubU/WQwNB0MVKyMAHr8ka3Nu3jCR03HARGKUwNRzppZYtRXWyXHNlAaJdplNb1NMGb8hd0ElBJmwFlVqmh8haQ==
 
+"@tiptap/html@^2.1.10":
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/@tiptap/html/-/html-2.1.10.tgz#d86140a2772fb42e576baea21215669bd2dd0527"
+  integrity sha512-o8x/vG4HUVG/vT6zlZ0iwyG9ZQoTZNAaLuOflDGNPPS/SUYYelJIVuCXdn1tAhnyJOj6Mf6rO8gvGpCOeyfKog==
+  dependencies:
+    zeed-dom "^0.9.19"
+
 "@tiptap/pm@^2.1.10":
   version "2.1.10"
   resolved "https://registry.yarnpkg.com/@tiptap/pm/-/pm-2.1.10.tgz#84d5ae574568dca00ee62698559523d77e980620"
@@ -1349,6 +1356,11 @@ cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
+
+css-what@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/css-what/-/css-what-6.1.0.tgz#fb5effcf76f1ddea2c81bdfaa4de44e79bac70f4"
+  integrity sha512-HTUrgRJ7r4dsZKU6GjmpfRK1O76h97Z8MfS1G0FozR+oF2kG6Vfe8JE6zwrkbxigziPHinCJ+gCPjA9EaBDtRw==
 
 cssesc@^3.0.0:
   version "3.0.0"
@@ -4260,6 +4272,13 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zeed-dom@^0.9.19:
+  version "0.9.26"
+  resolved "https://registry.yarnpkg.com/zeed-dom/-/zeed-dom-0.9.26.tgz#f0127d1024b34a1233a321bd6d0275b3ba998b30"
+  integrity sha512-HWjX8rA3Y/RI32zby3KIN1D+mgskce+She4K7kRyyx62OiVxJ5FnYm8vWq0YVAja3Tf2S1M0XAc6O2lRFcMgcQ==
+  dependencies:
+    css-what "^6.1.0"
 
 zod@3.21.4:
   version "3.21.4"
