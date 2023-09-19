@@ -127,8 +127,8 @@ const CustomEditor = () => {
           <Button type="primary" className='mt-2'>Save Template</Button>
         </div>
 
-        <div className="w-1/4">
-          <h1 className="ml-4 mb-2 text-gray-700">
+        <div className="bg-gray-100 ml-3 w-1/4 rounded-xl">
+          <h1 className="ml-4 mb-2 mt-3 text-gray-700">
             <EditTwoTone className="mr-2" />
             Template Placeholders
           </h1>
