@@ -11,7 +11,7 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import React, { useEffect, useState } from 'react';
 import MenuBar from './MenuBar';
-import { List } from 'antd';
+import { Button, List } from 'antd';
 import { EditTwoTone } from '@ant-design/icons';
 
 type TemplateField = {
@@ -119,12 +119,12 @@ const CustomEditor = () => {
   return (
     <>
       <div className="flex w-full">
-        <div className="editor w-3/4">
-          {editor && <MenuBar editor={editor} />}
-          <EditorContent className="editor__content" editor={editor} />
-          <button className="w-40" onClick={onClickHandler}>
-            Replace data
-          </button>
+        <div className=" w-3/4">
+          <div className="editor">
+            {editor && <MenuBar editor={editor} />}
+            <EditorContent className="editor__content" editor={editor} />
+          </div>
+          <Button type="primary" className='mt-2'>Save Template</Button>
         </div>
 
         <div className="w-1/4">
