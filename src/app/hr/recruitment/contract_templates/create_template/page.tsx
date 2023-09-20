@@ -2,7 +2,6 @@
 
 import './styles.scss';
 
-import CharacterCount from '@tiptap/extension-character-count';
 import Highlight from '@tiptap/extension-highlight';
 import TaskItem from '@tiptap/extension-task-item';
 import TaskList from '@tiptap/extension-task-list';
@@ -48,9 +47,7 @@ const fields: TemplateField[] = [
 ];
 
 const CustomEditor = () => {
-  const [editorContent, setEditorContent] = useState(
-    'Hello <mark>{{Full Name}}</mark>. This is my Initial Content'
-  ); // Initialize the state
+  const [editorContent, setEditorContent] = useState<string>(''); // Initialize the state
 
 
 
@@ -104,11 +101,9 @@ const CustomEditor = () => {
       TaskList,
       TaskItem,
       TextStyle,
-      // CharacterCount.configure({
-      //   limit: 10000,
-      // }),
       Placeholder.configure({
         placeholder: 'Type your content here...',
+        emptyEditorClass: 'is-editor-empty',
       }),
     ],
     // content: editorContent,

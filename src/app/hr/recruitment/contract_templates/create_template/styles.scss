@@ -117,9 +117,16 @@
         border: 1px solid lightgray;
         padding: 8px;
       }
-
     }
-  
+
+    .tiptap p.is-editor-empty:first-child::before {
+      color: #adb5bd;
+      content: attr(data-placeholder);
+      float: left;
+      height: 0;
+      pointer-events: none;
+    }
+
     &__footer {
       align-items: center;
       border-top: 3px solid #0d0d0d;
