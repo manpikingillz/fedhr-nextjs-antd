@@ -10,7 +10,7 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import React, { useEffect, useState } from 'react';
 import MenuBar from './MenuBar';
-import { Button, List } from 'antd';
+import { Button, Input, List, Select } from 'antd';
 import { EditTwoTone } from '@ant-design/icons';
 import { useCreateTemplateMutation, useUpdateTemplateMutation } from './mutations';
 import { TemplateCreateData, TemplateUpdateData } from './types';
@@ -161,10 +161,26 @@ const CustomEditor = () => {
     replaceTemplateFieldsWithActualData('Full Name', 'Gilbert');
   };
 
+  const templateTypeOptions = () => {
+    return [
+      { value: 'EMAIL_TEMPLATE', label: 'Email Template' },
+      { value: 'JOB_OFFER_TEMPLATE', label: 'Job Offer Template' },
+      { value: 'CONTRACT_TEMPLATE', label: 'Contract Template' }
+    ]
+  }
+
   return (
     <>
+      <Input className='w-2/5 mb-3 mr-3' placeholder='Template Name' allowClear/>
+      <Select
+        placeholder="Select Template Type"
+        style={{ width: 240 }}
+        allowClear
+        options={templateTypeOptions()}
+      />
       <div className="flex w-full">
-        <div className=" w-3/4">
+        {/* Editor */}
+        <div className="w-3/4">
           <div className="editor">
             {editor && <MenuBar editor={editor} />}
             <EditorContent className="editor__content" editor={editor} />
@@ -172,6 +188,7 @@ const CustomEditor = () => {
           <Button type="primary" className='mt-2' onClick={saveTemplateHandler}>Save Template</Button>
         </div>
 
+        {/* Template Fields */}
         <div className="bg-gray-100 ml-3 w-1/4 rounded-xl">
           <h1 className="ml-4 mb-2 mt-3 text-gray-700">
             <EditTwoTone className="mr-2" />
