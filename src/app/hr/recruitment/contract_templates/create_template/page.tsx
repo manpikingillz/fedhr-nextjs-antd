@@ -48,7 +48,8 @@ const fields: TemplateField[] = [
 
 const CustomEditor = () => {
   const [editorContent, setEditorContent] = useState<string>(''); // Initialize the state
-
+  const [templateName, setTemplateName] = useState<string>(''); // Initialize the state
+  const [templateType, setTemplateType] = useState<string>(''); // Initialize the state
 
 
   ////////////
@@ -65,8 +66,9 @@ const CustomEditor = () => {
 
   const saveTemplateHandler = () => {
     const _template: TemplateCreateData = {
-      template_name: 'My Template',
-      template: editorContent,
+      template_name: templateName,
+      template_content: editorContent,
+      template_type: templateType
     };
     createTemplate(_template);
 
@@ -169,14 +171,23 @@ const CustomEditor = () => {
     ]
   }
 
+  const onTemplateNameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTemplateName(e.target.value);
+  }
+  const onTemplateTypeChangeHandler = (value: string) => {
+    setTemplateType(value);
+  }
+
   return (
     <>
-      <Input className='w-2/5 mb-3 mr-3' placeholder='Template Name' allowClear/>
+      <Input className='w-2/5 mb-3 mr-3' placeholder='Template Name' allowClear onChange={onTemplateNameChangeHandler}/>
       <Select
         placeholder="Select Template Type"
         style={{ width: 240 }}
         allowClear
         options={templateTypeOptions()}
+        onChange={onTemplateTypeChangeHandler}
+        // onChange={(value) => setTemplateType(value)}
       />
       <div className="flex w-full">
         {/* Editor */}
