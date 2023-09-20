@@ -15,6 +15,8 @@ import { Button, List } from 'antd';
 import { EditTwoTone } from '@ant-design/icons';
 import { useCreateTemplateMutation, useUpdateTemplateMutation } from './mutations';
 import { TemplateCreateData, TemplateUpdateData } from './types';
+import Placeholder from '@tiptap/extension-placeholder';
+
 
 type TemplateField = {
   fieldName?: string;
@@ -102,11 +104,14 @@ const CustomEditor = () => {
       TaskList,
       TaskItem,
       TextStyle,
-      CharacterCount.configure({
-        limit: 10000,
+      // CharacterCount.configure({
+      //   limit: 10000,
+      // }),
+      Placeholder.configure({
+        placeholder: 'Type your content here...',
       }),
     ],
-    content: editorContent,
+    // content: editorContent,
   });
 
   useEffect(() => {

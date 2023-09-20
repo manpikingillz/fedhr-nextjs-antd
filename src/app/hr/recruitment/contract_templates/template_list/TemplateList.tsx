@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import { Button, Divider, Empty, Form, Popconfirm, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
@@ -11,6 +13,8 @@ import { ErrorMessage } from '@/app/error/errorPage';
 import { TemplateListData } from '../create_template/types';
 import { getTemplateListApi } from '../create_template/api';
 import { useDeleteTemplateMutation } from '../create_template/mutations';
+import { useRouter } from 'next/navigation';
+
 
 const createColumns = (
   onEditTemplate?: (template_item: TemplateListData) => void,
@@ -21,8 +25,9 @@ const createColumns = (
     dataIndex: 'template_name',
     key: 'template_name',
   },
-    {
+  {
     title: 'Action',
+    className: 'w-24',
     render: (template) => (
       <span>
         <EditTwoTone
@@ -47,6 +52,9 @@ const createColumns = (
 const TemplateList = () => {
   const [templateFormInstance] = Form.useForm();
 
+  const router = useRouter();
+
+
   // FETCH / QUERY DATA ///////////////////////////
   const {
     data: templateList,
@@ -68,12 +76,17 @@ const TemplateList = () => {
 
   const columns = createColumns(undefined, onDeleteHandler);
 
+  const onAddTemplateHandler = () => {
+    router.push('/hr/recruitment/contract_templates/create_template');
+  };
+
   return (
     <div className="flex flex-col">
       <Button
         type="primary"
         className="self-end mb-2"
         icon={<PlusCircleOutlined />}
+        onClick={onAddTemplateHandler}
       >
         Add Template
       </Button>
