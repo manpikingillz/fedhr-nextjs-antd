@@ -1,10 +1,12 @@
 'use client';
 
+import TemplateList from "./template_list/TemplateList";
+
 const Templates = () => {
 
   return (
     <>
-     <h1>Templates</h1>
+     <TemplateList/>
     </>
   );
 };
