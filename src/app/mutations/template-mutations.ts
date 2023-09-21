@@ -1,4 +1,4 @@
-import { createTemplateApi, deleteTemplateApi, updateTemplateApi } from './api';
+import { createTemplateApi, deleteTemplateApi, updateTemplateApi } from '@/app/api/template-api';
 import { customMutation } from '@/utils/mutation-utils';
 
 // Create custom mutation hooks using the reusable function

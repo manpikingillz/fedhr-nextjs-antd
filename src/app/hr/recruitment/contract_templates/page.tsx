@@ -1,6 +1,6 @@
 'use client';
 
-import TemplateList from "./template_list/TemplateList";
+import TemplateList from "./TemplateList";
 
 const Templates = () => {
 

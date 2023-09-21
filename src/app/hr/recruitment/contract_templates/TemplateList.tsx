@@ -10,14 +10,14 @@ import {
 } from '@ant-design/icons';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { ErrorMessage } from '@/app/error/errorPage';
-import { TemplateListData } from '../create_template/types';
-import { getTemplateListApi } from '../create_template/api';
-import { useDeleteTemplateMutation } from '../create_template/mutations';
+import { TemplateListData } from '@/app/types/template-types';
+import { getTemplateListApi } from '@/app/api/template-api';
+import { useDeleteTemplateMutation } from '@/app/mutations/template-mutations';
 import { useRouter } from 'next/navigation';
 
 
 const createColumns = (
-  onEditTemplate?: (template_item: TemplateListData) => void,
+  onEdit?: (template_item: TemplateListData) => void,
   onDelete?: (id: number) => void
 ): ColumnsType<TemplateListData> => [
   {
@@ -32,7 +32,7 @@ const createColumns = (
       <span>
         <EditTwoTone
           className="cursor-pointer"
-          onClick={() => onEditTemplate(template)}
+          onClick={() => onEdit(template)}
         />
         <Divider type="vertical" />
         <Popconfirm
@@ -74,7 +74,11 @@ const TemplateList = () => {
     queryClient.refetchQueries(['template-list']);
   };
 
-  const columns = createColumns(undefined, onDeleteHandler);
+  const onEditHandler = (template_item: TemplateListData) => {
+    router.push(`/hr/recruitment/contract_templates/update_template/${template_item.id}`);
+  }
+
+  const columns = createColumns(onEditHandler, onDeleteHandler);
 
   const onAddTemplateHandler = () => {
     router.push('/hr/recruitment/contract_templates/create_template');
