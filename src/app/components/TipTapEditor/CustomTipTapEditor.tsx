@@ -63,9 +63,6 @@ const CustomTipTapEditor = ({
   const [editorContent, setEditorContent] = useState<string>(''); // Initialize the state
   const [templateName, setTemplateName] = useState<string>(''); // Initialize the state
   const [templateType, setTemplateType] = useState<string>(''); // Initialize the state
-  const [templateInfo, setTemplateInfo] = useState<TemplateDetailData>(
-    {} as TemplateDetailData
-  ); // Initialize the state
   const [templateContent, setTemplateContent] = useState<string>(''); // Initialize the state
 
   // Editor
@@ -119,24 +116,17 @@ const CustomTipTapEditor = ({
       setTemplateName(templateData?.template_name);
       setTemplateType(templateData.template_type);
       setTemplateContent(templateData.template_content);
-      setTemplateInfo(templateData);
     }
   }, [templateData]);
 
   useEffect(() => {
-    if (templateName) console.log('templateName: ', templateName);
-    if (templateType) console.log('templateType: ', templateType);
-    if (templateContent) console.log('templateContent: ', templateContent);
-    if (templateInfo) console.log('templateInfo: ', templateInfo);
-
     replaceTemplateFieldsWithActualData(
       'First Name',
       'Gilbert',
       templateContent
     );
-  }, [templateName, templateType, editorContent, templateInfo]);
+  }, [templateContent]);
 
-    
 
   //   useEffect(() => {
   //     if (editor) {
