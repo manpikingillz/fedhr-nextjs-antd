@@ -7,28 +7,21 @@ import {
   TemplateListData,
 } from '@/app/types/template-types';
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { Button } from 'antd';
+import { useParams, useRouter } from 'next/navigation';
+import { LeftCircleTwoTone } from '@ant-design/icons';
+
 
 const CreateUpdateTemplatePage = () => {
   const params = useParams();
-
-  
-
-  //write code to fetch template using the getTemplateApi. Use react-query's useQuery hook
-  //use the templateId from params to fetch the template
-  //use the template data to set the value of the editor
-  //use the template data to set the value of the form
-  //use the template data to set the value of the form
-  //use the template data to set the value of the form
-  //use the template data to set the value of the form
+  const router = useRouter();
 
   const {
     data: templateDetail,
     error: errorTemplateDetail,
     isFetching: isFetchingTemplateDetail,
     isLoading: isLoadingTemplateDetail,
-    status: statusTemplateDetail
+    status: statusTemplateDetail,
   } = useQuery<TemplateDetailData>({
     queryKey: ['template-detail', params.templateId],
     queryFn: () => getTemplateApi(parseInt(params.templateId)),
@@ -36,7 +29,18 @@ const CreateUpdateTemplatePage = () => {
 
   return (
     <>
-      {templateDetail && <CustomTipTapEditor templateData={templateDetail} />}
+      <div className="flex flex-col">
+      <div className='flex justify-end'>
+        <Button icon={<LeftCircleTwoTone />} type="link" className="mb-4" onClick={() => router.back()}>
+          Back
+        </Button>
+        </div>
+        <div>
+          {templateDetail && (
+            <CustomTipTapEditor templateData={templateDetail} />
+          )}
+        </div>
+      </div>
     </>
   );
 };

@@ -68,6 +68,24 @@ const CustomTipTapEditor = ({
   ); // Initialize the state
   const [templateContent, setTemplateContent] = useState<string>(''); // Initialize the state
 
+  // Editor
+  const editor = useEditor({
+    extensions: [
+      StarterKit.configure({
+        history: false,
+      }),
+      Highlight,
+      TaskList,
+      TaskItem,
+      TextStyle,
+      Placeholder.configure({
+        placeholder: 'Type your content here...',
+        emptyEditorClass: 'is-editor-empty',
+      }),
+    ],
+    content: editorContent,
+  });
+
   // Creating and updating template data into the db
   const createTemplateMutation = useCreateTemplateMutation();
   const updateTemplateMutation = useUpdateTemplateMutation();
@@ -83,7 +101,7 @@ const CustomTipTapEditor = ({
   const saveTemplateHandler = () => {
     const _template: TemplateCreateData | TemplateUpdateData = {
       template_name: templateName,
-      template_content: editorContent,
+      template_content: editor.getHTML(), //editorContent,
       template_type: templateType,
     };
 
@@ -118,22 +136,7 @@ const CustomTipTapEditor = ({
     );
   }, [templateName, templateType, editorContent, templateInfo]);
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit.configure({
-        history: false,
-      }),
-      Highlight,
-      TaskList,
-      TaskItem,
-      TextStyle,
-      Placeholder.configure({
-        placeholder: 'Type your content here...',
-        emptyEditorClass: 'is-editor-empty',
-      }),
-    ],
-    content: editorContent,
-  });
+    
 
   //   useEffect(() => {
   //     if (editor) {
@@ -181,6 +184,7 @@ const CustomTipTapEditor = ({
     // Dispatch the transaction to the editor
     dispatch(transaction);
   };
+
 
   const templateTypeOptions = () => {
     return [
