@@ -55,7 +55,7 @@ const fields: TemplateField[] = [
 
 const CustomTipTapEditor = ({
   templateData,
-  replaceVariables = true,
+  replaceVariables = false,
 }: {
   templateData: TemplateDetailData;
   replaceVariables: boolean;
