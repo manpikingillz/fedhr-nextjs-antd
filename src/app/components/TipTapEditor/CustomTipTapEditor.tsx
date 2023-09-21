@@ -13,9 +13,16 @@ import MenuBar from './MenuBar';
 import { Button, Input, List, Select } from 'antd';
 import { EditTwoTone } from '@ant-design/icons';
 import Placeholder from '@tiptap/extension-placeholder';
-import { useCreateTemplateMutation, useUpdateTemplateMutation } from '@/app/mutations/template-mutations';
-import { TemplateCreateData, TemplateDetailData, TemplateListData, TemplateUpdateData } from '@/app/types/template-types';
-
+import {
+  useCreateTemplateMutation,
+  useUpdateTemplateMutation,
+} from '@/app/mutations/template-mutations';
+import {
+  TemplateCreateData,
+  TemplateDetailData,
+  TemplateListData,
+  TemplateUpdateData,
+} from '@/app/types/template-types';
 
 type TemplateField = {
   fieldName?: string;
@@ -46,11 +53,19 @@ const fields: TemplateField[] = [
   },
 ];
 
-const CustomTipTapEditor = ({ templateData, replaceVariables = false}: {templateData: TemplateDetailData, replaceVariables: boolean}) => {
+const CustomTipTapEditor = ({
+  templateData,
+  replaceVariables = false,
+}: {
+  templateData: TemplateDetailData;
+  replaceVariables: boolean;
+}) => {
   const [editorContent, setEditorContent] = useState<string>(''); // Initialize the state
   const [templateName, setTemplateName] = useState<string>(''); // Initialize the state
   const [templateType, setTemplateType] = useState<string>(''); // Initialize the state
-  const [templateInfo, setTemplateInfo] = useState<TemplateDetailData>({} as TemplateDetailData); // Initialize the state
+  const [templateInfo, setTemplateInfo] = useState<TemplateDetailData>(
+    {} as TemplateDetailData
+  ); // Initialize the state
   const [templateContent, setTemplateContent] = useState<string>(''); // Initialize the state
 
   // Creating and updating template data into the db
@@ -69,7 +84,7 @@ const CustomTipTapEditor = ({ templateData, replaceVariables = false}: {template
     const _template: TemplateCreateData | TemplateUpdateData = {
       template_name: templateName,
       template_content: editorContent,
-      template_type: templateType
+      template_type: templateType,
     };
 
     if (Object.keys(templateData).length) {
@@ -82,24 +97,26 @@ const CustomTipTapEditor = ({ templateData, replaceVariables = false}: {template
   // Setting the template data into the editor
   useEffect(() => {
     if (templateData) {
-        // console.log('templateData: ', templateData)
-        setTemplateName(templateData?.template_name);
-        setTemplateType(templateData.template_type);
-        setTemplateContent(templateData.template_content);
-        setTemplateInfo(templateData);
+      // console.log('templateData: ', templateData)
+      setTemplateName(templateData?.template_name);
+      setTemplateType(templateData.template_type);
+      setTemplateContent(templateData.template_content);
+      setTemplateInfo(templateData);
     }
-   },[templateData])
+  }, [templateData]);
 
-   useEffect(() => {
-        if (templateName) console.log('templateName: ', templateName)
-        if (templateType) console.log('templateType: ', templateType)
-        if (templateContent) console.log('templateContent: ', templateContent)
-        if (templateInfo) console.log('templateInfo: ', templateInfo)
+  useEffect(() => {
+    if (templateName) console.log('templateName: ', templateName);
+    if (templateType) console.log('templateType: ', templateType);
+    if (templateContent) console.log('templateContent: ', templateContent);
+    if (templateInfo) console.log('templateInfo: ', templateInfo);
 
-        replaceTemplateFieldsWithActualData('First Name', 'Gilbert', templateContent);
-
-   }, [templateName, templateType, editorContent, templateInfo])
-
+    replaceTemplateFieldsWithActualData(
+      'First Name',
+      'Gilbert',
+      templateContent
+    );
+  }, [templateName, templateType, editorContent, templateInfo]);
 
   const editor = useEditor({
     extensions: [
@@ -118,31 +135,30 @@ const CustomTipTapEditor = ({ templateData, replaceVariables = false}: {template
     content: editorContent,
   });
 
-//   useEffect(() => {
-//     if (editor) {
-//       const updateContent = () => {
-//         setEditorContent(editor.getHTML());
-//       };
+  //   useEffect(() => {
+  //     if (editor) {
+  //       const updateContent = () => {
+  //         setEditorContent(editor.getHTML());
+  //       };
 
-//       editor.on('update', updateContent);
+  //       editor.on('update', updateContent);
 
-//       return () => {
-//         editor.off('update', updateContent);
-//       };
-//     }
-//   }, [editor]);
-
+  //       return () => {
+  //         editor.off('update', updateContent);
+  //       };
+  //     }
+  //   }, [editor]);
 
   const replaceTemplateFieldsWithActualData = (
     fieldDisplayName: string,
     fieldData: string,
     content: string
   ) => {
-    // Replace the template field with the actual data
-    const updatedContent = content.replace(
-      `{{${fieldDisplayName}}}`,
-      fieldData
-    );
+    // Replace the template field with the actual data only if the replaceVariables is true
+    let updatedContent = content;
+    if (replaceVariables) {
+      updatedContent = content.replace(`{{${fieldDisplayName}}}`, fieldData);
+    }
 
     // Set the updated content inside the editor
     if (editor) editor.chain().setContent(updatedContent).run();
@@ -170,20 +186,28 @@ const CustomTipTapEditor = ({ templateData, replaceVariables = false}: {template
     return [
       { value: 'EMAIL_TEMPLATE', label: 'Email Template' },
       { value: 'JOB_OFFER_TEMPLATE', label: 'Job Offer Template' },
-      { value: 'CONTRACT_TEMPLATE', label: 'Contract Template' }
-    ]
-  }
+      { value: 'CONTRACT_TEMPLATE', label: 'Contract Template' },
+    ];
+  };
 
-  const onTemplateNameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onTemplateNameChangeHandler = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setTemplateName(e.target.value);
-  }
+  };
   const onTemplateTypeChangeHandler = (value: string) => {
     setTemplateType(value);
-  }
+  };
 
   return (
     <>
-      <Input className='w-2/5 mb-3 mr-3' placeholder='Template Name' allowClear onChange={onTemplateNameChangeHandler} value={templateName}/>
+      <Input
+        className="w-2/5 mb-3 mr-3"
+        placeholder="Template Name"
+        allowClear
+        onChange={onTemplateNameChangeHandler}
+        value={templateName}
+      />
       <Select
         placeholder="Select Template Type"
         style={{ width: 240 }}
@@ -200,7 +224,9 @@ const CustomTipTapEditor = ({ templateData, replaceVariables = false}: {template
             {editor && <MenuBar editor={editor} />}
             <EditorContent className="editor__content" editor={editor} />
           </div>
-          <Button type="primary" className='mt-2' onClick={saveTemplateHandler}>Save Template</Button>
+          <Button type="primary" className="mt-2" onClick={saveTemplateHandler}>
+            Save Template
+          </Button>
         </div>
 
         {/* Template Fields */}
