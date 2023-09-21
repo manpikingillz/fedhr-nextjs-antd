@@ -55,7 +55,7 @@ const fields: TemplateField[] = [
 
 const CustomTipTapEditor = ({
   templateData,
-  replaceVariables = false,
+  replaceVariables = true,
 }: {
   templateData: TemplateDetailData;
   replaceVariables: boolean;
@@ -151,6 +151,7 @@ const CustomTipTapEditor = ({
     let updatedContent = content;
     if (replaceVariables) {
       updatedContent = content.replace(`{{${fieldDisplayName}}}`, fieldData);
+      updatedContent = updatedContent.replace(`{{Last Name}}`, 'Twesigomwe');
     }
 
     // Set the updated content inside the editor
