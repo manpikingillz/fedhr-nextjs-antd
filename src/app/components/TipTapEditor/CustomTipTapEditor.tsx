@@ -102,7 +102,7 @@ const CustomTipTapEditor = ({
       template_type: templateType,
     };
 
-    if (Object.keys(templateData).length) {
+    if (templateData && Object.keys(templateData).length) {
       updateTemplate(_template);
     } else {
       createTemplate(_template);
