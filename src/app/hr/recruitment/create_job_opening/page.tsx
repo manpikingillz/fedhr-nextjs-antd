@@ -10,6 +10,7 @@ import {
   Typography,
   Divider,
   Card,
+  Radio,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { LeftCircleTwoTone, ProfileTwoTone } from '@ant-design/icons';
@@ -114,7 +115,6 @@ const CreateJobOpening = () => {
               >
                 <Input />
               </Form.Item>
-
               <Form.Item
                 label="Job Status"
                 name="job_status"
@@ -125,12 +125,55 @@ const CreateJobOpening = () => {
                   options={jobStatusOptions}
                 />
               </Form.Item>
-
-              {/* Similar pattern for other dropdown fields like hiring_lead, hiring_department, employment_type, location, and country. Just replace the JobStatus with the respective field's choices. */}
+              <Form.Item
+                label="Hiring Lead"
+                name="hiring_lead"
+                className="w-auto"
+              >
+                <Select
+                  placeholder="Select Hiring Lead"
+                  options={jobStatusOptions}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Department"
+                name="hiring_department"
+                className="w-auto"
+              >
+                <Select
+                  placeholder="Select Department"
+                  options={jobStatusOptions}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Employment Type"
+                name="employment_type"
+                className="w-auto"
+              >
+                <Select
+                  placeholder="Select Employment Type"
+                  options={jobStatusOptions}
+                />
+              </Form.Item>
 
               <Form.Item label="Minimum Experience" name="minimum_experience">
                 <Select
                   placeholder="Select experience level"
+                  options={experienceOptions}
+                />
+              </Form.Item>
+
+              <Form.Item label="" name="requiredMarkValue">
+                    <Radio.Group>
+                    <Radio.Button value>Office</Radio.Button>
+                    <Radio.Button value="optional">Hybrid</Radio.Button>
+                    <Radio.Button value="customize">Remote</Radio.Button>
+                    </Radio.Group>
+                </Form.Item>
+
+              <Form.Item label="Location" name="location">
+                <Select
+                  placeholder="Select Location"
                   options={experienceOptions}
                 />
               </Form.Item>
@@ -143,12 +186,12 @@ const CreateJobOpening = () => {
                 />
               </Form.Item>
 
-              <Form.Item label="City" name="city">
+              <Form.Item label="Internal Job Code" name="internal_job_code">
                 <Input />
               </Form.Item>
 
-              <Form.Item label="Province" name="province">
-                <Input />
+              <Form.Item label="Available Positions" name="available_positions">
+                <InputNumber />
               </Form.Item>
 
               <Form.Item label="Postal Code" name="postal_code">
@@ -162,6 +205,19 @@ const CreateJobOpening = () => {
                   }
                   parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                   style={{ width: '100%' }}
+                />
+              </Form.Item>
+
+              <Form.Item label="Currency" name="currency">
+                <Select
+                  placeholder="Select Location"
+                  options={experienceOptions}
+                />
+              </Form.Item>
+              <Form.Item label="Hourly or Monthly" name="currency">
+                <Select
+                  placeholder="Select Location"
+                  options={experienceOptions}
                 />
               </Form.Item>
 
