@@ -53,25 +53,25 @@ export default function LeaveLayout({
 
     switch (key) {
       case 'overview':
-        router.push('/hr/recruitment');
+        router.push('/hr/recruitment/tabs');
         break;
       case 'job_openings':
-        router.push('/hr/recruitment/job_openings');
+        router.push('/hr/recruitment/tabs/job_openings');
         break;
       case 'candidates':
-        router.push('/hr/recruitment/candidates');
+        router.push('/hr/recruitment/tabs/candidates');
         break;
       case 'talent_pools':
-        router.push('/hr/recruitment/talent_pools');
+        router.push('/hr/recruitment/tabs/talent_pools');
         break;
       case 'settings':
-        router.push('/hr/recruitment/settings');
+        router.push('/hr/recruitment/tabs/settings');
         break;
       case 'templates':
-        router.push('/hr/recruitment/contract_templates');
+        router.push('/hr/recruitment/tabs/contract_templates');
         break;
       default:
-        router.push('/hr/recruitment');
+        router.push('/hr/recruitment/tabs');
         break;
     }
   };
