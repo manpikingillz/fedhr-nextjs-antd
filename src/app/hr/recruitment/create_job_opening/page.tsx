@@ -1,5 +1,6 @@
 'use client';
 
+import './editor.scss';
 import {
   Form,
   Input,
@@ -10,14 +11,46 @@ import {
   Divider,
   Card,
 } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { LeftCircleTwoTone, ProfileTwoTone } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
+import { useForm } from 'antd/es/form/Form';
+import { Editor, EditorContent, useEditor } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+
 const { Option } = Select;
 const { TextArea } = Input;
 
+const TiptapEditor = ({ onChange }) => {
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: '',
+    onUpdate: ({ editor }) => {
+      const content = editor.getHTML();
+      onChange(content);
+    },
+  });
+
+  // Cleanup on component unmount
+  return (
+    <EditorContent
+      editor={editor}
+      style={{
+        backgroundColor: 'white',
+        cursor: 'text',
+        borderRadius: '0.5em',
+        minHeight: '100px',
+        borderColor: '#D9D9D9',
+        borderWidth: '1px',
+        borderStyle: 'solid',
+      }}
+    />
+  );
+};
+
 const CreateJobOpening = () => {
   const router = useRouter();
+  const [form] = useForm();
 
   const onSubmit = (values) => {
     console.log('Received values from form: ', values);
@@ -64,8 +97,7 @@ const CreateJobOpening = () => {
           <Divider className="mt-2" />
           <Card style={{ width: 840 }} hoverable className="bg-gray-50">
             <Form
-              // labelCol={{ span: 4 }}
-              // wrapperCol={{ span: 12 }}
+              form={form}
               style={{ maxWidth: '800px', width: '100%' }}
               layout="vertical"
               onFinish={onSubmit}
@@ -103,8 +135,12 @@ const CreateJobOpening = () => {
                 />
               </Form.Item>
 
-              <Form.Item label="Job Description" name="job_description">
-                <TextArea rows={4} />
+              <Form.Item name="job_description" label="Job Description">
+                <TiptapEditor
+                  onChange={(content) => {
+                    form.setFieldsValue({ job_description: content });
+                  }}
+                />
               </Form.Item>
 
               <Form.Item label="City" name="city">
