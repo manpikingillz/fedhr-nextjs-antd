@@ -13,6 +13,10 @@ const items: MenuProps['items'] = [
   {
     label: 'Settings',
     key: 'settings',
+  },
+  {
+    label: 'Templates',
+    key: 'templates',
   }
 ];
 
@@ -37,6 +41,9 @@ export default function LeaveLayout({children}: {children: React.ReactNode}) {
                 break;
             case 'settings':
                 router.push('/hr/recruitment/settings');
+                break;
+            case 'templates':
+                router.push('/hr/recruitment/contract_templates');
                 break;
             default:
                 router.push('/hr/recruitment');
