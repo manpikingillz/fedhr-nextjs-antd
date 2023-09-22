@@ -93,13 +93,13 @@ const JobOpeningList = () => {
   };
 
   const onEditHandler = (jobOpening: JobOpeningListData) => {
-    // router.push(`/hr/recruitment/contract_jobOpenings/update_jobOpening/${jobOpening.id}`);
+    router.push(`/hr/recruitment/update_job_opening/${jobOpening.id}`);
   }
 
   const columns = createColumns(onEditHandler, onDeleteHandler);
 
   const onAddJobOpeningHandler = () => {
-    // router.push('/hr/recruitment/contract_jobOpenings/create_jobOpening');
+    router.push('/hr/recruitment/create_job_opening/');
   };
 
   return (
