@@ -12,11 +12,17 @@ import {
   Card,
   Radio,
 } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { LeftCircleTwoTone, ProfileTwoTone } from '@ant-design/icons';
+import React from 'react';
+import {
+  LeftCircleTwoTone,
+  ProfileTwoTone,
+  HomeOutlined,
+  LaptopOutlined,
+  InsertRowLeftOutlined,
+} from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'antd/es/form/Form';
-import { Editor, EditorContent, useEditor } from '@tiptap/react';
+import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 
 const { Option } = Select;
@@ -74,6 +80,17 @@ const CreateJobOpening = () => {
     { value: 'SENIOR_EXECUTIVE', label: 'Senior Executive' },
   ];
 
+  const currencyOptions = [
+    { value: 'UGX', label: 'UGX' },
+    { value: 'USD', label: 'USD' },
+    { value: 'GBP', label: 'GBP' },
+  ];
+
+  const hourlyOrMonthlyOptions = [
+    { value: 'Hourly', label: 'Hourly' },
+    { value: 'Monthly', label: 'Monthly' },
+  ];
+
   return (
     <>
       <div className="flex flex-col">
@@ -105,73 +122,141 @@ const CreateJobOpening = () => {
               labelAlign="left"
               className="w-full"
             >
-              <Form.Item
-                label="Job Title"
-                name="job_title"
-                rules={[
-                  { required: true, message: 'Please input the job title!' },
-                ]}
-                className="w-full"
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Job Status"
-                name="job_status"
-                className="w-auto"
-              >
-                <Select
-                  placeholder="Select job status"
-                  options={jobStatusOptions}
-                />
-              </Form.Item>
-              <Form.Item
-                label="Hiring Lead"
-                name="hiring_lead"
-                className="w-auto"
-              >
-                <Select
-                  placeholder="Select Hiring Lead"
-                  options={jobStatusOptions}
-                />
-              </Form.Item>
-              <Form.Item
-                label="Department"
-                name="hiring_department"
-                className="w-auto"
-              >
-                <Select
-                  placeholder="Select Department"
-                  options={jobStatusOptions}
-                />
-              </Form.Item>
-              <Form.Item
-                label="Employment Type"
-                name="employment_type"
-                className="w-auto"
-              >
-                <Select
-                  placeholder="Select Employment Type"
-                  options={jobStatusOptions}
-                />
-              </Form.Item>
-
-              <Form.Item label="Minimum Experience" name="minimum_experience">
-                <Select
-                  placeholder="Select experience level"
-                  options={experienceOptions}
-                />
-              </Form.Item>
-
-              <Form.Item label="" name="requiredMarkValue">
-                    <Radio.Group>
-                    <Radio.Button value>Office</Radio.Button>
-                    <Radio.Button value="optional">Hybrid</Radio.Button>
-                    <Radio.Button value="customize">Remote</Radio.Button>
-                    </Radio.Group>
+              <div className="flex flex-1 gap-x-3">
+                <Form.Item
+                  label="Job Title"
+                  name="job_title"
+                  rules={[
+                    { required: true, message: 'Please input the job title!' },
+                  ]}
+                  className="basis-1/2"
+                >
+                  <Input />
                 </Form.Item>
 
-              <Form.Item label="Location" name="location">
+                <Form.Item
+                  label="Job Status"
+                  name="job_status"
+                  className="basis-1/2"
+                >
+                  <Select
+                    placeholder="Select job status"
+                    options={jobStatusOptions}
+                  />
+                </Form.Item>
+              </div>
+              <div className="flex flex-1 gap-x-3">
+                <div className="basis-1/2">
+                  <label className="block mb-2">Compensation</label>
+                  <div className="flex gap-x-3">
+                    <Form.Item name="currency" className="basis-1/4">
+                      <Select placeholder="Select" options={currencyOptions} />
+                    </Form.Item>
+
+                    <div className="basis-1/4">
+                      <Form.Item name="compensation">
+                        <InputNumber
+                          formatter={(value) =>
+                            `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                          }
+                          parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                          className="w-full"
+                          min={1}
+                          defaultValue={0}
+                        />
+                      </Form.Item>
+                    </div>
+
+                    <Form.Item label="" name="requiredMarkValue">
+                      <Radio.Group>
+                        <Radio.Button value>Hourly</Radio.Button>
+                        <Radio.Button value="optional">Monthly</Radio.Button>
+                      </Radio.Group>
+                    </Form.Item>
+                  </div>
+                </div>
+
+                <div className="basis-1/2 w-full">
+                  <Form.Item
+                    label="Available Positions"
+                    name="available_positions"
+                  >
+                    <InputNumber min={1} defaultValue={1} />
+                  </Form.Item>
+                </div>
+              </div>
+
+              <div className="flex flex-1 gap-x-3">
+                <Form.Item
+                  label="Hiring Lead"
+                  name="hiring_lead"
+                  className="basis-1/2"
+                >
+                  <Select
+                    placeholder="Select Hiring Lead"
+                    options={jobStatusOptions}
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="Department"
+                  name="hiring_department"
+                  className="basis-1/2"
+                >
+                  <Select
+                    placeholder="Select Department"
+                    options={jobStatusOptions}
+                  />
+                </Form.Item>
+              </div>
+
+              <div className="flex flex-1 gap-x-3">
+                <Form.Item
+                  label="Employment Type"
+                  name="employment_type"
+                  className="basis-1/2"
+                >
+                  <Select
+                    placeholder="Select Employment Type"
+                    options={jobStatusOptions}
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  label="Minimum Experience"
+                  name="minimum_experience"
+                  className="basis-1/2"
+                >
+                  <Select
+                    placeholder="Select experience level"
+                    options={experienceOptions}
+                  />
+                </Form.Item>
+              </div>
+
+              <div>
+                <label className="block mb-2">Location</label>
+                <Form.Item label="" name="requiredMarkValue">
+                  <Radio.Group className="text-sm">
+                    <Radio.Button value>
+                      {' '}
+                      <InsertRowLeftOutlined className="mr-2" />
+                      Office
+                    </Radio.Button>
+                    <Radio.Button value="optional">
+                      {' '}
+                      <HomeOutlined className="mr-2" />
+                      Hybrid
+                    </Radio.Button>
+                    <Radio.Button value="customize">
+                      {' '}
+                      <LaptopOutlined className="mr-2" />
+                      Remote
+                    </Radio.Button>
+                  </Radio.Group>
+                </Form.Item>
+              </div>
+
+              <Form.Item name="location">
                 <Select
                   placeholder="Select Location"
                   options={experienceOptions}
@@ -186,44 +271,15 @@ const CreateJobOpening = () => {
                 />
               </Form.Item>
 
-              <Form.Item label="Internal Job Code" name="internal_job_code">
-                <Input />
-              </Form.Item>
-
-              <Form.Item label="Available Positions" name="available_positions">
-                <InputNumber />
-              </Form.Item>
-
-              <Form.Item label="Postal Code" name="postal_code">
-                <Input />
-              </Form.Item>
-
-              <Form.Item label="Compensation" name="compensation">
-                <InputNumber
-                  formatter={(value) =>
-                    `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                  }
-                  parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                  style={{ width: '100%' }}
-                />
-              </Form.Item>
-
-              <Form.Item label="Currency" name="currency">
-                <Select
-                  placeholder="Select Location"
-                  options={experienceOptions}
-                />
-              </Form.Item>
-              <Form.Item label="Hourly or Monthly" name="currency">
-                <Select
-                  placeholder="Select Location"
-                  options={experienceOptions}
-                />
-              </Form.Item>
+              <div className="flex">
+                <Form.Item label="Internal Job Code" name="internal_job_code">
+                  <Input />
+                </Form.Item>
+              </div>
 
               <Form.Item>
                 <Button type="primary" htmlType="submit">
-                  Submit
+                  Save Job Opening
                 </Button>
               </Form.Item>
             </Form>
