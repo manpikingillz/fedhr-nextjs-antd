@@ -1,8 +1,9 @@
 import {
+  EmploymentType,
   JobOpeningCreateData,
   JobOpeningListData,
   JobOpeningUpdateData
-} from './types';
+} from '@/app/types/jop-opening-types';
 import { api } from '@/utils/api-utils';
 
 // Define your specific API endpoints
@@ -35,7 +36,7 @@ export async function deleteJobOpeningApi(id: number) {
 
 ////////////////////////////////////////////////////////////////////////////
 
-export async function getCourseListApi(): Promise<CourseListData[]> {
-  let endpoint = `training/course/`;
+export async function getEmploymentTypeListApi(): Promise<EmploymentType[]> {
+  let endpoint = `job-opening/employment-type/`;
   return api(endpoint);
 }

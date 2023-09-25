@@ -24,6 +24,24 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'antd/es/form/Form';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import { EmployeeListData } from '../../employees/employee-details/employee-details-tabs/[employeeId]/personal-information/types';
+import { getEmployeeListApi } from '../../employees/employees-tabs/api';
+import { useQuery } from '@tanstack/react-query';
+import {
+  DepartmentListData,
+  LocationListData,
+} from '../../employees/employee-details/employee-details-tabs/[employeeId]/employment-information/job-information/types';
+import {
+  getDepartmentListApi,
+  getLocationListApi,
+} from '../../employees/employee-details/employee-details-tabs/[employeeId]/employment-information/job-information/api';
+import { EmploymentStatusTypeListData } from '../../employees/employee-details/employee-details-tabs/[employeeId]/employment-information/employment-status/types';
+import { getEmploymentStatusTypeListApi } from '../../employees/employee-details/employee-details-tabs/[employeeId]/employment-information/employment-status/api';
+import { CountryListData } from '@/app/api/country-types';
+import { getCountryListApi } from '@/app/api/country-api';
+import { EmploymentTypeListData, JobOpeningCreateData, JobOpeningUpdateData } from '@/app/types/jop-opening-types';
+import { getEmploymentTypeListApi } from '@/app/api/job-opening-api';
+import { useCreateJobOpeningMutation, useUpdateJobOpeningMutation } from '@/app/mutations/job-opening-mutations';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -59,8 +77,122 @@ const CreateJobOpening = () => {
   const router = useRouter();
   const [form] = useForm();
 
-  const onSubmit = (values) => {
-    console.log('Received values from form: ', values);
+  // FETCH / QUERY DATA ///////////////////////////
+  const {
+    data: employeeList,
+    error: errorEmployeeList,
+    isFetching: isFetchingEmployeeList,
+    isLoading: isLoadingEmployeeList,
+    status: statusEmployeeList,
+  } = useQuery<EmployeeListData[]>({
+    queryKey: ['employee-list'],
+    queryFn: () => getEmployeeListApi(),
+  });
+
+  const {
+    data: departmentList,
+    error: errorDepartmentList,
+    isFetching: isFetchingDepartmentList,
+    isLoading: isLoadingDepartmentList,
+    status: statusDepartmentList,
+  } = useQuery<DepartmentListData[]>({
+    queryKey: ['department-list'],
+    queryFn: () => getDepartmentListApi(),
+  });
+
+  const {
+    data: locationList,
+    error: errorLocationList,
+    isFetching: isFetchingLocationList,
+    isLoading: isLoadingLocationList,
+    status: statusLocationList,
+  } = useQuery<LocationListData[]>({
+    queryKey: ['location-list'],
+    queryFn: () => getLocationListApi(),
+  });
+
+  const {
+    data: countryList,
+    error: errorCountryList,
+    isFetching: isFetchingCountryList,
+    isLoading: isLoadingCountryList,
+    status: statusCountryList,
+  } = useQuery<CountryListData[]>({
+    queryKey: ['country-list'],
+    queryFn: () => getCountryListApi(),
+  });
+
+  const {
+    data: employmentTypeList,
+    error: errorEmploymentTypeList,
+    isFetching: isFetchingEmploymentTypeList,
+    isLoading: isLoadingEmploymentTypeList,
+    status: statusEmploymentTypeList,
+  } = useQuery<EmploymentTypeListData[]>({
+    queryKey: ['employment-type-list'],
+    queryFn: () => getEmploymentTypeListApi(),
+  });
+
+
+  // MUTATIONS
+  const createJobOpeningMutation = useCreateJobOpeningMutation();
+//   const updateJobOpeningMutation = useUpdateJobOpeningMutation();
+
+  const createJobOpening = (_jobOpening: JobOpeningCreateData) => {
+    createJobOpeningMutation.mutate({ data: _jobOpening });
+  };
+
+//   const updateJobOpening = (_jobOpening: JobOpeningUpdateData) => {
+//     updateJobOpeningMutation.mutate({ data: _jobOpening, id: jobOpeningData?.id });
+//   };
+
+  const saveJobOpeningHandler = (
+    _jobOpening: JobOpeningCreateData | JobOpeningUpdateData
+  ) => {
+    console.log('Received values from form: ', _jobOpening);
+    createJobOpening(_jobOpening);
+    // if (Object.keys(jobOpeningData).length) {
+    //   updateJobOpening(_jobOpening);
+    // } else {
+    //   createJobOpening(_jobOpening);
+    // }
+  };
+
+  const hiringLeadOptions = () => {
+    return employeeList?.map((employee: EmployeeListData) => ({
+      value: employee.id,
+      label: employee.first_name + ' ' + employee.last_name,
+    }));
+  };
+
+  const hiringDepartmentOptions = () => {
+    return departmentList?.map((department: DepartmentListData) => ({
+      value: department.id,
+      label: department.department_name,
+    }));
+  };
+
+  const locationOptions = () => {
+    return locationList?.map((location: LocationListData) => ({
+      value: location.id,
+      label: location.location_name,
+    }));
+  };
+
+  const countryOptions = () => {
+    return countryList?.map((country: CountryListData) => ({
+      value: country.id,
+      label: country.country_name,
+    }));
+  };
+
+  const employmentTypeOptions = () => {
+    return employmentTypeList?.map(
+      (employmentType: EmploymentTypeListData) => ({
+        value: employmentType.id,
+        label: employmentType.employment_type_name,
+      })
+    );
   };
 
   const jobStatusOptions = [
@@ -80,15 +212,37 @@ const CreateJobOpening = () => {
     { value: 'SENIOR_EXECUTIVE', label: 'Senior Executive' },
   ];
 
-  const currencyOptions = [
+  const compensationCurrencyOptions = [
     { value: 'UGX', label: 'UGX' },
     { value: 'USD', label: 'USD' },
     { value: 'GBP', label: 'GBP' },
+    { value: 'KES', label: 'KES' },
+    { value: 'TZS', label: 'TZS' },
+    { value: 'RWF', label: 'RWF' },
+    { value: 'SDG', label: 'SDG' },
   ];
 
   const hourlyOrMonthlyOptions = [
-    { value: 'Hourly', label: 'Hourly' },
-    { value: 'Monthly', label: 'Monthly' },
+    { value: 'MONTHLY', label: 'Monthly' },
+    { value: 'HOURLY', label: 'Hourly' },
+  ];
+
+  const locationTypeOptions = [
+    {
+      value: 'OFFICE',
+      label: 'Office',
+      icon: <InsertRowLeftOutlined className="mr-2" />,
+    },
+    {
+      value: 'HYBRID',
+      label: 'Hybrid',
+      icon: <HomeOutlined className="mr-2" />,
+    },
+    {
+      value: 'REMOTE',
+      label: 'Remote',
+      icon: <LaptopOutlined className="mr-2" />,
+    },
   ];
 
   return (
@@ -118,7 +272,7 @@ const CreateJobOpening = () => {
               form={form}
               style={{ maxWidth: '800px', width: '100%' }}
               layout="vertical"
-              onFinish={onSubmit}
+              onFinish={saveJobOpeningHandler}
               labelAlign="left"
               className="w-full"
             >
@@ -149,8 +303,12 @@ const CreateJobOpening = () => {
                 <div className="basis-1/2">
                   <label className="block mb-2">Compensation</label>
                   <div className="flex gap-x-3">
-                    <Form.Item name="currency" className="basis-1/4">
-                      <Select placeholder="Select" options={currencyOptions} />
+                    <Form.Item name="compensation_currency" className="basis-1/4">
+                      <Select
+                        placeholder="Select"
+                        options={compensationCurrencyOptions}
+                        defaultValue="USD"
+                      />
                     </Form.Item>
 
                     <div className="basis-1/4">
@@ -161,16 +319,19 @@ const CreateJobOpening = () => {
                           }
                           parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                           className="w-full"
-                          min={1}
+                          min={0}
                           defaultValue={0}
                         />
                       </Form.Item>
                     </div>
 
-                    <Form.Item label="" name="requiredMarkValue">
-                      <Radio.Group>
-                        <Radio.Button value>Hourly</Radio.Button>
-                        <Radio.Button value="optional">Monthly</Radio.Button>
+                    <Form.Item>
+                      <Radio.Group defaultValue="MONTHLY">
+                        {hourlyOrMonthlyOptions.map((item, index) => (
+                          <Radio.Button key={index} value={item.value}>
+                            {item.label}
+                          </Radio.Button>
+                        ))}
                       </Radio.Group>
                     </Form.Item>
                   </div>
@@ -194,7 +355,7 @@ const CreateJobOpening = () => {
                 >
                   <Select
                     placeholder="Select Hiring Lead"
-                    options={jobStatusOptions}
+                    options={hiringLeadOptions()}
                   />
                 </Form.Item>
                 <Form.Item
@@ -204,7 +365,7 @@ const CreateJobOpening = () => {
                 >
                   <Select
                     placeholder="Select Department"
-                    options={jobStatusOptions}
+                    options={hiringDepartmentOptions()}
                   />
                 </Form.Item>
               </div>
@@ -217,7 +378,7 @@ const CreateJobOpening = () => {
                 >
                   <Select
                     placeholder="Select Employment Type"
-                    options={jobStatusOptions}
+                    options={employmentTypeOptions()}
                   />
                 </Form.Item>
 
@@ -235,23 +396,14 @@ const CreateJobOpening = () => {
 
               <div>
                 <label className="block mb-2">Location</label>
-                <Form.Item label="" name="requiredMarkValue">
-                  <Radio.Group className="text-sm">
-                    <Radio.Button value>
-                      {' '}
-                      <InsertRowLeftOutlined className="mr-2" />
-                      Office
-                    </Radio.Button>
-                    <Radio.Button value="optional">
-                      {' '}
-                      <HomeOutlined className="mr-2" />
-                      Hybrid
-                    </Radio.Button>
-                    <Radio.Button value="customize">
-                      {' '}
-                      <LaptopOutlined className="mr-2" />
-                      Remote
-                    </Radio.Button>
+                <Form.Item name="location_type">
+                  <Radio.Group className="text-sm" defaultValue="">
+                    {locationTypeOptions.map((item, index) => (
+                      <Radio.Button key={index} value={item.value}>
+                        {item.icon}
+                        {item.label}
+                      </Radio.Button>
+                    ))}
                   </Radio.Group>
                 </Form.Item>
               </div>
@@ -259,7 +411,7 @@ const CreateJobOpening = () => {
               <Form.Item name="location">
                 <Select
                   placeholder="Select Location"
-                  options={experienceOptions}
+                  options={locationOptions()}
                 />
               </Form.Item>
 
@@ -272,7 +424,7 @@ const CreateJobOpening = () => {
               </Form.Item>
 
               <div className="flex">
-                <Form.Item label="Internal Job Code" name="internal_job_code">
+                <Form.Item name="internal_job_code" label="Internal Job Code">
                   <Input />
                 </Form.Item>
               </div>

@@ -1,4 +1,4 @@
-import { createJobOpeningApi, deleteJobOpeningApi, updateJobOpeningApi } from './api';
+import { createJobOpeningApi, deleteJobOpeningApi, updateJobOpeningApi } from '@/app/api/job-opening-api';
 import { customMutation } from '@/utils/mutation-utils';
 
 // Create custom mutation hooks using the reusable function

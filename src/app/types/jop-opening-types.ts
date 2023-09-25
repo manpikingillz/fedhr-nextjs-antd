@@ -21,6 +21,7 @@ export type JobOpeningListData = {
     id: number;
     location_name: string;
   };
+  location_type: string;
   country: {
     id: number;
     country_name: string;
@@ -29,6 +30,8 @@ export type JobOpeningListData = {
   province: string;
   postal_code: string;
   compensation: number;
+  compensation_currency: string;
+  available_positions: number;
   created_at: string;
 };
 
@@ -41,11 +44,14 @@ export type JobOpeningCreateData = {
   minimum_experience: string;
   job_description: string;
   location: number;
+  location_type: string;
   country: number;
   city: string;
   province: string;
   postal_code: string;
   compensation: number;
+  compensation_currency: string;
+  available_positions: number;
 };
 
 export type JobOpeningUpdateData = {
@@ -57,11 +63,19 @@ export type JobOpeningUpdateData = {
   minimum_experience: string;
   job_description: string;
   location: number;
+  location_type: string;
   country: number;
   city: string;
   province: string;
   postal_code: string;
   compensation: number;
+  compensation_currency: string;
+  available_positions: number;
+};
+
+export type EmploymentTypeListData = {
+  id: number;
+  employment_type_name: string;
 };
 
 export type JobOpeningFormProps = {

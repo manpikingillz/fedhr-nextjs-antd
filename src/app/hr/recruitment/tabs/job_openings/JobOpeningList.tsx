@@ -12,10 +12,10 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { ErrorMessage } from '@/app/error/errorPage';
 
 import { useRouter } from 'next/navigation';
-import { JobOpeningListData } from './types';
+import { JobOpeningListData } from '@/app/types/jop-opening-types';
 import * as dayjs from 'dayjs';
-import { getJobOpeningListApi } from './api';
-import { useDeleteJobOpeningMutation } from './mutations';
+import { getJobOpeningListApi } from '@/app/api/job-opening-api';
+import { useDeleteJobOpeningMutation } from '@/app/mutations/job-opening-mutations';
 
 
 const createColumns = (
