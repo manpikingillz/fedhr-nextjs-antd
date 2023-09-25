@@ -31,7 +31,9 @@ export type JobOpeningListData = {
   postal_code: string;
   compensation: number;
   compensation_currency: string;
+  compensation_type: string;
   available_positions: number;
+  internal_job_code: string;
   created_at: string;
 };
 
@@ -51,7 +53,9 @@ export type JobOpeningCreateData = {
   postal_code: string;
   compensation: number;
   compensation_currency: string;
+  compensation_type: string;
   available_positions: number;
+  internal_job_code: string;
 };
 
 export type JobOpeningUpdateData = {
@@ -70,7 +74,9 @@ export type JobOpeningUpdateData = {
   postal_code: string;
   compensation: number;
   compensation_currency: string;
+  compensation_type: string;
   available_positions: number;
+  internal_job_code: string;
 };
 
 export type EmploymentTypeListData = {

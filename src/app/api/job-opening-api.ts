@@ -12,6 +12,11 @@ export async function getJobOpeningListApi(): Promise<JobOpeningListData[]> {
   return api(endpoint);
 }
 
+export async function getJobOpeningApi(id: number): Promise<JobOpeningListData[]> {
+  let endpoint = `job-opening/job-opening/${id}`;
+  return api(endpoint);
+}
+
 export async function createJobOpeningApi({
   data,
 }: {
