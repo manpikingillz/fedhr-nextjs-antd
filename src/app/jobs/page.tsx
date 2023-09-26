@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, Divider, Typography } from 'antd';
-import { ProfileTwoTone } from '@ant-design/icons';
+import { ProfileTwoTone, EnvironmentOutlined } from '@ant-design/icons';
 
 const JobsList = () => {
   return (
@@ -15,6 +15,41 @@ const JobsList = () => {
         </Typography.Text>
         <p className="text-base ml-4 py-2 text-gray-500">Thanks for checking out our job openings. See something that interests you? Apply here.</p>
         <Divider className="mt-2" />
+
+        <div className='flex'>
+            <div className='basis-1/2'>
+                <p className='text-gray-500'>Finance</p>
+                <p className='text-blue-600 text-lg'>Software Engineer</p>
+            </div>
+
+            <p className='basis-1/4 text-lg text-gray-500'> <EnvironmentOutlined /> Kampala</p>
+
+            <p className='basis-1/4 text-lg text-gray-500'> Full-Time</p>
+        </div>
+        <Divider className="mt-4" />
+        <div className='flex'>
+            <div className='basis-1/2'>
+                <p className='text-gray-500'>Finance</p>
+                <p className='text-blue-600 text-lg'>Software Engineer</p>
+            </div>
+
+            <p className='basis-1/4 text-lg text-gray-500'> <EnvironmentOutlined /> Kampala</p>
+
+            <p className='basis-1/4 text-lg text-gray-500'> Full-Time</p>
+        </div>
+        <Divider className="mt-4" />
+        <div className='flex'>
+            <div className='basis-1/2'>
+                <p className='text-gray-500'>Finance</p>
+                <p className='text-blue-600 text-lg'>Software Engineer</p>
+            </div>
+
+            <p className='basis-1/4 text-lg text-gray-500'> <EnvironmentOutlined /> Kampala</p>
+
+            <p className='basis-1/4 text-lg text-gray-500'> Full-Time</p>
+        </div>
+        <Divider className="mt-4" />
+
       </Card>
       </div>
     </>
