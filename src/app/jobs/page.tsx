@@ -6,7 +6,7 @@ import { ProfileTwoTone, EnvironmentOutlined } from '@ant-design/icons';
 const JobsList = () => {
   return (
     <>
-      <div className='flex flex-col items-center'>
+      <div className='flex flex-col items-center bg-blue-100'>
       <p className="ml-8 mt-4 text-2xl text-blue-600 font-bold">Smooth HR</p>
       <Card className="min-h-screen w-5/6  mx-8 my-8">
         <ProfileTwoTone className="text-2xl ml-4" />
