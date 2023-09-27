@@ -2,8 +2,15 @@
 
 import { Card, Divider, Typography } from 'antd';
 import { ProfileTwoTone, EnvironmentOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/navigation';
 
 const JobsList = () => {
+    const router = useRouter();
+
+    const onJobOpeningClickHandler = () => {
+        console.log('clicked')
+        router.push('jobs/job-details/1')
+    }
   return (
     <>
       <div className='flex flex-col items-center bg-blue-100'>
@@ -17,7 +24,7 @@ const JobsList = () => {
         <Divider className="mt-2" />
 
         <div className='flex'>
-            <div className='basis-1/2'>
+            <div className='basis-1/2 cursor-pointer' onClick={onJobOpeningClickHandler}>
                 <p className='text-gray-500'>Finance</p>
                 <p className='text-blue-600 text-lg'>Software Engineer</p>
             </div>
