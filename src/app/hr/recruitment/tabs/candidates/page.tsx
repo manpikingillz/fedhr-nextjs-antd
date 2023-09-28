@@ -1,9 +1,10 @@
 'use client'
 
 import React from 'react';
-import { Divider, Dropdown, MenuProps, Rate, Space, Table } from 'antd';
+import { Collapse, CollapseProps, Divider, Dropdown, MenuProps, Rate, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { MoreOutlined, SmileOutlined, FileTextFilled, CommentOutlined, MailFilled, ToTopOutlined, DeleteOutlined} from '@ant-design/icons';
+import Card from 'antd/es/card/Card';
 
 interface DataType {
   key: string;
@@ -134,11 +135,62 @@ const data: DataType[] = [
   },
 ];
 
+const text = (
+  <p style={{ paddingLeft: 24 }}>
+    A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found
+    as a welcome guest in many households across the world.
+  </p>
+);
+
+const collapseItems: CollapseProps['items'] = [
+  {
+    key: '1',
+    label: 'Job Statuses',
+    children: text,
+  },
+  {
+    key: '2',
+    label: 'Job Openings',
+    children: text,
+  },
+  {
+    key: '3',
+    label: 'Star Rating',
+    children: text,
+  },
+  {
+    key: '4',
+    label: 'Application Dates',
+    children: text,
+  },
+  {
+    key: '5',
+    label: 'Sources',
+    children: text,
+  },
+  {
+    key: '6',
+    label: 'Job Locations',
+    children: text,
+  },
+  {
+    key: '7',
+    label: 'Hiring Leads',
+    children: text,
+  }
+];
+
 const Candidates = () => {
   return (
-    <div>
-      <Table columns={columns} dataSource={data} />
-    </div>
+    <>
+      <div className='flex space-x-6'>
+        <div className='basis-1/4'>
+          <p className='h-10 pl-6 pt-2 bg-stone-500 text-white text-base'>Filter Results</p>
+          <Collapse items={collapseItems} bordered={false} defaultActiveKey={['1']} />
+        </div>
+        <Table columns={columns} dataSource={data} className='basis-3/4' />
+      </div>
+    </>
   );
 }
 
