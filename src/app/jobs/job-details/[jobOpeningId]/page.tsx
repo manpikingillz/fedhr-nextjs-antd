@@ -67,10 +67,10 @@ const PublishedJobDetail  = () => {
 
 
         return (
-            <div>
-                <Row style={{ marginTop: '3em' }}>
+            <div className=' h-min'>
+                <Row className='pt-10'>
                     <Col span={20} offset={2} style={{ textAlign: 'left' }}>
-                        <h1 className='text-blue-500 text-2xl font-bold mb-2'>
+                        <h1 className='text-blue-500 text-2xl font-bold mt-2 mb-6'>
                             <AlertOutlined />
                             &nbsp;Smooth HR</h1>
                     </Col>
@@ -95,7 +95,7 @@ const PublishedJobDetail  = () => {
                                     <div dangerouslySetInnerHTML={{ __html: htmlJobDisplay }} />
                                     :
                                     <div>
-                                        <h1>Apply for this Position</h1>
+                                        <p className='text-blue-500 text-xl mb-2'>Apply for this Position</p>
                                         <Form name='job-details-form' layout='vertical'>
                                             <Row gutter={16}>
                                                 <Col span={12}>
@@ -274,9 +274,9 @@ const PublishedJobDetail  = () => {
                                         </Form>
                                         <Affix offsetBottom={0} >
                                             <Card style={{ backgroundColor: '#414141' }}>
-                                                <Button type="default" size="large" style={{color: '#0093ff', fontWeight: 'bold'}}>
+                                                <Button type="primary" size="large" >
                                                 <CheckCircleOutlined />
-                                                Save
+                                                Submit Application
                                                 </Button>
                                                 <Button type="link" size="large" style={{color: '#ffffff'}}>
                                                     Cancel
@@ -301,7 +301,7 @@ const PublishedJobDetail  = () => {
                                         </Button>
                                 }
                             </Card>
-                            <Card style={{ backgroundColor: '#EFF2F5', borderColor: '#EFF2F5' }}>
+                            <Card className='bg-zinc-100'>
                                 <span style={{ color: 'gray' }}>Location</span>
                                 <br />
                                 <span style={{ fontWeight: 'bold' }}>Kampala, Uganda</span>
