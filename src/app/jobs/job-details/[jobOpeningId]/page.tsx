@@ -322,6 +322,11 @@ const PublishedJobDetail  = () => {
                                 <span style={{ fontWeight: 'bold' }}>Manager/Supervisor</span>
                                 <Divider />
 
+                                <span style={{ color: 'gray' }}>Compensation</span>
+                                <br />
+                                <span style={{ fontWeight: 'bold' }}>$80,000 per year</span>
+                                <Divider />
+
                             </Card>
                         </Affix>
                     </Col>
