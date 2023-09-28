@@ -25,6 +25,7 @@ import {
   DeleteOutlined,
 } from '@ant-design/icons';
 import Card from 'antd/es/card/Card';
+import Link from 'next/link';
 
 interface DataType {
   key: string;
@@ -72,7 +73,7 @@ const columns: ColumnsType<DataType> = [
     key: 'name',
     render: (_, item) => (
       <div>
-        <a>{item.name}</a>
+        <Link href='/hr/recruitment/candidate-details'>{item.name}</Link>
         <p className="text-gray-500">{item.address}</p>
       </div>
     ),

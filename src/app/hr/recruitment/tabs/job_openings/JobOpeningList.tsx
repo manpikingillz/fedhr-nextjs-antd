@@ -16,6 +16,7 @@ import { JobOpeningListData } from '@/app/types/jop-opening-types';
 import * as dayjs from 'dayjs';
 import { getJobOpeningListApi } from '@/app/api/job-opening-api';
 import { useDeleteJobOpeningMutation } from '@/app/mutations/job-opening-mutations';
+import Link from 'next/link';
 
 
 const createColumns = (
@@ -26,6 +27,7 @@ const createColumns = (
     title: 'Job Title',
     dataIndex: 'job_title',
     key: 'job_title',
+    render: (job_title) => <Link href="/hr/recruitment/job-opening-details">{job_title}</Link>,
   },
   {
     title: 'Hiring Lead',

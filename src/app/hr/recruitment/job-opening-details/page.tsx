@@ -6,10 +6,12 @@ import { Button, Row, Col, Divider, Card } from 'antd'
 import { EditOutlined, BookOutlined, ArrowLeftOutlined, UserOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { Avatar } from 'antd';
+import { useRouter } from 'next/navigation';
 
 
 const JobDetail = () => {
     const [showFullDescription, setFullDescription] = useState(false);
+    const router = useRouter()
 
     const showFullDescriptionHandler = () => {
         setFullDescription(!showFullDescription);
@@ -139,7 +141,8 @@ const JobDetail = () => {
                         <Card className='bg-zinc-100 text-center'>
                             <span>Take a look at your job listing</span>
                             <br />
-                            <Button type="default" className='text-gray-500 font-bold bg-gray-200 border-grahy-200'>
+                            <Button type="default" className='text-gray-500 font-bold bg-gray-200 border-grahy-200'
+                            onClick={() => router.push('/jobs/job-details/1')}>
                                 Preview Job Listing
                             </Button>
                         </Card>

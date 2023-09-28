@@ -11,7 +11,7 @@ const { TextArea } = Input;
 
 
 const PublishedJobDetail  = () => {
-    const [showApplyForm, setShowApplyForm] = useState(true);
+    const [showApplyForm, setShowApplyForm] = useState(false);
 
     const onJobViewDescription = () => {
         setShowApplyForm(false)
