@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { Collapse, CollapseProps, Divider, Dropdown, MenuProps, Rate, Space, Table } from 'antd';
+import { Collapse, CollapseProps, Divider, Dropdown, MenuProps, Rate, Slider, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { MoreOutlined, SmileOutlined, FileTextFilled, CommentOutlined, MailFilled, ToTopOutlined, DeleteOutlined} from '@ant-design/icons';
 import Card from 'antd/es/card/Card';
@@ -142,6 +142,10 @@ const text = (
   </p>
 );
 
+const ratingFilter = (
+  <Slider min={0} max={5} range defaultValue={[0, 5]}  />
+)
+
 const collapseItems: CollapseProps['items'] = [
   {
     key: '1',
@@ -156,7 +160,7 @@ const collapseItems: CollapseProps['items'] = [
   {
     key: '3',
     label: 'Star Rating',
-    children: text,
+    children: ratingFilter,
   },
   {
     key: '4',
