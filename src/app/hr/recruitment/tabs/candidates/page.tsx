@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { Collapse, CollapseProps, Divider, Dropdown, MenuProps, Rate, Slider, Space, Table } from 'antd';
+import { Checkbox, Collapse, CollapseProps, Divider, Dropdown, MenuProps, Rate, Slider, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { MoreOutlined, SmileOutlined, FileTextFilled, CommentOutlined, MailFilled, ToTopOutlined, DeleteOutlined} from '@ant-design/icons';
 import Card from 'antd/es/card/Card';
@@ -146,11 +146,30 @@ const ratingFilter = (
   <Slider min={0} max={5} range defaultValue={[0, 5]}  />
 )
 
+const jobStatusOptions = [
+  { value: 'DRAFT', label: 'Draft' },
+  { value: 'OPEN', label: 'Open' },
+  { value: 'ON_HOLD', label: 'On Hold' },
+  { value: 'FILLED', label: 'Filled' },
+  { value: 'CANCELLED', label: 'Cancelled' },
+];
+const jobStatusesFilter = (
+  <Checkbox.Group style={{ width: '100%' }}>
+    <div className='flex flex-col'>
+    {
+      jobStatusOptions.map((option) => (
+        <Checkbox value={option.value}>{option.label}</Checkbox>
+      ))
+    }
+    </div>
+  </Checkbox.Group>
+)
+
 const collapseItems: CollapseProps['items'] = [
   {
     key: '1',
     label: 'Job Statuses',
-    children: text,
+    children: jobStatusesFilter,
   },
   {
     key: '2',
