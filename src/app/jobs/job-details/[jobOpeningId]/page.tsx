@@ -278,7 +278,7 @@ const PublishedJobDetail  = () => {
                                                 <CheckCircleOutlined />
                                                 Submit Application
                                                 </Button>
-                                                <Button type="link" size="large" style={{color: '#ffffff'}}>
+                                                <Button type="link" size="large" style={{color: '#ffffff'}} onClick={onJobViewDescription}>
                                                     Cancel
                                                 </Button>
                                             </Card>
