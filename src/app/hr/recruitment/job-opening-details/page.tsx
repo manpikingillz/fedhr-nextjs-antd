@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Row, Col, Divider, Card } from 'antd'
 // import ReadMoreAndLess from 'react-read-more-less';
 import { EditOutlined, BookOutlined, ArrowLeftOutlined, UserOutlined } from '@ant-design/icons';
@@ -9,6 +9,11 @@ import { Avatar } from 'antd';
 
 
 const JobDetail = () => {
+    const [showFullDescription, setFullDescription] = useState(false);
+
+    const showFullDescriptionHandler = () => {
+        setFullDescription(!showFullDescription);
+      };
 
     const htmlJobDisplay = `
         <p style="margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: baseline; display: block; color: rgb(34, 34, 34); font-size: 15px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; font-family: &quot;source sans pro&quot;;">
@@ -52,6 +57,12 @@ const JobDetail = () => {
   <li style="margin: 0px 0px 5px; padding: 0px; border: 0px; outline: 0px; vertical-align: baseline; display: list-item; text-align: -webkit-match-parent;"><strong style="margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: baseline; font-weight: 700;">Health Benefits.&nbsp;</strong>Medical with HSA and FSA options, dental, and vision</li>
 </ul>
         `
+
+        const jobDisplay = showFullDescription
+    ? htmlJobDisplay
+    : htmlJobDisplay.slice(0, 250);
+
+
         return (
             <div>
                 <Link href="/jobs">
@@ -117,7 +128,11 @@ const JobDetail = () => {
 
                         </Card>
                         <br />
-                         <div dangerouslySetInnerHTML={{ __html: htmlJobDisplay }} />
+                         <div dangerouslySetInnerHTML={{ __html: jobDisplay }} />
+                         <button onClick={showFullDescriptionHandler}>
+                            Read {showFullDescription ? "Less" : "More"}
+                        </button>
+
 
                     </Col>
                     <Col span={8}>
