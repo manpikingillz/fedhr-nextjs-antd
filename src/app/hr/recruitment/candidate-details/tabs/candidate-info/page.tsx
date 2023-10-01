@@ -1,9 +1,9 @@
 'use client'
 
-import { DocxViewer, GoogleDocViewer, PdfIFrameViewer } from "./DocViewer";
+import { DocxViewer, GoogleDocViewer, PdfIFrameViewer } from "@/app/components/FileViewer";
 
 const CandidateInfo = () => {
-    return <DocxViewer src="/files/13THSUNDAYINORDINARYTIME.docx"/>
+    return <PdfIFrameViewer src="/files/GilbertTwesigomweResume.pdf"/>
 }
 
 export default CandidateInfo;
