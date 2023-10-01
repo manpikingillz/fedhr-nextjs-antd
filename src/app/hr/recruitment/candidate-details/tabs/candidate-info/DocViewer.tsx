@@ -1,5 +1,32 @@
-// import mammoth from 'mammoth';
+import { useState, useEffect } from 'react';
+import mammoth from 'mammoth';
 
+export const DocxViewer = ({src}) => {
+  const [htmlContent, setHtmlContent] = useState('');
+
+  useEffect(() => {
+    // Ensure this code runs on the client, not on the server during SSR
+    if (typeof window !== 'undefined') {
+      fetch(src)
+        .then(response => response.blob())
+        .then(blob => {
+          mammoth.convertToHtml({ arrayBuffer: blob.arrayBuffer() })
+            .then(displayResult)
+            .catch(handleError);
+        });
+    }
+  }, []);
+
+  function displayResult(result) {
+    setHtmlContent(result.value); // The generated HTML
+  }
+
+  function handleError(err) {
+    console.error(err);
+  }
+
+  return <div dangerouslySetInnerHTML={{ __html: htmlContent }} />;
+};
 
 export function GoogleDocViewer({ src }) {
   const googleDocsUrl = `https://docs.google.com/gview?url=${encodeURIComponent(src)}&embedded=true`;
@@ -20,10 +47,5 @@ export function PdfIFrameViewer({ src, width = "100%", height = "600px" }) {
   );
 }
 
-// export function DocxViewer({ src }) {
 
-//   return (
-//   mammoth.convertToHtml({ path: '/path/to/docx' })
-//   .then(displayResult)
-//   .catch(handleError);
-// }
+
