@@ -1,11 +1,9 @@
 'use client'
 
-// import { DocxViewer, PdfViewer } from "./DocViewer";
-import pdfFile  from "";
+import { GoogleDocViewer, PdfIFrameViewer } from "./DocViewer";
 
 const CandidateInfo = () => {
-    return  <iframe src="/files/GilbertTwesigomweResume.pdf" style={{ width: '100%', height: '50em' }} />
-    // <PdfViewer src="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" />
+    return <PdfIFrameViewer src="/files/GilbertTwesigomweResume.pdf"/>
 }
 
 export default CandidateInfo;
