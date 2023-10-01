@@ -1,3 +1,6 @@
+// import mammoth from 'mammoth';
+
+
 export function GoogleDocViewer({ src }) {
   const googleDocsUrl = `https://docs.google.com/gview?url=${encodeURIComponent(src)}&embedded=true`;
   return (
@@ -16,3 +19,11 @@ export function PdfIFrameViewer({ src, width = "100%", height = "600px" }) {
     ></iframe>
   );
 }
+
+// export function DocxViewer({ src }) {
+
+//   return (
+//   mammoth.convertToHtml({ path: '/path/to/docx' })
+//   .then(displayResult)
+//   .catch(handleError);
+// }

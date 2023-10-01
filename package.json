@@ -37,6 +37,7 @@
     "eslint-config-next": "13.4.8",
     "file-loader": "^6.2.0",
     "lexical": "^0.12.2",
+    "mammoth": "^1.6.0",
     "moment": "^2.29.4",
     "next": "13.4.19",
     "next-auth": "^4.22.3",
