@@ -73,7 +73,7 @@ const columns: ColumnsType<DataType> = [
     key: 'name',
     render: (_, item) => (
       <div>
-        <Link href='/hr/recruitment/candidate-details'>{item.name}</Link>
+        <Link href='/hr/recruitment/candidate-details/tabs/candidate-info'>{item.name}</Link>
         <p className="text-gray-500">{item.address}</p>
       </div>
     ),

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   InfoCircleOutlined,
   CommentOutlined,
@@ -24,7 +24,7 @@ import {
   Space,
 } from 'antd';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 const items: MenuProps['items'] = [
   {
@@ -99,6 +99,16 @@ const CandidateDetail = ({
 }) => {
   const [current, setCurrent] = useState('mail');
   const router = useRouter();
+
+  const path = usePathname()
+
+
+  useEffect(() => {
+    if (path.includes('candidate-details/tabs/')) {
+      const pathKey = path.split('/').at(-1)
+      setCurrent(pathKey)
+    }
+  }, [path]);
 
   // Tabs menu
   const tabsMenuOnClick: MenuProps['onClick'] = (e) => {
@@ -188,27 +198,46 @@ const CandidateDetail = ({
                   options: notHiredStatuses,
                 },
               ]}
+              defaultValue="New"
             />
           </Card>
           <Card className="basis-1/4">
-            <span className="text-gray-500">Location</span>
-            <br />
-            <span>Kampala, Uganda</span>
-            <Divider />
+            <p className="text-gray-500">Desired Pay</p>
+            <p>$60,000</p>
+            <Divider className='mt-2 mb-3'/>
 
-            <span className="text-gray-500">Department</span>
-            <br />
-            <span>IT</span>
-            <Divider />
+            <p className="text-gray-500">Available Start Date</p>
+            <p>Dec 14, 2023</p>
+            <Divider className='mt-2 mb-3'/>
 
-            <span className="text-gray-500">Employment Type</span>
-            <br />
-            <span>Full-Time</span>
-            <Divider />
+            <p className="text-gray-500">Phone</p>
+            <p>0780 332 423</p>
+            <Divider className='mt-2 mb-3'/>
 
-            <span className="text-gray-500">Minimum Experience</span>
-            <br />
-            <span>Experienced</span>
+            <p className="text-gray-500">Email</p>
+            <p>johndoe@company.com</p>
+            <Divider className='mt-2 mb-3'/>
+
+            <p className="text-gray-500">Website, Blog or Portfolio</p>
+            <p>https://www.somesite.com</p>
+            <Divider className='mt-2 mb-3'/>
+
+            <p className="text-gray-500">Address</p>
+            <p>335 South 560 West</p>
+            <p>Lindon, 84042</p>
+            <Divider className='mt-2 mb-3'/>
+
+            <p className="text-gray-500">College/University</p>
+            <p>Tulane</p>
+            <Divider className='mt-2 mb-3'/>
+
+            <p className="text-gray-500">Highest Education Obtained</p>
+            <p>College - Master of Fine Arts</p>
+            <Divider className='mt-2 mb-3'/>
+
+            <p className="text-gray-500">Referred By</p>
+            <p>Sam Walker</p>
+            <Divider className='mt-2 mb-3'/>
           </Card>
         </div>
       </div>
