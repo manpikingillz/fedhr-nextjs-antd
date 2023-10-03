@@ -1,5 +1,3 @@
-const CandidateNotes = () => {
-    return <h1>Candidate Notes</h1>
+export default function CandidateComments() {
+    return <h1>Candidate comments</h1>
 }
-
-export default CandidateNotes;

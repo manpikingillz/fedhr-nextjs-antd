@@ -34,12 +34,12 @@ const items: MenuProps['items'] = [
   },
   {
     label: 'Notes',
-    key: 'notes',
+    key: 'candidate-notes',
     icon: <CommentOutlined />,
   },
   {
     label: 'Emails',
-    key: 'emails',
+    key: 'candidate-emails',
     icon: <MailOutlined />,
   },
 ];
@@ -120,10 +120,10 @@ const CandidateDetail = ({
         case 'candidate-info':
           router.push('/hr/recruitment/candidate-details/tabs/candidate-info');
           break;
-        case 'notes':
+        case 'candidate-notes':
           router.push('/hr/recruitment/candidate-details/tabs/candidate-notes');
           break;
-        case 'emails':
+        case 'candidate-emails':
             router.push('/hr/recruitment/candidate-details/tabs/candidate-emails');
             break;
         default:
