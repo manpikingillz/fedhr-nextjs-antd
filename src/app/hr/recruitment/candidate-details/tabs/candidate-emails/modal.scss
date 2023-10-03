@@ -14,3 +14,9 @@
 //     height: calc(100vh - 104px); /* 104px is a typical header height, but you can adjust as necessary */
 //     overflow: auto;
 //   }
+
+.fit-modal-height {
+    height: calc(100vh - 104px); /* Adjust 104px based on the modal's header and footer */
+    overflow-y: auto;
+  }
+  
