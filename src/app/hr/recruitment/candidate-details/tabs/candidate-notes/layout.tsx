@@ -30,8 +30,8 @@ export default function CandidateNotes({
   const path = usePathname();
 
   useEffect(() => {
-    if (path === '/hr/recruitment') {
-      setCurrent('overview');
+    if (path.includes('/tabs/candidate-notes')) {
+      setCurrent('comments');
     }
   }, [path]);
 
