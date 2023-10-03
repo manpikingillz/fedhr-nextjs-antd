@@ -11,6 +11,7 @@ import {
   MessageFilled,
   MailFilled,
   CaretDownFilled,
+  EditOutlined
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import {
@@ -238,6 +239,18 @@ const CandidateDetail = ({
             <p className="text-gray-500">Referred By</p>
             <p>Sam Walker</p>
             <Divider className='mt-2 mb-3'/>
+
+            <p className="text-gray-500">Source</p>
+            <p>other</p>
+            <Divider className='mt-2 mb-3'/>
+
+            <div className='flex justify-between'>
+              <p className="font-bold">Talent Pools</p>
+              <MailFilled/>
+              <EditOutlined />
+            </div>
+            <p className='text-blue-500'>Sam Walker</p>
+            <p className='text-gray-500'>Oct 3 (2 hours ago)</p>
           </Card>
         </div>
       </div>
