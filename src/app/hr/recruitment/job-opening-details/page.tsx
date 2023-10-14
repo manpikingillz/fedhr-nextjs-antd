@@ -7,6 +7,7 @@ import { EditOutlined, BookOutlined, ArrowLeftOutlined, UserOutlined } from '@an
 import Link from 'next/link';
 import { Avatar } from 'antd';
 import { useRouter } from 'next/navigation';
+import JobOpeningCandidates from './JobOpeningCandidates';
 
 
 const JobDetail = () => {
@@ -135,8 +136,9 @@ const JobDetail = () => {
                          <button onClick={showFullDescriptionHandler}>
                             Read {showFullDescription ? "Less" : "More"}
                         </button>
-
-
+                        <div className='mt-6'>
+                            <JobOpeningCandidates />
+                        </div>
                     </Col>
                     <Col span={8}>
                         <Card className='bg-zinc-100 text-center'>
@@ -170,12 +172,6 @@ const JobDetail = () => {
                         </Card>
                     </Col>
                 </Row>
-
-                {/* <Row>
-                    <Col span={24}>
-                        <JobCandidates />
-                    </Col>
-                </Row> */}
             </div>
         );
     }
