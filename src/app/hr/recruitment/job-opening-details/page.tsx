@@ -67,12 +67,13 @@ const JobDetail = () => {
 
         return (
             <div>
-                <Link href="/jobs">
-                                <span className='text-gray-500'>
-                                    <ArrowLeftOutlined />
-                                    &nbsp;
-                                    Job Openings</span>
-                            </Link>
+                <div className='cursor-pointer' onClick={() => router.back()}>
+                    <span className='text-gray-500'>
+                        <ArrowLeftOutlined />
+                        &nbsp;
+                        Job Openings
+                    </span>
+                </div>
                 <h2 className='text-blue-500 mb-2 mt-4'>
                     <BookOutlined />
                     &nbsp;Software Engineer</h2>
