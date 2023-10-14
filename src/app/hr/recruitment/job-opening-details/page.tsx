@@ -136,9 +136,6 @@ const JobDetail = () => {
                          <button onClick={showFullDescriptionHandler}>
                             Read {showFullDescription ? "Less" : "More"}
                         </button>
-                        <div className='mt-6'>
-                            <JobOpeningCandidates />
-                        </div>
                     </Col>
                     <Col span={8}>
                         <Card className='bg-zinc-100 text-center'>
@@ -172,6 +169,11 @@ const JobDetail = () => {
                         </Card>
                     </Col>
                 </Row>
+
+                <div className='mt-4'>
+                    <JobOpeningCandidates />
+                </div>
+
             </div>
         );
     }
