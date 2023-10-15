@@ -7,6 +7,7 @@ import {
   PlusCircleOutlined,
   EditTwoTone,
   DeleteTwoTone,
+  UserOutlined
 } from '@ant-design/icons';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { ErrorMessage } from '@/app/error/errorPage';
@@ -23,6 +24,20 @@ const createColumns = (
   onEdit?: (jobOpeningItem: JobOpeningListData) => void,
   onDelete?: (id: number) => void
 ): ColumnsType<JobOpeningListData> => [
+  {
+    title: 'Candidates',
+    dataIndex: 'candidates',
+    key: 'candidates',
+    render: () => <>
+      <div>
+        <div>
+          <span className="mdi mdi-account-circle text-lg mr-1 text-blue-500"></span>
+          <span className='text-lg text-blue-500'>1</span>
+          <p className='text-blue-500'>1 NEW</p>
+        </div>
+      </div>
+    </>,
+  },
   {
     title: 'Job Title',
     dataIndex: 'job_title',
@@ -48,7 +63,7 @@ const createColumns = (
   },
   {
     title: 'Action',
-    className: 'w-24',
+    className: 'w-28',
     render: (jobOpening) => (
       <span>
         <EditTwoTone
@@ -65,6 +80,8 @@ const createColumns = (
         >
           <DeleteTwoTone className="cursor-pointer" />
         </Popconfirm>
+        <Divider type="vertical" />
+        <span className='mdi mdi-content-copy text-blue-500 cursor-pointer'></span>
       </span>
     ),
   },
