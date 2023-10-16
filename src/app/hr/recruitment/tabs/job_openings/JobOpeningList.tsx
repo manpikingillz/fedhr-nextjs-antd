@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { Button, Divider, Empty, Form, Menu, Popconfirm, Select, Table } from 'antd';
+import { Button, Divider, Empty, Form, Menu, Popconfirm, Select, Table, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import {
   PlusCircleOutlined,
@@ -146,15 +146,18 @@ const JobOpeningList = () => {
         >
           Add Job Opening
         </Button>
-        <div>
-          <span className='text-gray-800 mr-2'>5 of 25 open .</span>
-          <label className='mr-2 text-gray-800'>Show</label>
+        <div className='flex items-center gap-x-2'>
+          <span className='text-gray-800 '>5 of 25 open .</span>
+          <label className=' text-gray-800'>Show</label>
           <Select
             defaultValue="Draft & Open"
             style={{ width: 200 }}
             onChange={jobOpeningStatusChangeHandler}
             options={jobOpeningOptions}
           />
+          <Tooltip title="Download job postings">
+            <Button icon={<span className='mdi mdi-arrow-down-box text-2xl text-zinc-600'></span>} className='flex items-center justify-center'/>
+          </Tooltip>
         </div>
       </div>
 
