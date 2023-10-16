@@ -11,7 +11,7 @@ import {
   MessageFilled,
   MailFilled,
   CaretDownFilled,
-  EditOutlined
+  EditOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import {
@@ -26,24 +26,6 @@ import {
 } from 'antd';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-
-const items: MenuProps['items'] = [
-  {
-    label: 'Candidate Info',
-    key: 'candidate-info',
-    icon: <InfoCircleOutlined />,
-  },
-  {
-    label: 'Notes',
-    key: 'candidate-notes',
-    icon: <CommentOutlined />,
-  },
-  {
-    label: 'Emails',
-    key: 'candidate-emails',
-    icon: <MailOutlined />,
-  },
-];
 
 const activeStatuses = [
   { value: 'REVIEWED', label: 'Reviewed' },
@@ -74,9 +56,9 @@ const candidateActionMenuItems: MenuProps['items'] = [
     key: '2',
     //   icon: <UserOutlined />,
   },
-//   {
-//     type: 'divider',
-//   },
+  //   {
+  //     type: 'divider',
+  //   },
   {
     label: 'Delete Candidate',
     key: '4',
@@ -93,60 +75,87 @@ const menuProps = {
   onClick: handleMenuClick,
 };
 
-const CandidateDetail = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+const CandidateDetail = ({ children }: { children: React.ReactNode }) => {
   const [current, setCurrent] = useState('mail');
   const router = useRouter();
 
-  const path = usePathname()
-
+  const path = usePathname();
 
   useEffect(() => {
     if (path.includes('candidate-details/tabs/')) {
-      const pathKey = path.split('/').at(-1)
-      setCurrent(pathKey)
+      const pathKey = path.split('/').at(-1);
+      setCurrent(pathKey);
     }
   }, [path]);
+
+  const items: MenuProps['items'] = [
+    {
+      label: 'Candidate Info',
+      key: 'candidate-info',
+      icon: <InfoCircleOutlined />,
+      className: `${
+        current == 'candidate-info' ? 'bg-white' : 'bg-blue-500 text-white'
+      }`,
+    },
+    {
+      label: 'Notes',
+      key: 'candidate-notes',
+      icon: <CommentOutlined />,
+      className: `${
+        current == 'candidate-notes' ? 'bg-white' : 'bg-blue-500 	text-white'
+      }`,
+    },
+    {
+      label: 'Emails',
+      key: 'candidate-emails',
+      icon: <MailOutlined />,
+      className: `${
+        current == 'candidate-emails' ? 'bg-white' : 'bg-blue-500 text-white'
+      }`,
+    },
+  ];
 
   // Tabs menu
   const tabsMenuOnClick: MenuProps['onClick'] = (e) => {
     console.log('click ', e);
-    const key = e.key
+    const key = e.key;
     setCurrent(key);
 
     switch (key) {
-        case 'candidate-info':
-          router.push('/hr/recruitment/candidate-details/tabs/candidate-info');
-          break;
-        case 'candidate-notes':
-          router.push('/hr/recruitment/candidate-details/tabs/candidate-notes');
-          break;
-        case 'candidate-emails':
-            router.push('/hr/recruitment/candidate-details/tabs/candidate-emails');
-            break;
-        default:
-            router.push('/hr/recruitment/candidate-details/tabs/candidate-info');
-            break;
-    };
-};
+      case 'candidate-info':
+        router.push('/hr/recruitment/candidate-details/tabs/candidate-info');
+        break;
+      case 'candidate-notes':
+        router.push('/hr/recruitment/candidate-details/tabs/candidate-notes');
+        break;
+      case 'candidate-emails':
+        router.push('/hr/recruitment/candidate-details/tabs/candidate-emails');
+        break;
+      default:
+        router.push('/hr/recruitment/candidate-details/tabs/candidate-info');
+        break;
+    }
+  };
 
   return (
     <>
-      <div className="flex">
+      {/* <div className="flex items-end bg-blue-500 h-20"></div> */}
+      <div className="flex z-10">
         <div className="basis-3/4">
+        <div className="flex items-end bg-gradient-to-r from-blue-500 to-blue-50 h-48">
           <Menu
             onClick={tabsMenuOnClick}
             selectedKeys={[current]}
             mode="horizontal"
             items={items}
+            style={{width: 342}}
           />
+          </div>
           <div className="m-4">{children}</div>
         </div>
-        <div>
-          <Card className="mb-4 border-stone-300 border-4">
+
+        <div className="basis-1/4 bg-zinc-100">
+          <Card className="mb-4 border-stone-300 border-4 p-x-2">
             <Rate defaultValue={3} className="text-3xl mb-4" />
             <div className="flex justify-around">
               <p className="border-solid border-neutral-400">
@@ -202,56 +211,56 @@ const CandidateDetail = ({
               defaultValue="New"
             />
           </Card>
-          <Card className="basis-1/4">
+          <div className='px-3'>
             <p className="text-gray-500">Desired Pay</p>
             <p>$60,000</p>
-            <Divider className='mt-2 mb-3'/>
+            <Divider className="mt-2 mb-3" />
 
             <p className="text-gray-500">Available Start Date</p>
             <p>Dec 14, 2023</p>
-            <Divider className='mt-2 mb-3'/>
+            <Divider className="mt-2 mb-3" />
 
             <p className="text-gray-500">Phone</p>
             <p>0780 332 423</p>
-            <Divider className='mt-2 mb-3'/>
+            <Divider className="mt-2 mb-3" />
 
             <p className="text-gray-500">Email</p>
             <p>johndoe@company.com</p>
-            <Divider className='mt-2 mb-3'/>
+            <Divider className="mt-2 mb-3" />
 
             <p className="text-gray-500">Website, Blog or Portfolio</p>
             <p>https://www.somesite.com</p>
-            <Divider className='mt-2 mb-3'/>
+            <Divider className="mt-2 mb-3" />
 
             <p className="text-gray-500">Address</p>
             <p>335 South 560 West</p>
             <p>Lindon, 84042</p>
-            <Divider className='mt-2 mb-3'/>
+            <Divider className="mt-2 mb-3" />
 
             <p className="text-gray-500">College/University</p>
             <p>Tulane</p>
-            <Divider className='mt-2 mb-3'/>
+            <Divider className="mt-2 mb-3" />
 
             <p className="text-gray-500">Highest Education Obtained</p>
             <p>College - Master of Fine Arts</p>
-            <Divider className='mt-2 mb-3'/>
+            <Divider className="mt-2 mb-3" />
 
             <p className="text-gray-500">Referred By</p>
             <p>Sam Walker</p>
-            <Divider className='mt-2 mb-3'/>
+            <Divider className="mt-2 mb-3" />
 
             <p className="text-gray-500">Source</p>
             <p>other</p>
-            <Divider className='mt-2 mb-3'/>
+            <Divider className="mt-2 mb-3" />
 
-            <div className='flex justify-between'>
+            <div className="flex justify-between">
               <p className="font-bold">Talent Pools</p>
-              <MailFilled/>
+              <MailFilled />
               <EditOutlined />
             </div>
-            <p className='text-blue-500'>Sam Walker</p>
-            <p className='text-gray-500'>Oct 3 (2 hours ago)</p>
-          </Card>
+            <p className="text-blue-500">Sam Walker</p>
+            <p className="text-gray-500">Oct 3 (2 hours ago)</p>
+          </div>
         </div>
       </div>
     </>
