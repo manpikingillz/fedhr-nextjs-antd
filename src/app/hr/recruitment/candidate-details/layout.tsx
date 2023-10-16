@@ -142,11 +142,11 @@ const CandidateDetail = ({ children }: { children: React.ReactNode }) => {
       {/* <div className="flex items-end bg-blue-500 h-20"></div> */}
       <div className="flex z-10">
         <div className="basis-3/4">
-        <div className="flex flex-col justify-between bg-gradient-to-r from-blue-500 to-blue-50 h-48">
+        <div className="flex flex-col justify-between bg-gradient-to-r from-blue-500 to-blue-100 h-48">
           <div className='flex justify-between'>
             <div className='mt-3 ml-3 cursor-pointer'>
               <span className='mdi mdi-arrow-left mr-1 text-white'></span>
-              <span className='text-white'>Candidates</span>
+              <span className='text-white'>Candidates</span>  <span className='text-white'>/ Previous: John Doe</span>
             </div>
             <div className='flex flex-col items-end mt-3 mr-3 cursor-pointer'>
               <div className='flex gap-x-1'>
@@ -156,12 +156,20 @@ const CandidateDetail = ({ children }: { children: React.ReactNode }) => {
               <p className='text-zinc-600 mr-6'>Reviewed</p>
             </div>
           </div>
+          <div className='flex items-center ml-3'>
+            <span className='mdi mdi-account-circle text-6xl text-white'></span>
+            <div className='flex flex-col ml-3'>
+            <span className='text-3xl font-bold text-white'>Gilbert Twesigomwe</span>
+            <span className='text-xl text-white'>Added on Nov 24, 2023 (in 1 month)</span>
+            </div>
+          </div>
           <Menu
             onClick={tabsMenuOnClick}
             selectedKeys={[current]}
             mode="horizontal"
             items={items}
             style={{width: 342}}
+            className='ml-3'
           />
           </div>
           <div className="m-4">{children}</div>
