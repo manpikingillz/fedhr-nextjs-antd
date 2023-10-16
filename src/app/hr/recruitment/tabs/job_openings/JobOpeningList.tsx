@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { Button, Divider, Empty, Form, Popconfirm, Table } from 'antd';
+import { Button, Divider, Empty, Form, Menu, Popconfirm, Select, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import {
   PlusCircleOutlined,
@@ -121,16 +121,42 @@ const JobOpeningList = () => {
     router.push('/hr/recruitment/create_job_opening/');
   };
 
+  const jobOpeningStatusChangeHandler = (value) => {
+    console.log('Status changed: ', value)
+  }
+
+  const jobOpeningOptions = [
+    { value: 'Draft & Open', label: 'Draft & Open' },
+    { value: 'All', label: 'All' },
+    { value: 'Open', label: 'Open' },
+    { value: 'Draft', label: 'Draft' },
+    { value: 'On Hold', label: 'On Hold' },
+    { value: 'Filled', label: 'Filled' },
+    { value: 'Canceled', label: 'Canceled' }
+  ];
+
   return (
     <div className="flex flex-col">
-      <Button
-        type="primary"
-        className="self-end mb-2"
-        icon={<PlusCircleOutlined />}
-        onClick={onAddJobOpeningHandler}
-      >
-        Add Job Opening
-      </Button>
+      <div className='flex justify-between gap-x-2'>
+        <Button
+          type="default"
+          className="self-end mb-2 text-blue-500 border-blue-500"
+          icon={<PlusCircleOutlined />}
+          onClick={onAddJobOpeningHandler}
+        >
+          Add Job Opening
+        </Button>
+        <div>
+          <span className='text-gray-800 mr-2'>5 of 25 open .</span>
+          <label className='mr-2 text-gray-800'>Show</label>
+          <Select
+            defaultValue="Draft & Open"
+            style={{ width: 200 }}
+            onChange={jobOpeningStatusChangeHandler}
+            options={jobOpeningOptions}
+          />
+        </div>
+      </div>
 
       {errorJobOpeningList ? (
         <ErrorMessage error={errorJobOpeningList} />
