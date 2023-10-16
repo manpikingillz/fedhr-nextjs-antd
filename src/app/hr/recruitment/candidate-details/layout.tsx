@@ -142,7 +142,20 @@ const CandidateDetail = ({ children }: { children: React.ReactNode }) => {
       {/* <div className="flex items-end bg-blue-500 h-20"></div> */}
       <div className="flex z-10">
         <div className="basis-3/4">
-        <div className="flex items-end bg-gradient-to-r from-blue-500 to-blue-50 h-48">
+        <div className="flex flex-col justify-between bg-gradient-to-r from-blue-500 to-blue-50 h-48">
+          <div className='flex justify-between'>
+            <div className='mt-3 ml-3 cursor-pointer'>
+              <span className='mdi mdi-arrow-left mr-1 text-white'></span>
+              <span className='text-white'>Candidates</span>
+            </div>
+            <div className='flex flex-col items-end mt-3 mr-3 cursor-pointer'>
+              <div className='flex gap-x-1'>
+                <span className='text-blue-700'>Next: James Tayebwa</span>
+                <span className='mdi mdi-arrow-right mr-1 text-blue-700'></span>
+              </div>
+              <p className='text-zinc-600 mr-6'>Reviewed</p>
+            </div>
+          </div>
           <Menu
             onClick={tabsMenuOnClick}
             selectedKeys={[current]}
