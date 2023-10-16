@@ -10,6 +10,7 @@ import {
   Dropdown,
   MenuProps,
   Rate,
+  Select,
   Slider,
   Space,
   Table,
@@ -73,7 +74,9 @@ const columns: ColumnsType<DataType> = [
     key: 'name',
     render: (_, item) => (
       <div>
-        <Link href='/hr/recruitment/candidate-details/tabs/candidate-info'>{item.name}</Link>
+        <Link href="/hr/recruitment/candidate-details/tabs/candidate-info">
+          {item.name}
+        </Link>
         <p className="text-gray-500">{item.address}</p>
       </div>
     ),
@@ -179,18 +182,17 @@ const jobOpeningsFilter = (
 const applicationDatesFilter = (
   <Checkbox.Group style={{ width: '100%' }}>
     <div className="flex flex-col">
-      <div className='flex flex-col'>
+      <div className="flex flex-col">
         <label>From</label>
         <DatePicker />
       </div>
-      <div className='flex flex-col'>
+      <div className="flex flex-col">
         <label>To</label>
         <DatePicker />
       </div>
     </div>
   </Checkbox.Group>
 );
-
 
 const sourcesOptions = [
   { value: '1', label: 'Glassdoor' },
@@ -284,8 +286,33 @@ const collapseItems: CollapseProps['items'] = [
 ];
 
 const Candidates = () => {
+  const onStatusChangeHandler = (value) => {
+    console.log('Status changed: ', value);
+  };
   return (
     <>
+      <div className="flex items-center space-x-6">
+        <div className="basis-1/4">
+          <Select
+            defaultValue="running"
+            className="w-full mb-4"
+            onChange={onStatusChangeHandler}
+            options={[
+              { value: 'running', label: 'Still in the Running' },
+              { value: 'all', label: 'All Candidates' },
+            ]}
+          />
+        </div>
+
+        <div className="basis-3/4">
+          <div className="mb-4">
+            <span className="mdi mdi-account-multiple text-zinc-600 mr-1"></span>
+            <span className="text-zinc-600">15 Candidates</span>
+            {/* //candidates were found with the selected filters */}
+          </div>
+        </div>
+      </div>
+
       <div className="flex space-x-6">
         <div className="basis-1/4">
           <p className="h-10 pl-6 pt-2 bg-stone-500 text-white text-base">
@@ -297,7 +324,9 @@ const Candidates = () => {
             defaultActiveKey={['1']}
           />
         </div>
-        <Table columns={columns} dataSource={data} className="basis-3/4" />
+        <div className="basis-3/4">
+          <Table columns={columns} dataSource={data} />
+        </div>
       </div>
     </>
   );
