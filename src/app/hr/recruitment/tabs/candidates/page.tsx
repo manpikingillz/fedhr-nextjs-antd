@@ -247,48 +247,59 @@ const hiringLeadsFilter = (
     </div>
   </Checkbox.Group>
 );
-const collapseItems: CollapseProps['items'] = [
-  {
-    key: '1',
-    label: 'Job Statuses',
-    children: jobStatusesFilter,
-  },
-  {
-    key: '2',
-    label: 'Job Openings',
-    children: jobOpeningsFilter,
-  },
-  {
-    key: '3',
-    label: 'Star Rating',
-    children: ratingFilter,
-  },
-  {
-    key: '4',
-    label: 'Application Dates',
-    children: applicationDatesFilter,
-  },
-  {
-    key: '5',
-    label: 'Sources',
-    children: sourcesFilter,
-  },
-  {
-    key: '6',
-    label: 'Job Locations',
-    children: locationsFilter,
-  },
-  {
-    key: '7',
-    label: 'Hiring Leads',
-    children: hiringLeadsFilter,
-  },
-];
 
 const Candidates = () => {
   const onStatusChangeHandler = (value) => {
     console.log('Status changed: ', value);
   };
+
+  const genExtra = () => (
+    <span className='mdi mdi-close-circle text-zinc-500' onClick={(event) => {
+      // If you don't want click extra trigger collapse, you can prevent this:
+      event.stopPropagation();
+    }}></span>
+  );
+
+  const collapseItems: CollapseProps['items'] = [
+    {
+      key: '1',
+      label: 'Job Statuses',
+      children: jobStatusesFilter,
+      extra: genExtra()
+    },
+    {
+      key: '2',
+      label: 'Job Openings',
+      children: jobOpeningsFilter,
+      extra: genExtra()
+    },
+    {
+      key: '3',
+      label: 'Star Rating',
+      children: ratingFilter,
+    },
+    {
+      key: '4',
+      label: 'Application Dates',
+      children: applicationDatesFilter,
+    },
+    {
+      key: '5',
+      label: 'Sources',
+      children: sourcesFilter,
+    },
+    {
+      key: '6',
+      label: 'Job Locations',
+      children: locationsFilter,
+    },
+    {
+      key: '7',
+      label: 'Hiring Leads',
+      children: hiringLeadsFilter,
+    },
+  ];
+
   return (
     <>
       <div className="flex items-center space-x-6">
