@@ -27,6 +27,9 @@ import {
 } from '@ant-design/icons';
 import Card from 'antd/es/card/Card';
 import Link from 'next/link';
+import { Input } from 'antd';
+
+const { Search } = Input;
 
 interface DataType {
   key: string;
@@ -254,10 +257,13 @@ const Candidates = () => {
   };
 
   const genExtra = () => (
-    <span className='mdi mdi-close-circle text-zinc-500' onClick={(event) => {
-      // If you don't want click extra trigger collapse, you can prevent this:
-      event.stopPropagation();
-    }}></span>
+    <span
+      className="mdi mdi-close-circle text-zinc-500"
+      onClick={(event) => {
+        // If you don't want click extra trigger collapse, you can prevent this:
+        event.stopPropagation();
+      }}
+    ></span>
   );
 
   const collapseItems: CollapseProps['items'] = [
@@ -265,13 +271,13 @@ const Candidates = () => {
       key: '1',
       label: 'Job Statuses',
       children: jobStatusesFilter,
-      extra: genExtra()
+      extra: genExtra(),
     },
     {
       key: '2',
       label: 'Job Openings',
       children: jobOpeningsFilter,
-      extra: genExtra()
+      extra: genExtra(),
     },
     {
       key: '3',
@@ -300,8 +306,20 @@ const Candidates = () => {
     },
   ];
 
+  const onSearchHandler = (value) => {
+    console.log('Search: ', value);
+  };
+
   return (
     <>
+      <Input
+        className="mb-6 rounded-none border-x-0 border-t-0 border-b-2 border-neutral-400"
+        placeholder="Search by keywords, name, location, etc."
+        onChange={onSearchHandler}
+        size="large"
+        prefix={<span className="mdi mdi-magnify text-2xl text-zinc-400"></span>}
+      />
+
       <div className="flex items-center space-x-6">
         <div className="basis-1/4">
           <Select
@@ -329,7 +347,7 @@ const Candidates = () => {
         <div className="basis-1/4">
           <div className="flex justify-between h-10 pl-6 pt-2 bg-stone-500 text-white text-base">
             <span>Filter Results</span>
-            <span className='mdi mdi-star pr-4 text-xl text-zinc-200 cursor-pointer'></span>
+            <span className="mdi mdi-star pr-4 text-xl text-zinc-200 cursor-pointer"></span>
           </div>
 
           <Collapse
