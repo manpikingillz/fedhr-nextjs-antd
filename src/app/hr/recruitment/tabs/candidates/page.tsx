@@ -311,6 +311,7 @@ const Candidates = () => {
             options={[
               { value: 'running', label: 'Still in the Running' },
               { value: 'all', label: 'All Candidates' },
+              { value: 'manage', label: 'Manage Filters' },
             ]}
           />
         </div>
@@ -326,9 +327,11 @@ const Candidates = () => {
 
       <div className="flex space-x-6">
         <div className="basis-1/4">
-          <p className="h-10 pl-6 pt-2 bg-stone-500 text-white text-base">
-            Filter Results
-          </p>
+          <div className="flex justify-between h-10 pl-6 pt-2 bg-stone-500 text-white text-base">
+            <span>Filter Results</span>
+            <span className='mdi mdi-star pr-4 text-xl text-zinc-200 cursor-pointer'></span>
+          </div>
+
           <Collapse
             items={collapseItems}
             bordered={false}
