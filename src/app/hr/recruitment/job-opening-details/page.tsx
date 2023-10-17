@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { Button, Row, Col, Divider, Card } from 'antd'
 // import ReadMoreAndLess from 'react-read-more-less';
-import { EditOutlined, BookOutlined, ArrowLeftOutlined, UserOutlined } from '@ant-design/icons';
+import { EditOutlined, BookOutlined, ArrowLeftOutlined, UserOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { Avatar } from 'antd';
 import { useRouter } from 'next/navigation';
@@ -68,12 +68,21 @@ const JobDetail = () => {
 
         return (
             <div>
+                <div className='flex justify-between'>
                 <div className='cursor-pointer' onClick={() => router.back()}>
                     <span className='text-gray-500'>
                         <ArrowLeftOutlined />
                         &nbsp;
-                        Job Openings
+                        Job Openings / Previous: Financial Analyst
                     </span>
+                </div>
+                <div className='cursor-pointer' onClick={() => router.back()}>
+                    <span className='text-gray-500'>
+                        <span className='mr-3'>Next: Software Engineer</span>
+                        <ArrowRightOutlined />
+                    </span>
+                    <p className='text-gray-400 mr-'>Sydney, New South Wales</p>
+                </div>
                 </div>
                 <h2 className='text-blue-500 mb-2 mt-4'>
                     <BookOutlined />
