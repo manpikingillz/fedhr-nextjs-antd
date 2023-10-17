@@ -133,9 +133,9 @@ const JobDetail = () => {
                         </Card>
                         <br />
                          <div dangerouslySetInnerHTML={{ __html: htmlJobDisplay }} className={`${showFullDescription ? 'mb-4 h-24 overflow-auto' : 'mb-4'}`} />
-                         <button onClick={showFullDescriptionHandler}>
-                            Read {showFullDescription ? "More" : "Less"}
-                        </button>
+                         <Button type='link' icon={showFullDescription ? <span className='mdi mdi-chevron-double-down text-lg'></span> : <span className='mdi mdi-chevron-double-up text-lg'></span>} onClick={showFullDescriptionHandler}>
+                            {showFullDescription ? "View Full Job Description" : "Hide Full Job Description"}
+                        </Button>
                     </Col>
                     <Col span={8}>
                         <Card className='bg-zinc-100 text-center'>
