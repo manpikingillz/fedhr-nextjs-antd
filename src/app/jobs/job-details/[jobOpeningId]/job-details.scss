@@ -1,0 +1,37 @@
+.logo {
+    height: 32px;
+    background: rgba(255,255,255,.2);
+    margin: 16px;
+  }
+  
+  .collection-create-form_last-form-item {
+    margin-bottom: 0;
+  }
+  
+  .ant-form-item {
+    margin-bottom: 8px !important;
+  }
+  
+  .profile-image-round {
+    width: 50px;
+    height: 50px; 
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+  
+  .profile-image-round-employee-detail {
+    width: 100px;
+    height: 100px; 
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+  
+  .profile-image-round-candidate-detail {
+    width: 80px;
+    height: 80px; 
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+  }

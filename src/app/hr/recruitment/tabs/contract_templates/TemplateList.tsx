@@ -75,13 +75,13 @@ const TemplateList = () => {
   };
 
   const onEditHandler = (template_item: TemplateListData) => {
-    router.push(`/hr/recruitment/contract_templates/update_template/${template_item.id}`);
+    router.push(`/hr/recruitment/tabs/contract_templates/update_template/${template_item.id}`);
   }
 
   const columns = createColumns(onEditHandler, onDeleteHandler);
 
   const onAddTemplateHandler = () => {
-    router.push('/hr/recruitment/contract_templates/create_template');
+    router.push('/hr/recruitment/tabs/contract_templates/create_template');
   };
 
   return (

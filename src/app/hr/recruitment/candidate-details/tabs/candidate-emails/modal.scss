@@ -1,0 +1,22 @@
+
+.fullscreen-modal .ant-modal {
+    top: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .fullscreen-modal .ant-modal-content {
+    height: 100vh;
+    width: 100vw;
+  }
+  
+//   .fullscreen-modal .ant-modal-body {
+//     height: calc(100vh - 104px); /* 104px is a typical header height, but you can adjust as necessary */
+//     overflow: auto;
+//   }
+
+.fit-modal-height {
+    height: calc(100vh - 104px); /* Adjust 104px based on the modal's header and footer */
+    overflow-y: auto;
+  }
+  
