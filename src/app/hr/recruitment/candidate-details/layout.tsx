@@ -49,12 +49,10 @@ const candidateActionMenuItems: MenuProps['items'] = [
   {
     label: 'Edit Candidate Info',
     key: '1',
-    //   icon: <UserOutlined />,
   },
   {
     label: 'Edit Talent Pools',
     key: '2',
-    //   icon: <UserOutlined />,
   },
   //   {
   //     type: 'divider',
@@ -62,7 +60,6 @@ const candidateActionMenuItems: MenuProps['items'] = [
   {
     label: 'Delete Candidate',
     key: '4',
-    //   icon: <UserOutlined />,
   },
 ];
 
@@ -193,7 +190,7 @@ const CandidateDetail = ({ children }: { children: React.ReactNode }) => {
                       <CaretDownFilled className="text-neutral-600" />
                     </div>
                   </Button>
-                </Dropdown> */}
+                </Dropdown>  */}
               </p>
             </div>
             <Divider className="mt-4 mb-3" />

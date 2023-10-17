@@ -11,7 +11,7 @@ import JobOpeningCandidates from './JobOpeningCandidates';
 
 
 const JobDetail = () => {
-    const [showFullDescription, setFullDescription] = useState(false);
+    const [showFullDescription, setFullDescription] = useState(true);
     const router = useRouter()
 
     const showFullDescriptionHandler = () => {
@@ -61,9 +61,9 @@ const JobDetail = () => {
 </ul>
         `
 
-        const jobDisplay = showFullDescription
-    ? htmlJobDisplay
-    : htmlJobDisplay.slice(0, 250);
+    //     const jobDisplay = showFullDescription
+    // ? htmlJobDisplay
+    // : htmlJobDisplay.slice(0, 250);
 
 
         return (
@@ -132,9 +132,9 @@ const JobDetail = () => {
 
                         </Card>
                         <br />
-                         <div dangerouslySetInnerHTML={{ __html: jobDisplay }} />
+                         <div dangerouslySetInnerHTML={{ __html: htmlJobDisplay }} className={`${showFullDescription ? 'mb-4 h-24 overflow-auto' : 'mb-4'}`} />
                          <button onClick={showFullDescriptionHandler}>
-                            Read {showFullDescription ? "Less" : "More"}
+                            Read {showFullDescription ? "More" : "Less"}
                         </button>
                     </Col>
                     <Col span={8}>
@@ -147,7 +147,9 @@ const JobDetail = () => {
                             </Button>
                         </Card>
                         <br />
-                        <Card>
+                        {
+                            showFullDescription ? '' :
+                            <Card>
                             <span className='text-gray-500'>Location</span>
                             <br />
                             <span>Kampala, Uganda</span>
@@ -167,6 +169,7 @@ const JobDetail = () => {
                             <br />
                             <span>Experienced</span>
                         </Card>
+                        }
                     </Col>
                 </Row>
 
