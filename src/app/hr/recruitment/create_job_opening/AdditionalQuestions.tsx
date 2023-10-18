@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { DownOutlined, SmileOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Button, Card, Dropdown, Input, Space } from 'antd';
+import { Button, Card, Dropdown, Input, Space, Switch } from 'antd';
 
 type Question = {
   question: string;
@@ -145,38 +145,6 @@ const AdditionalQuestions = () => {
   return (
     <>
       <h1 className="mb-4">Additional Questions</h1>
-      <Dropdown menu={{ items }}>
-        <Button
-          type="default"
-          onClick={(e) => e.preventDefault()}
-          className="text-blue-500 border-blue-500 rounded-none"
-        >
-          Add Question
-          <DownOutlined />
-        </Button>
-      </Dropdown>
-
-      <Card className="mt-4">
-        <div className="flex items-center mb-2 gap-x-1">
-          <span className="mdi mdi-circle-slice-4 text-2xl text-blue-500"></span>
-          <span className="text-gray-800 text-base">Yes/No</span>
-        </div>
-        <Input
-          placeholder="E.g What is your favourite color?"
-          className="mb-3"
-          allowClear
-          onChange={onInputChangeHandler}
-        />
-        {questionInput.length ? (
-          <div>
-            <Button type="primary">Save</Button>
-            <Button type="link">Cancel</Button>
-          </div>
-        ) : (
-          ''
-        )}
-      </Card>
-
       {questions.map((question) => (
         <div
           key={question.question}
@@ -200,6 +168,45 @@ const AdditionalQuestions = () => {
           )}
         </div>
       ))}
+      <Dropdown menu={{ items }}>
+        <Button
+          type="default"
+          onClick={(e) => e.preventDefault()}
+          className="text-blue-500 border-blue-500 rounded-none mt-4"
+        >
+          Add Question
+          <DownOutlined />
+        </Button>
+      </Dropdown>
+
+      <Card className="mt-4">
+        <div className='flex justify-between'>
+            <div className="flex items-center mb-2 gap-x-1">
+            <span className="mdi mdi-circle-slice-4 text-2xl text-blue-500"></span>
+            <span className="text-gray-800 text-base">Yes/No</span>
+            </div>
+            <div className='flex items-center gap-x-1'>
+                <Switch checkedChildren="Required" unCheckedChildren="Not Required"  defaultChecked />
+                <span className="mdi mdi-close-circle text-gray-500 text-xl hover:border-solid border-2"></span>
+            </div>
+        </div>
+        <Input
+          placeholder="E.g What is your favourite color?"
+          className="mb-3"
+          allowClear
+          onChange={onInputChangeHandler}
+        />
+        {questionInput.length ? (
+          <div>
+            <Button type="primary">Save</Button>
+            <Button type="link">Cancel</Button>
+          </div>
+        ) : (
+          ''
+        )}
+      </Card>
+
+      
     </>
   );
 };
