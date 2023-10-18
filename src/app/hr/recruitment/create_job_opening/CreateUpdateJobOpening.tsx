@@ -39,9 +39,18 @@ import { EmploymentStatusTypeListData } from '../../employees/employee-details/e
 import { getEmploymentStatusTypeListApi } from '../../employees/employee-details/employee-details-tabs/[employeeId]/employment-information/employment-status/api';
 import { CountryListData } from '@/app/api/country-types';
 import { getCountryListApi } from '@/app/api/country-api';
-import { EmploymentTypeListData, JobOpeningCreateData, JobOpeningListData, JobOpeningUpdateData } from '@/app/types/jop-opening-types';
+import {
+  EmploymentTypeListData,
+  JobOpeningCreateData,
+  JobOpeningListData,
+  JobOpeningUpdateData,
+} from '@/app/types/jop-opening-types';
 import { getEmploymentTypeListApi } from '@/app/api/job-opening-api';
-import { useCreateJobOpeningMutation, useUpdateJobOpeningMutation } from '@/app/mutations/job-opening-mutations';
+import {
+  useCreateJobOpeningMutation,
+  useUpdateJobOpeningMutation,
+} from '@/app/mutations/job-opening-mutations';
+import AdditionalQuestions from './AdditionalQuestions';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -73,7 +82,11 @@ const TiptapEditor = ({ onChange }) => {
   );
 };
 
-const CreateUpdateJobOpening = ({jobOpeningData}: {jobOpeningData?: JobOpeningListData}) => {
+const CreateUpdateJobOpening = ({
+  jobOpeningData,
+}: {
+  jobOpeningData?: JobOpeningListData;
+}) => {
   const router = useRouter();
   const [formInstance] = useForm();
 
@@ -133,7 +146,6 @@ const CreateUpdateJobOpening = ({jobOpeningData}: {jobOpeningData?: JobOpeningLi
     queryFn: () => getEmploymentTypeListApi(),
   });
 
-
   // MUTATIONS
   const createJobOpeningMutation = useCreateJobOpeningMutation();
   const updateJobOpeningMutation = useUpdateJobOpeningMutation();
@@ -143,7 +155,10 @@ const CreateUpdateJobOpening = ({jobOpeningData}: {jobOpeningData?: JobOpeningLi
   };
 
   const updateJobOpening = (_jobOpening: JobOpeningUpdateData) => {
-    updateJobOpeningMutation.mutate({ data: _jobOpening, id: jobOpeningData?.id });
+    updateJobOpeningMutation.mutate({
+      data: _jobOpening,
+      id: jobOpeningData?.id,
+    });
   };
 
   const saveJobOpeningHandler = (
@@ -179,7 +194,7 @@ const CreateUpdateJobOpening = ({jobOpeningData}: {jobOpeningData?: JobOpeningLi
       compensation_currency: jobOpeningData?.compensation_currency,
       compensation_type: jobOpeningData?.compensation_type,
       available_positions: jobOpeningData?.available_positions,
-      internal_job_code: jobOpeningData?.internal_job_code
+      internal_job_code: jobOpeningData?.internal_job_code,
     });
   };
 
@@ -328,7 +343,10 @@ const CreateUpdateJobOpening = ({jobOpeningData}: {jobOpeningData?: JobOpeningLi
                 <div className="basis-1/2">
                   <label className="block mb-2">Compensation</label>
                   <div className="flex gap-x-3">
-                    <Form.Item name="compensation_currency" className="basis-1/4">
+                    <Form.Item
+                      name="compensation_currency"
+                      className="basis-1/4"
+                    >
                       <Select
                         placeholder="Select"
                         options={compensationCurrencyOptions}
@@ -460,6 +478,10 @@ const CreateUpdateJobOpening = ({jobOpeningData}: {jobOpeningData?: JobOpeningLi
                 </Button>
               </Form.Item>
             </Form>
+
+            <div>
+              <AdditionalQuestions />
+            </div>
           </Card>
         </div>
       </div>
