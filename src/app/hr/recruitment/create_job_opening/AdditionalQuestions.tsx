@@ -3,6 +3,13 @@ import { DownOutlined, SmileOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Card, Dropdown, Input, Space } from 'antd';
 
+type Question = {
+  question: string;
+  questionType: string;
+  required: boolean;
+  icon: string;
+};
+
 const items: MenuProps['items'] = [
   {
     key: '1',
@@ -102,6 +109,26 @@ const items: MenuProps['items'] = [
 const AdditionalQuestions = () => {
   const [questionInput, setQuestionInput] = useState('');
   const [showEditCloseButtons, setShowEditCloseButtons] = useState(false);
+  const questions: Question[] = [
+    {
+      question: 'How old are you? ',
+      icon: 'mdi-circle-slice-4',
+      questionType: 'Short',
+      required: true,
+    },
+    {
+        question: 'When will you want to join ',
+        icon: 'mdi-sort-variant',
+        questionType: 'Short',
+        required: true,
+      },
+      {
+        question: 'What are you telling us mainly? ',
+        icon: 'mdi-format-align-left',
+        questionType: 'Short',
+        required: true,
+      },
+  ];
 
   const onInputChangeHandler = (e) => {
     setQuestionInput(e.target.value);
@@ -149,24 +176,30 @@ const AdditionalQuestions = () => {
           ''
         )}
       </Card>
-      <div
-        className="flex justify-between items-center border-solid border-2 border-x-0 border-gray-200 hover:shadow-md bg-white mt-2"
-        onMouseEnter={showEditAndCloseHandler}
-        onMouseLeave={hideEditAndCloseHandler}
-      >
-        <div className="my-3 flex items-center">
-          <span className="mdi mdi-circle-slice-4 text-2xl text-blue-500 mr-1 ml-3 "></span>{' '}
-          What is your favourite color?
-        </div>
-        {showEditCloseButtons ? (
-          <div className="flex mr-3 gap-x-1">
-            <span className="mdi mdi-grease-pencil text-gray-500 text-xl hover:border-solid border-2"></span>
-            <span className="mdi mdi-close-circle text-gray-500 text-xl hover:border-solid border-2"></span>
+
+      {questions.map((question) => (
+        <div
+          key={question.question}
+          className="flex justify-between items-center border-solid border-2 border-x-0 border-gray-200 hover:shadow-md bg-white mt-2"
+          onMouseEnter={showEditAndCloseHandler}
+          onMouseLeave={hideEditAndCloseHandler}
+        >
+          <div className="my-3 flex items-center">
+            <span
+              className={`mdi ${question.icon} text-2xl text-blue-500 mr-1 ml-3`}
+            ></span>{' '}
+            {question.question}
           </div>
-        ) : (
-          ''
-        )}
-      </div>
+          {showEditCloseButtons ? (
+            <div className="flex mr-3 gap-x-1">
+              <span className="mdi mdi-grease-pencil text-gray-500 text-xl hover:border-solid border-2"></span>
+              <span className="mdi mdi-close-circle text-gray-500 text-xl hover:border-solid border-2"></span>
+            </div>
+          ) : (
+            ''
+          )}
+        </div>
+      ))}
     </>
   );
 };
