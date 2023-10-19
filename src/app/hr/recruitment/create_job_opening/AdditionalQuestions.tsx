@@ -210,10 +210,15 @@ const AdditionalQuestions = () => {
     console.log('required: ', value);
   };
 
+  const removeQuestionHandler = (idx) => {
+    const filteredQns = questions.filter((_, index) => idx !== index)
+    setQuestions( _ => [...filteredQns])
+  }
+
   return (
     <>
       <h1 className="mb-4">Additional Questions</h1>
-      {questions.map((question) => (
+      {questions.map((question, index) => (
         <div
           key={question.question}
           className="flex justify-between items-center border-solid border-2 border-x-0 border-gray-200 hover:shadow-md bg-white mt-2"
@@ -229,7 +234,7 @@ const AdditionalQuestions = () => {
           {hoveredQuestionItem == question.key ? (
             <div className="flex mr-3 gap-x-1">
               <span className="mdi mdi-grease-pencil text-gray-500 text-xl hover:border-solid border-2"></span>
-              <span className="mdi mdi-close-circle text-gray-500 text-xl hover:border-solid border-2"></span>
+              <span className="mdi mdi-close-circle text-gray-500 text-xl hover:border-solid border-2" onClick={() => removeQuestionHandler(index)}></span>
             </div>
           ) : (
             ''
