@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { DownOutlined, SmileOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Card, Dropdown, Input, Space, Switch } from 'antd';
+import JobPostingQuestionForm from './JobPostingQuestionForm';
 
 type Question = {
   question: string;
@@ -12,7 +13,7 @@ type Question = {
 
 const items: MenuProps['items'] = [
   {
-    key: '1',
+    key: 'short-answer',
     label: (
       <div className="flex items-center gap-x-2">
         <span className="mdi mdi-sort-variant text-2xl text-blue-500"></span>
@@ -24,7 +25,7 @@ const items: MenuProps['items'] = [
     ),
   },
   {
-    key: '2',
+    key: 'long-answer',
     label: (
       <div className="flex items-center gap-x-2">
         <span className="mdi mdi-format-align-left text-2xl text-blue-500"></span>
@@ -36,7 +37,7 @@ const items: MenuProps['items'] = [
     ),
   },
   {
-    key: '3',
+    key: 'yes-no',
     label: (
       <div className="flex items-center gap-x-2">
         <span className="mdi mdi-circle-slice-4 text-2xl text-blue-500"></span>
@@ -50,7 +51,7 @@ const items: MenuProps['items'] = [
     ),
   },
   {
-    key: '4',
+    key: 'multiple-choice',
     label: (
       <div className="flex items-center gap-x-2">
         <span className="mdi mdi-format-list-bulleted text-2xl text-blue-500"></span>
@@ -64,7 +65,7 @@ const items: MenuProps['items'] = [
     ),
   },
   {
-    key: '5',
+    key: 'checkbox',
     label: (
       <div className="flex items-center gap-x-2">
         <span className="mdi mdi-checkbox-marked-outline text-2xl text-blue-500"></span>
@@ -78,7 +79,7 @@ const items: MenuProps['items'] = [
     ),
   },
   {
-    key: '6',
+    key: 'file-upload',
     label: (
       <div className="flex items-center gap-x-2">
         <span className="mdi mdi-upload text-2xl text-blue-500"></span>
@@ -93,7 +94,7 @@ const items: MenuProps['items'] = [
     type: 'divider',
   },
   {
-    key: '7',
+    key: 'add-previous-questions',
     label: (
       <div className="flex items-center gap-x-2">
         <span className="mdi mdi-page-previous-outline text-2xl text-blue-500"></span>
@@ -107,8 +108,13 @@ const items: MenuProps['items'] = [
 ];
 
 const AdditionalQuestions = () => {
-  const [questionInput, setQuestionInput] = useState('');
   const [showEditCloseButtons, setShowEditCloseButtons] = useState(false);
+  const [questionIcon, setQuestionIcon] = useState('')
+  const [questionTypeText, setQuestionTypeText] = useState('')
+  const [questionKey, setQuestionKey] = useState('')
+  const [questionPlaceholder, setQuestionPlaceholder] = useState('')
+
+
   const questions: Question[] = [
     {
       question: 'How old are you? ',
@@ -130,16 +136,66 @@ const AdditionalQuestions = () => {
       },
   ];
 
-  const onInputChangeHandler = (e) => {
-    setQuestionInput(e.target.value);
-  };
-
   const showEditAndCloseHandler = (e) => {
     setShowEditCloseButtons(true);
   };
 
   const hideEditAndCloseHandler = (e) => {
     setShowEditCloseButtons(false);
+  };
+
+  const handleMenuClick: MenuProps['onClick'] = (e) => {
+    // message.info('Click on menu item.');
+    console.log('click', e.key);
+    const questionTypeKey = e.key
+    switch(questionTypeKey) {
+        case 'short-answer':
+            setQuestionIcon('mdi-sort-variant');
+            setQuestionTypeText('Short Answer');
+            setQuestionKey('short-answer');
+            setQuestionPlaceholder('E.g What is your hobby?');
+            break;
+        case 'long-answer':
+            setQuestionIcon('mdi-format-align-left');
+            setQuestionTypeText('Long Answer');
+            setQuestionKey('long-answer');
+            setQuestionPlaceholder('E.g What are you looking for in terms of career development?');
+            break;
+        case 'yes-no':
+            setQuestionIcon('mdi-circle-slice-4');
+            setQuestionTypeText('Yes/No');
+            setQuestionKey('yes-no');
+            setQuestionPlaceholder('E.g Do you have a driver\'s license?');
+            break;
+        case 'multiple-choice':
+            setQuestionIcon('mdi-format-list-bulleted');
+            setQuestionTypeText('Multiple Choice');
+            setQuestionKey('multiple-choice');
+            setQuestionPlaceholder('E.g How many years of experience do you have?');
+            break;
+        case 'checkbox':
+            setQuestionIcon('mdi-checkbox-marked-outline');
+            setQuestionTypeText('Checkbox');
+            setQuestionKey('checkbox');
+            setQuestionPlaceholder('E.g Keep my resume on file for future opportunities');
+            break;
+        case 'file-upload':
+            setQuestionIcon('mdi-upload');
+            setQuestionTypeText('File Upload');
+            setQuestionKey('file-upload');
+            setQuestionPlaceholder('E.g Please attach examples of your work');
+            break;
+        default:
+            setQuestionIcon('mdi-sort-variant');
+            setQuestionTypeText('Short Answer');
+            setQuestionKey('short-answer');
+            setQuestionPlaceholder('E.g What is your hobby?');
+    }
+  };
+
+  const menuProps = {
+    items,
+    onClick: handleMenuClick,
   };
 
   return (
@@ -168,7 +224,7 @@ const AdditionalQuestions = () => {
           )}
         </div>
       ))}
-      <Dropdown menu={{ items }}>
+      <Dropdown menu={menuProps}>
         <Button
           type="default"
           onClick={(e) => e.preventDefault()}
@@ -178,34 +234,14 @@ const AdditionalQuestions = () => {
           <DownOutlined />
         </Button>
       </Dropdown>
-
-      <Card className="mt-4">
-        <div className='flex justify-between'>
-            <div className="flex items-center mb-2 gap-x-1">
-            <span className="mdi mdi-circle-slice-4 text-2xl text-blue-500"></span>
-            <span className="text-gray-800 text-base">Yes/No</span>
-            </div>
-            <div className='flex items-center gap-x-1'>
-                <Switch checkedChildren="Required" unCheckedChildren="Not Required"  defaultChecked />
-                <span className="mdi mdi-close-circle text-gray-500 text-xl hover:border-solid border-2"></span>
-            </div>
-        </div>
-        <Input
-          placeholder="E.g What is your favourite color?"
-          className="mb-3"
-          allowClear
-          onChange={onInputChangeHandler}
-        />
-        {questionInput.length ? (
-          <div>
-            <Button type="primary">Save</Button>
-            <Button type="link">Cancel</Button>
-          </div>
-        ) : (
-          ''
-        )}
-      </Card>
-
+      {
+        questionKey.length ?
+        <JobPostingQuestionForm
+            questionIcon={questionIcon}
+            questionTypeText={questionTypeText}
+            questionPlaceholder={questionPlaceholder}
+       /> : ''
+      }
       
     </>
   );
