@@ -1,7 +1,7 @@
 import { Card, Input, Switch, Button } from 'antd';
 import { useState } from 'react';
 
-const JobPostingQuestionForm = ({questionIcon, questionTypeText, questionPlaceholder}: {questionIcon: string, questionTypeText: string, questionPlaceholder: string}) => {
+const JobPostingQuestionForm = ({questionIcon, questionTypeText, questionPlaceholder, onCancelHandler}: {questionIcon: string, questionTypeText: string, questionPlaceholder: string, onCancelHandler: () => void}) => {
   const [questionInput, setQuestionInput] = useState('');
 
   const onInputChangeHandler = (e) => {
@@ -22,7 +22,7 @@ const JobPostingQuestionForm = ({questionIcon, questionTypeText, questionPlaceho
               unCheckedChildren="Not Required"
               defaultChecked
             />
-            <span className="mdi mdi-close-circle text-gray-500 text-xl hover:border-solid border-2"></span>
+            <span className="mdi mdi-close-circle text-gray-500 text-xl hover:border-solid border-2" onClick={onCancelHandler}></span>
           </div>
         </div>
         <Input
@@ -34,7 +34,7 @@ const JobPostingQuestionForm = ({questionIcon, questionTypeText, questionPlaceho
         {questionInput.length ? (
           <div>
             <Button type="primary">Save</Button>
-            <Button type="link">Cancel</Button>
+            <Button type="link" onClick={onCancelHandler}>Cancel</Button>
           </div>
         ) : (
           ''

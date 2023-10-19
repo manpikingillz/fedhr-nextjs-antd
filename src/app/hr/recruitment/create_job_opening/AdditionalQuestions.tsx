@@ -198,6 +198,10 @@ const AdditionalQuestions = () => {
     onClick: handleMenuClick,
   };
 
+  const onJobPostingFormCancelHandler = () => {
+    setQuestionKey('')
+  }
+
   return (
     <>
       <h1 className="mb-4">Additional Questions</h1>
@@ -240,6 +244,7 @@ const AdditionalQuestions = () => {
             questionIcon={questionIcon}
             questionTypeText={questionTypeText}
             questionPlaceholder={questionPlaceholder}
+            onCancelHandler={onJobPostingFormCancelHandler}
        /> : ''
       }
       
