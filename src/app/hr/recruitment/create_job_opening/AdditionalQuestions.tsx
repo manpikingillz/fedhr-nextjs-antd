@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { DownOutlined, SmileOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Button, Card, Dropdown, Input, Space, Switch } from 'antd';
+import { Button, Dropdown } from 'antd';
 import JobPostingQuestionForm from './JobPostingQuestionForm';
 
 type Question = {
   question: string;
   icon: string;
+  key: string;
   required: boolean;
 };
 
@@ -99,7 +100,6 @@ const items: MenuProps['items'] = [
         <span className="mdi mdi-page-previous-outline text-2xl text-blue-500"></span>
         <div className="flex flex-col">
           <p className="text-gray-800 text-base">Add Previous Questions</p>
-          {/* <p  className='text-gray-500'>Great for single sentences</p> */}
         </div>
       </div>
     ),
@@ -107,37 +107,20 @@ const items: MenuProps['items'] = [
 ];
 
 const AdditionalQuestions = () => {
-  const [showEditCloseButtons, setShowEditCloseButtons] = useState(false);
+  const [hoveredQuestionItem, setHoveredQuestionItem] = useState('');
   const [questionIcon, setQuestionIcon] = useState('');
   const [questionTypeText, setQuestionTypeText] = useState('');
   const [questionKey, setQuestionKey] = useState('');
   const [questionPlaceholder, setQuestionPlaceholder] = useState('');
-  const [questions, setQuestions] = useState<Question[]>([])
+  const [questions, setQuestions] = useState<Question[]>([]);
 
-//   let questions: Question[] = [
-//     {
-//       question: 'How old are you? ',
-//       icon: 'mdi-circle-slice-4',
-//       required: true,
-//     },
-//     {
-//       question: 'When will you want to join ',
-//       icon: 'mdi-sort-variant',
-//       required: true,
-//     },
-//     {
-//       question: 'What are you telling us mainly? ',
-//       icon: 'mdi-format-align-left',
-//       required: true,
-//     },
-//   ];
-
-  const showEditAndCloseHandler = (e) => {
-    setShowEditCloseButtons(true);
+  const showEditAndCloseHandler = (value) => {
+    console.log('hovered: ', value);
+    setHoveredQuestionItem(value);
   };
 
   const hideEditAndCloseHandler = (e) => {
-    setShowEditCloseButtons(false);
+    setHoveredQuestionItem('');
   };
 
   const handleMenuClick: MenuProps['onClick'] = (e) => {
@@ -204,19 +187,27 @@ const AdditionalQuestions = () => {
 
   const onSaveHandler = (value) => {
     console.log('value: ', {
+      question: value,
+      icon: questionIcon,
+      required: true,
+    });
+
+    setQuestions((prevQuestions) => [
+      ...prevQuestions,
+      {
         question: value,
         icon: questionIcon,
+        key: questionKey,
         required: true,
-      })
+      },
+    ]);
 
-    setQuestions(prevQuestions => [...prevQuestions, {
-        question: value,
-        icon: questionIcon,
-        required: true,
-      }])
+    setQuestionKey('');
+    console.log('questions: ', questions);
+  };
 
-    setQuestionKey('')
-    console.log('questions: ', questions)
+  const onRequiredSwitchChangeHandler = (value) => {
+    console.log('required: ', value);
   };
 
   return (
@@ -226,7 +217,7 @@ const AdditionalQuestions = () => {
         <div
           key={question.question}
           className="flex justify-between items-center border-solid border-2 border-x-0 border-gray-200 hover:shadow-md bg-white mt-2"
-          onMouseEnter={showEditAndCloseHandler}
+          onMouseEnter={() => showEditAndCloseHandler(question.key)}
           onMouseLeave={hideEditAndCloseHandler}
         >
           <div className="my-3 flex items-center">
@@ -235,7 +226,7 @@ const AdditionalQuestions = () => {
             ></span>{' '}
             {question.question}
           </div>
-          {showEditCloseButtons ? (
+          {hoveredQuestionItem == question.key ? (
             <div className="flex mr-3 gap-x-1">
               <span className="mdi mdi-grease-pencil text-gray-500 text-xl hover:border-solid border-2"></span>
               <span className="mdi mdi-close-circle text-gray-500 text-xl hover:border-solid border-2"></span>
@@ -262,6 +253,7 @@ const AdditionalQuestions = () => {
           questionPlaceholder={questionPlaceholder}
           onCancelHandler={onJobPostingFormCancelHandler}
           onAddQuestionHandler={onSaveHandler}
+          onRequiredSwitchChangeHandler={onRequiredSwitchChangeHandler}
         />
       ) : (
         ''

@@ -1,7 +1,21 @@
 import { Card, Input, Switch, Button } from 'antd';
 import { useState } from 'react';
 
-const JobPostingQuestionForm = ({questionIcon, questionTypeText, questionPlaceholder, onCancelHandler, onAddQuestionHandler}: {questionIcon: string, questionTypeText: string, questionPlaceholder: string, onCancelHandler: () => void, onAddQuestionHandler: () => void}) => {
+const JobPostingQuestionForm = ({
+  questionIcon,
+  questionTypeText,
+  questionPlaceholder,
+  onCancelHandler,
+  onAddQuestionHandler,
+  onRequiredSwitchChangeHandler
+}: {
+  questionIcon: string;
+  questionTypeText: string;
+  questionPlaceholder: string;
+  onCancelHandler: () => void;
+  onAddQuestionHandler: (value) => void;
+  onRequiredSwitchChangeHandler: (value) => void;
+}) => {
   const [questionInput, setQuestionInput] = useState('');
 
   const onInputChangeHandler = (e) => {
@@ -14,7 +28,9 @@ const JobPostingQuestionForm = ({questionIcon, questionTypeText, questionPlaceho
       <Card className="mt-4">
         <div className="flex justify-between">
           <div className="flex items-center mb-2 gap-x-1">
-            <span className={`mdi ${questionIcon} text-2xl text-blue-500`}></span>
+            <span
+              className={`mdi ${questionIcon} text-2xl text-blue-500`}
+            ></span>
             <span className="text-gray-800 text-base">{questionTypeText}</span>
           </div>
           <div className="flex items-center gap-x-1">
@@ -22,8 +38,12 @@ const JobPostingQuestionForm = ({questionIcon, questionTypeText, questionPlaceho
               checkedChildren="Required"
               unCheckedChildren="Not Required"
               defaultChecked
+              onChange={onRequiredSwitchChangeHandler}
             />
-            <span className="mdi mdi-close-circle text-gray-500 text-xl hover:border-solid border-2" onClick={onCancelHandler}></span>
+            <span
+              className="mdi mdi-close-circle text-gray-500 text-xl hover:border-solid border-2"
+              onClick={onCancelHandler}
+            ></span>
           </div>
         </div>
         <Input
@@ -34,8 +54,15 @@ const JobPostingQuestionForm = ({questionIcon, questionTypeText, questionPlaceho
         />
         {questionInput.length ? (
           <div>
-            <Button type="primary" onClick={() => onAddQuestionHandler(questionInput)}>Save</Button>
-            <Button type="link" onClick={onCancelHandler}>Cancel</Button>
+            <Button
+              type="primary"
+              onClick={() => onAddQuestionHandler(questionInput)}
+            >
+              Save
+            </Button>
+            <Button type="link" onClick={onCancelHandler}>
+              Cancel
+            </Button>
           </div>
         ) : (
           ''
