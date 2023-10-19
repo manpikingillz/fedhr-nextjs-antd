@@ -208,16 +208,14 @@ const AdditionalQuestions = () => {
         icon: questionIcon,
         required: true,
       })
-    // questions.push({
-    //   question: value,
-    //   icon: questionIcon,
-    //   required: true,
-    // });
+
     setQuestions(prevQuestions => [...prevQuestions, {
         question: value,
         icon: questionIcon,
         required: true,
       }])
+
+    setQuestionKey('')
     console.log('questions: ', questions)
   };
 
