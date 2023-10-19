@@ -112,24 +112,25 @@ const AdditionalQuestions = () => {
   const [questionTypeText, setQuestionTypeText] = useState('');
   const [questionKey, setQuestionKey] = useState('');
   const [questionPlaceholder, setQuestionPlaceholder] = useState('');
+  const [questions, setQuestions] = useState<Question[]>([])
 
-  let questions: Question[] = [
-    {
-      question: 'How old are you? ',
-      icon: 'mdi-circle-slice-4',
-      required: true,
-    },
-    {
-      question: 'When will you want to join ',
-      icon: 'mdi-sort-variant',
-      required: true,
-    },
-    {
-      question: 'What are you telling us mainly? ',
-      icon: 'mdi-format-align-left',
-      required: true,
-    },
-  ];
+//   let questions: Question[] = [
+//     {
+//       question: 'How old are you? ',
+//       icon: 'mdi-circle-slice-4',
+//       required: true,
+//     },
+//     {
+//       question: 'When will you want to join ',
+//       icon: 'mdi-sort-variant',
+//       required: true,
+//     },
+//     {
+//       question: 'What are you telling us mainly? ',
+//       icon: 'mdi-format-align-left',
+//       required: true,
+//     },
+//   ];
 
   const showEditAndCloseHandler = (e) => {
     setShowEditCloseButtons(true);
@@ -207,11 +208,16 @@ const AdditionalQuestions = () => {
         icon: questionIcon,
         required: true,
       })
-    questions.push({
-      question: value,
-      icon: questionIcon,
-      required: true,
-    });
+    // questions.push({
+    //   question: value,
+    //   icon: questionIcon,
+    //   required: true,
+    // });
+    setQuestions(prevQuestions => [...prevQuestions, {
+        question: value,
+        icon: questionIcon,
+        required: true,
+      }])
     console.log('questions: ', questions)
   };
 
