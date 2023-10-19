@@ -1,12 +1,13 @@
 import { Card, Input, Switch, Button } from 'antd';
 import { useState } from 'react';
 
-const JobPostingQuestionForm = ({questionIcon, questionTypeText, questionPlaceholder, onCancelHandler}: {questionIcon: string, questionTypeText: string, questionPlaceholder: string, onCancelHandler: () => void}) => {
+const JobPostingQuestionForm = ({questionIcon, questionTypeText, questionPlaceholder, onCancelHandler, onAddQuestionHandler}: {questionIcon: string, questionTypeText: string, questionPlaceholder: string, onCancelHandler: () => void, onAddQuestionHandler: () => void}) => {
   const [questionInput, setQuestionInput] = useState('');
 
   const onInputChangeHandler = (e) => {
     setQuestionInput(e.target.value);
   };
+
 
   return (
     <>
@@ -33,7 +34,7 @@ const JobPostingQuestionForm = ({questionIcon, questionTypeText, questionPlaceho
         />
         {questionInput.length ? (
           <div>
-            <Button type="primary">Save</Button>
+            <Button type="primary" onClick={() => onAddQuestionHandler(questionInput)}>Save</Button>
             <Button type="link" onClick={onCancelHandler}>Cancel</Button>
           </div>
         ) : (

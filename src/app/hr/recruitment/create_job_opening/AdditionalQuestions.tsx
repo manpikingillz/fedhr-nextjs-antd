@@ -6,9 +6,8 @@ import JobPostingQuestionForm from './JobPostingQuestionForm';
 
 type Question = {
   question: string;
-  questionType: string;
-  required: boolean;
   icon: string;
+  required: boolean;
 };
 
 const items: MenuProps['items'] = [
@@ -109,31 +108,27 @@ const items: MenuProps['items'] = [
 
 const AdditionalQuestions = () => {
   const [showEditCloseButtons, setShowEditCloseButtons] = useState(false);
-  const [questionIcon, setQuestionIcon] = useState('')
-  const [questionTypeText, setQuestionTypeText] = useState('')
-  const [questionKey, setQuestionKey] = useState('')
-  const [questionPlaceholder, setQuestionPlaceholder] = useState('')
+  const [questionIcon, setQuestionIcon] = useState('');
+  const [questionTypeText, setQuestionTypeText] = useState('');
+  const [questionKey, setQuestionKey] = useState('');
+  const [questionPlaceholder, setQuestionPlaceholder] = useState('');
 
-
-  const questions: Question[] = [
+  let questions: Question[] = [
     {
       question: 'How old are you? ',
       icon: 'mdi-circle-slice-4',
-      questionType: 'Short',
       required: true,
     },
     {
-        question: 'When will you want to join ',
-        icon: 'mdi-sort-variant',
-        questionType: 'Short',
-        required: true,
-      },
-      {
-        question: 'What are you telling us mainly? ',
-        icon: 'mdi-format-align-left',
-        questionType: 'Short',
-        required: true,
-      },
+      question: 'When will you want to join ',
+      icon: 'mdi-sort-variant',
+      required: true,
+    },
+    {
+      question: 'What are you telling us mainly? ',
+      icon: 'mdi-format-align-left',
+      required: true,
+    },
   ];
 
   const showEditAndCloseHandler = (e) => {
@@ -147,49 +142,53 @@ const AdditionalQuestions = () => {
   const handleMenuClick: MenuProps['onClick'] = (e) => {
     // message.info('Click on menu item.');
     console.log('click', e.key);
-    const questionTypeKey = e.key
-    switch(questionTypeKey) {
-        case 'short-answer':
-            setQuestionIcon('mdi-sort-variant');
-            setQuestionTypeText('Short Answer');
-            setQuestionKey('short-answer');
-            setQuestionPlaceholder('E.g What is your hobby?');
-            break;
-        case 'long-answer':
-            setQuestionIcon('mdi-format-align-left');
-            setQuestionTypeText('Long Answer');
-            setQuestionKey('long-answer');
-            setQuestionPlaceholder('E.g What are you looking for in terms of career development?');
-            break;
-        case 'yes-no':
-            setQuestionIcon('mdi-circle-slice-4');
-            setQuestionTypeText('Yes/No');
-            setQuestionKey('yes-no');
-            setQuestionPlaceholder('E.g Do you have a driver\'s license?');
-            break;
-        case 'multiple-choice':
-            setQuestionIcon('mdi-format-list-bulleted');
-            setQuestionTypeText('Multiple Choice');
-            setQuestionKey('multiple-choice');
-            setQuestionPlaceholder('E.g How many years of experience do you have?');
-            break;
-        case 'checkbox':
-            setQuestionIcon('mdi-checkbox-marked-outline');
-            setQuestionTypeText('Checkbox');
-            setQuestionKey('checkbox');
-            setQuestionPlaceholder('E.g Keep my resume on file for future opportunities');
-            break;
-        case 'file-upload':
-            setQuestionIcon('mdi-upload');
-            setQuestionTypeText('File Upload');
-            setQuestionKey('file-upload');
-            setQuestionPlaceholder('E.g Please attach examples of your work');
-            break;
-        default:
-            setQuestionIcon('mdi-sort-variant');
-            setQuestionTypeText('Short Answer');
-            setQuestionKey('short-answer');
-            setQuestionPlaceholder('E.g What is your hobby?');
+    const questionTypeKey = e.key;
+    switch (questionTypeKey) {
+      case 'short-answer':
+        setQuestionIcon('mdi-sort-variant');
+        setQuestionTypeText('Short Answer');
+        setQuestionKey('short-answer');
+        setQuestionPlaceholder('E.g What is your hobby?');
+        break;
+      case 'long-answer':
+        setQuestionIcon('mdi-format-align-left');
+        setQuestionTypeText('Long Answer');
+        setQuestionKey('long-answer');
+        setQuestionPlaceholder(
+          'E.g What are you looking for in terms of career development?'
+        );
+        break;
+      case 'yes-no':
+        setQuestionIcon('mdi-circle-slice-4');
+        setQuestionTypeText('Yes/No');
+        setQuestionKey('yes-no');
+        setQuestionPlaceholder("E.g Do you have a driver's license?");
+        break;
+      case 'multiple-choice':
+        setQuestionIcon('mdi-format-list-bulleted');
+        setQuestionTypeText('Multiple Choice');
+        setQuestionKey('multiple-choice');
+        setQuestionPlaceholder('E.g How many years of experience do you have?');
+        break;
+      case 'checkbox':
+        setQuestionIcon('mdi-checkbox-marked-outline');
+        setQuestionTypeText('Checkbox');
+        setQuestionKey('checkbox');
+        setQuestionPlaceholder(
+          'E.g Keep my resume on file for future opportunities'
+        );
+        break;
+      case 'file-upload':
+        setQuestionIcon('mdi-upload');
+        setQuestionTypeText('File Upload');
+        setQuestionKey('file-upload');
+        setQuestionPlaceholder('E.g Please attach examples of your work');
+        break;
+      default:
+        setQuestionIcon('mdi-sort-variant');
+        setQuestionTypeText('Short Answer');
+        setQuestionKey('short-answer');
+        setQuestionPlaceholder('E.g What is your hobby?');
     }
   };
 
@@ -199,8 +198,22 @@ const AdditionalQuestions = () => {
   };
 
   const onJobPostingFormCancelHandler = () => {
-    setQuestionKey('')
-  }
+    setQuestionKey('');
+  };
+
+  const onSaveHandler = (value) => {
+    console.log('value: ', {
+        question: value,
+        icon: questionIcon,
+        required: true,
+      })
+    questions.push({
+      question: value,
+      icon: questionIcon,
+      required: true,
+    });
+    console.log('questions: ', questions)
+  };
 
   return (
     <>
@@ -238,16 +251,17 @@ const AdditionalQuestions = () => {
           <DownOutlined />
         </Button>
       </Dropdown>
-      {
-        questionKey.length ?
+      {questionKey.length ? (
         <JobPostingQuestionForm
-            questionIcon={questionIcon}
-            questionTypeText={questionTypeText}
-            questionPlaceholder={questionPlaceholder}
-            onCancelHandler={onJobPostingFormCancelHandler}
-       /> : ''
-      }
-      
+          questionIcon={questionIcon}
+          questionTypeText={questionTypeText}
+          questionPlaceholder={questionPlaceholder}
+          onCancelHandler={onJobPostingFormCancelHandler}
+          onAddQuestionHandler={onSaveHandler}
+        />
+      ) : (
+        ''
+      )}
     </>
   );
 };
