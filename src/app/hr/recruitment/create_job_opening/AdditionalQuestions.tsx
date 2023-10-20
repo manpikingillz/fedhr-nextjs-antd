@@ -217,7 +217,7 @@ const AdditionalQuestions = () => {
   };
 
   const onEditQuestionHandler = (idx) => {
-    console.log('edit: ', idx)
+    console.log('edit: ', idx);
     setQuestiontoEditIndex(idx);
   };
 
@@ -226,34 +226,8 @@ const AdditionalQuestions = () => {
       <h1 className="mb-4">Additional Questions</h1>
       {questions.map((question, index) => (
         <>
-          <div
-            key={question.question}
-            className="flex justify-between items-center border-solid border-2 border-x-0 border-gray-200 hover:shadow-md bg-white mt-2"
-            onMouseEnter={() => showEditAndCloseHandler(question.key)}
-            onMouseLeave={hideEditAndCloseHandler}
-          >
-            <div className="my-3 flex items-center">
-              <span
-                className={`mdi ${question.icon} text-2xl text-blue-500 mr-1 ml-3`}
-              ></span>{' '}
-              {question.question}
-            </div>
-            {hoveredQuestionItem == question.key ? (
-              <div className="flex mr-3 gap-x-1">
-                <span
-                  className="mdi mdi-grease-pencil text-gray-500 text-xl hover:border-solid border-2"
-                  onClick={() => onEditQuestionHandler(index)}
-                ></span>
-                <span
-                  className="mdi mdi-close-circle text-gray-500 text-xl hover:border-solid border-2"
-                  onClick={() => removeQuestionHandler(index)}
-                ></span>
-              </div>
-            ) : (
-              ''
-            )}
-          </div>
-          {questiontoEditIndex && questiontoEditIndex === index ? (
+          {/* Shows when edit button was clicked */}
+          {questiontoEditIndex === index ? (
             <JobPostingQuestionForm
               questionIcon={question.icon}
               questionTypeText={question.question}
@@ -263,7 +237,34 @@ const AdditionalQuestions = () => {
               onRequiredSwitchChangeHandler={onRequiredSwitchChangeHandler}
             />
           ) : (
-            ''
+            // Normal list item when edit icon is not clicked. This should be refactored to a component to make it more readable
+            <div
+              key={question.question}
+              className="flex justify-between items-center border-solid border-2 border-x-0 border-gray-200 hover:shadow-md bg-white mt-2"
+              onMouseEnter={() => showEditAndCloseHandler(question.key)}
+              onMouseLeave={hideEditAndCloseHandler}
+            >
+              <div className="my-3 flex items-center">
+                <span
+                  className={`mdi ${question.icon} text-2xl text-blue-500 mr-1 ml-3`}
+                ></span>{' '}
+                {question.question}
+              </div>
+              {hoveredQuestionItem == question.key ? (
+                <div className="flex mr-3 gap-x-1">
+                  <span
+                    className="mdi mdi-grease-pencil text-gray-500 text-xl hover:border-solid border-2"
+                    onClick={() => onEditQuestionHandler(index)}
+                  ></span>
+                  <span
+                    className="mdi mdi-close-circle text-gray-500 text-xl hover:border-solid border-2"
+                    onClick={() => removeQuestionHandler(index)}
+                  ></span>
+                </div>
+              ) : (
+                ''
+              )}
+            </div>
           )}
         </>
       ))}
