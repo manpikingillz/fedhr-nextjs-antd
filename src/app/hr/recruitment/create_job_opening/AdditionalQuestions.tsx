@@ -107,7 +107,7 @@ const items: MenuProps['items'] = [
 ];
 
 const AdditionalQuestions = () => {
-  const [hoveredQuestionItem, setHoveredQuestionItem] = useState('');
+  const [hoveredQuestionItem, setHoveredQuestionItem] = useState();
   const [questionIcon, setQuestionIcon] = useState('');
   const [questionTypeText, setQuestionTypeText] = useState('');
   const [questionKey, setQuestionKey] = useState('');
@@ -115,13 +115,13 @@ const AdditionalQuestions = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [questiontoEditIndex, setQuestiontoEditIndex] = useState();
 
-  const showEditAndCloseHandler = (value) => {
-    console.log('hovered: ', value);
-    setHoveredQuestionItem(value);
+  const showEditAndCloseHandler = (index) => {
+    console.log('hovered: ', index);
+    setHoveredQuestionItem(index);
   };
 
   const hideEditAndCloseHandler = (e) => {
-    setHoveredQuestionItem('');
+    setHoveredQuestionItem(undefined);
   };
 
   const handleMenuClick: MenuProps['onClick'] = (e) => {
@@ -183,8 +183,8 @@ const AdditionalQuestions = () => {
   };
 
   const onJobPostingFormCancelHandler = (index) => {
-    console.log('cancel edit: ', index)
-    if (index) setQuestiontoEditIndex(undefined)
+    console.log('cancel edit: ', index);
+    if (index > -1) setQuestiontoEditIndex(undefined);
     setQuestionKey('');
   };
 
@@ -195,16 +195,26 @@ const AdditionalQuestions = () => {
       required: true,
     });
 
-    setQuestions((prevQuestions) => [
-      ...prevQuestions,
-      {
-        question: value,
-        icon: questionIcon,
-        key: questionKey,
-        required: true,
-      },
-    ]);
-
+    if (!questiontoEditIndex) {
+      setQuestions((prevQuestions) => [
+        ...prevQuestions,
+        {
+          question: value,
+          icon: questionIcon,
+          key: questionKey,
+          required: true,
+        },
+      ]);
+    } else {
+      // edit question
+      console.log('editing question: ', questiontoEditIndex);
+      const questionsWithEditedItem = questions.map((item, index) => {
+        if (index == questiontoEditIndex) item['question'] = value;
+        return item;
+      });
+      setQuestions((_) => [...questionsWithEditedItem]);
+    }
+    setQuestiontoEditIndex(undefined)
     setQuestionKey('');
     console.log('questions: ', questions);
   };
@@ -234,7 +244,7 @@ const AdditionalQuestions = () => {
               questionIcon={question.icon}
               questionTypeText={question.question}
               questionPlaceholder={questionPlaceholder}
-              onCancelHandler={(() => onJobPostingFormCancelHandler(index))}
+              onCancelHandler={() => onJobPostingFormCancelHandler(index)}
               onAddQuestionHandler={onSaveHandler}
               onRequiredSwitchChangeHandler={onRequiredSwitchChangeHandler}
             />
@@ -243,7 +253,7 @@ const AdditionalQuestions = () => {
             <div
               key={question.question}
               className="flex justify-between items-center border-solid border-2 border-x-0 border-gray-200 hover:shadow-md bg-white mt-2"
-              onMouseEnter={() => showEditAndCloseHandler(question.key)}
+              onMouseEnter={() => showEditAndCloseHandler(index)}
               onMouseLeave={hideEditAndCloseHandler}
             >
               <div className="my-3 flex items-center">
@@ -252,7 +262,7 @@ const AdditionalQuestions = () => {
                 ></span>{' '}
                 {question.question}
               </div>
-              {hoveredQuestionItem == question.key ? (
+              {hoveredQuestionItem == index ? (
                 <div className="flex mr-3 gap-x-1">
                   <span
                     className="mdi mdi-grease-pencil text-gray-500 text-xl hover:border-solid border-2"
