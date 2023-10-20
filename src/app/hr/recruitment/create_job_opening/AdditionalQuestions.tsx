@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown } from 'antd';
@@ -106,7 +106,7 @@ const items: MenuProps['items'] = [
   },
 ];
 
-const AdditionalQuestions = () => {
+const AdditionalQuestions = ({onQuestionsChangeHandler}: {onQuestionsChangeHandler: (questions) => void}) => {
   const [hoveredQuestionItem, setHoveredQuestionItem] = useState();
   const [questionIcon, setQuestionIcon] = useState('');
   const [questionTypeText, setQuestionTypeText] = useState('');
@@ -188,11 +188,11 @@ const AdditionalQuestions = () => {
     setQuestionKey('');
   };
 
-  const onSaveHandler = (value) => {
+  const onSaveHandler = (value, required) => {
     console.log('value: ', {
       question: value,
       icon: questionIcon,
-      required: true,
+      required: required,
     });
 
     if (!questiontoEditIndex) {
@@ -202,14 +202,17 @@ const AdditionalQuestions = () => {
           question: value,
           icon: questionIcon,
           key: questionKey,
-          required: true,
+          required: required,
         },
       ]);
     } else {
       // edit question
       console.log('editing question: ', questiontoEditIndex);
       const questionsWithEditedItem = questions.map((item, index) => {
-        if (index == questiontoEditIndex) item['question'] = value;
+        if (index == questiontoEditIndex) {
+            item['question'] = value;
+            item['required'] = required
+        }
         return item;
       });
       setQuestions((_) => [...questionsWithEditedItem]);
@@ -218,6 +221,10 @@ const AdditionalQuestions = () => {
     setQuestionKey('');
     console.log('questions: ', questions);
   };
+
+  useEffect(() => {
+    onQuestionsChangeHandler(questions)
+  }, [questions])
 
   const onRequiredSwitchChangeHandler = (value) => {
     console.log('required: ', value);
@@ -246,7 +253,7 @@ const AdditionalQuestions = () => {
               questionPlaceholder={questionPlaceholder}
               onCancelHandler={() => onJobPostingFormCancelHandler(index)}
               onAddQuestionHandler={onSaveHandler}
-              onRequiredSwitchChangeHandler={onRequiredSwitchChangeHandler}
+            //   onRequiredSwitchChangeHandler={onRequiredSwitchChangeHandler}
             />
           ) : (
             // Normal list item when edit icon is not clicked. This should be refactored to a component to make it more readable
@@ -297,7 +304,7 @@ const AdditionalQuestions = () => {
           questionPlaceholder={questionPlaceholder}
           onCancelHandler={onJobPostingFormCancelHandler}
           onAddQuestionHandler={onSaveHandler}
-          onRequiredSwitchChangeHandler={onRequiredSwitchChangeHandler}
+        //   onRequiredSwitchChangeHandler={onRequiredSwitchChangeHandler}
         />
       ) : (
         ''

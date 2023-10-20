@@ -7,20 +7,26 @@ const JobPostingQuestionForm = ({
   questionPlaceholder,
   onCancelHandler,
   onAddQuestionHandler,
-  onRequiredSwitchChangeHandler
+//   onRequiredSwitchChangeHandler
 }: {
   questionIcon: string;
   questionTypeText: string;
   questionPlaceholder: string;
   onCancelHandler: (value) => void;
-  onAddQuestionHandler: (value) => void;
-  onRequiredSwitchChangeHandler: (value) => void;
+  onAddQuestionHandler: (question, required) => void;
+//   onRequiredSwitchChangeHandler: (value) => void;
 }) => {
   const [questionInput, setQuestionInput] = useState('');
+  const [requiredInput, setRequiredInput] = useState(false)
 
   const onInputChangeHandler = (e) => {
     setQuestionInput(e.target.value);
   };
+
+  const onRequiredSwitchChangeHandler = (value) => {
+    console.log('switch required: ', value)
+    setRequiredInput(value);
+  }
 
 
   return (
@@ -37,7 +43,6 @@ const JobPostingQuestionForm = ({
             <Switch
               checkedChildren="Required"
               unCheckedChildren="Not Required"
-              defaultChecked
               onChange={onRequiredSwitchChangeHandler}
             />
             <span
@@ -56,7 +61,7 @@ const JobPostingQuestionForm = ({
           <div>
             <Button
               type="primary"
-              onClick={() => onAddQuestionHandler(questionInput)}
+              onClick={() => onAddQuestionHandler(questionInput, requiredInput)}
             >
               Save
             </Button>

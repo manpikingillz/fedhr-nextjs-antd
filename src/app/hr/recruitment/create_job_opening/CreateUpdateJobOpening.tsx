@@ -12,7 +12,7 @@ import {
   Card,
   Radio,
 } from 'antd';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   LeftCircleTwoTone,
   ProfileTwoTone,
@@ -55,6 +55,14 @@ import AdditionalQuestions from './AdditionalQuestions';
 const { Option } = Select;
 const { TextArea } = Input;
 
+
+type Question = {
+  question: string;
+  icon: string;
+  key: string;
+  required: boolean;
+};
+
 const TiptapEditor = ({ onChange }) => {
   const editor = useEditor({
     extensions: [StarterKit],
@@ -89,6 +97,7 @@ const CreateUpdateJobOpening = ({
 }) => {
   const router = useRouter();
   const [formInstance] = useForm();
+  const [questions, setQuestions] = useState<Question[]>()
 
   // FETCH / QUERY DATA ///////////////////////////
   const {
@@ -285,6 +294,11 @@ const CreateUpdateJobOpening = ({
     },
   ];
 
+  const onQuestionsChangeHandler = (questions) => {
+    setQuestions(() => [...questions])
+    console.log('question::::: ', questions)
+  }
+
   return (
     <>
       <div className="flex flex-col">
@@ -472,16 +486,18 @@ const CreateUpdateJobOpening = ({
                 </Form.Item>
               </div>
 
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Save Job Opening
-                </Button>
-              </Form.Item>
+              {/* <Form.Item>
+                
+              </Form.Item> */}
             </Form>
 
             <div>
-              <AdditionalQuestions />
+              <AdditionalQuestions onQuestionsChangeHandler={onQuestionsChangeHandler} />
             </div>
+
+            <Button type="primary"  className='mt-4'>
+              Save Job Opening
+            </Button>
           </Card>
         </div>
       </div>
