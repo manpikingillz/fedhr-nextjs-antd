@@ -113,6 +113,7 @@ const AdditionalQuestions = () => {
   const [questionKey, setQuestionKey] = useState('');
   const [questionPlaceholder, setQuestionPlaceholder] = useState('');
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [questiontoEditIndex, setQuestiontoEditIndex] = useState();
 
   const showEditAndCloseHandler = (value) => {
     console.log('hovered: ', value);
@@ -211,35 +212,60 @@ const AdditionalQuestions = () => {
   };
 
   const removeQuestionHandler = (idx) => {
-    const filteredQns = questions.filter((_, index) => idx !== index)
-    setQuestions( _ => [...filteredQns])
-  }
+    const filteredQns = questions.filter((_, index) => idx !== index);
+    setQuestions((_) => [...filteredQns]);
+  };
+
+  const onEditQuestionHandler = (idx) => {
+    console.log('edit: ', idx)
+    setQuestiontoEditIndex(idx);
+  };
 
   return (
     <>
       <h1 className="mb-4">Additional Questions</h1>
       {questions.map((question, index) => (
-        <div
-          key={question.question}
-          className="flex justify-between items-center border-solid border-2 border-x-0 border-gray-200 hover:shadow-md bg-white mt-2"
-          onMouseEnter={() => showEditAndCloseHandler(question.key)}
-          onMouseLeave={hideEditAndCloseHandler}
-        >
-          <div className="my-3 flex items-center">
-            <span
-              className={`mdi ${question.icon} text-2xl text-blue-500 mr-1 ml-3`}
-            ></span>{' '}
-            {question.question}
-          </div>
-          {hoveredQuestionItem == question.key ? (
-            <div className="flex mr-3 gap-x-1">
-              <span className="mdi mdi-grease-pencil text-gray-500 text-xl hover:border-solid border-2"></span>
-              <span className="mdi mdi-close-circle text-gray-500 text-xl hover:border-solid border-2" onClick={() => removeQuestionHandler(index)}></span>
+        <>
+          <div
+            key={question.question}
+            className="flex justify-between items-center border-solid border-2 border-x-0 border-gray-200 hover:shadow-md bg-white mt-2"
+            onMouseEnter={() => showEditAndCloseHandler(question.key)}
+            onMouseLeave={hideEditAndCloseHandler}
+          >
+            <div className="my-3 flex items-center">
+              <span
+                className={`mdi ${question.icon} text-2xl text-blue-500 mr-1 ml-3`}
+              ></span>{' '}
+              {question.question}
             </div>
+            {hoveredQuestionItem == question.key ? (
+              <div className="flex mr-3 gap-x-1">
+                <span
+                  className="mdi mdi-grease-pencil text-gray-500 text-xl hover:border-solid border-2"
+                  onClick={() => onEditQuestionHandler(index)}
+                ></span>
+                <span
+                  className="mdi mdi-close-circle text-gray-500 text-xl hover:border-solid border-2"
+                  onClick={() => removeQuestionHandler(index)}
+                ></span>
+              </div>
+            ) : (
+              ''
+            )}
+          </div>
+          {questiontoEditIndex && questiontoEditIndex === index ? (
+            <JobPostingQuestionForm
+              questionIcon={question.icon}
+              questionTypeText={question.question}
+              questionPlaceholder={questionPlaceholder}
+              onCancelHandler={onJobPostingFormCancelHandler}
+              onAddQuestionHandler={onSaveHandler}
+              onRequiredSwitchChangeHandler={onRequiredSwitchChangeHandler}
+            />
           ) : (
             ''
           )}
-        </div>
+        </>
       ))}
       <Dropdown menu={menuProps}>
         <Button
