@@ -51,6 +51,7 @@ import {
   useUpdateJobOpeningMutation,
 } from '@/app/mutations/job-opening-mutations';
 import AdditionalQuestions from './AdditionalQuestions';
+import ApplicationQuestions from './ApplicationQuestions';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -485,12 +486,10 @@ const CreateUpdateJobOpening = ({
                   <Input />
                 </Form.Item>
               </div>
-
-              {/* <Form.Item>
-                
-              </Form.Item> */}
             </Form>
-
+          <div className='mb-3'>
+            <ApplicationQuestions />
+          </div>
             <div>
               <AdditionalQuestions onQuestionsChangeHandler={onQuestionsChangeHandler} />
             </div>

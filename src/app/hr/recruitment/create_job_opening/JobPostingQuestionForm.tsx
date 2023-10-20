@@ -42,7 +42,7 @@ const JobPostingQuestionForm = ({
           <div className="flex items-center gap-x-1">
             <Switch
               checkedChildren="Required"
-              unCheckedChildren="Not Required"
+              unCheckedChildren="Optional"
               onChange={onRequiredSwitchChangeHandler}
             />
             <span

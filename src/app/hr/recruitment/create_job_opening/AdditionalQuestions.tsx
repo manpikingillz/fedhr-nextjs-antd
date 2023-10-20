@@ -242,7 +242,7 @@ const AdditionalQuestions = ({onQuestionsChangeHandler}: {onQuestionsChangeHandl
 
   return (
     <>
-      <h1 className="mb-4">Additional Questions</h1>
+      <h1 className="mb-3">Additional Questions</h1>
       {questions.map((question, index) => (
         <>
           {/* Shows when edit button was clicked */}
