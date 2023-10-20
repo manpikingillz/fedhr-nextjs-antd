@@ -182,7 +182,9 @@ const AdditionalQuestions = () => {
     onClick: handleMenuClick,
   };
 
-  const onJobPostingFormCancelHandler = () => {
+  const onJobPostingFormCancelHandler = (index) => {
+    console.log('cancel edit: ', index)
+    if (index) setQuestiontoEditIndex(undefined)
     setQuestionKey('');
   };
 
@@ -232,7 +234,7 @@ const AdditionalQuestions = () => {
               questionIcon={question.icon}
               questionTypeText={question.question}
               questionPlaceholder={questionPlaceholder}
-              onCancelHandler={onJobPostingFormCancelHandler}
+              onCancelHandler={(() => onJobPostingFormCancelHandler(index))}
               onAddQuestionHandler={onSaveHandler}
               onRequiredSwitchChangeHandler={onRequiredSwitchChangeHandler}
             />

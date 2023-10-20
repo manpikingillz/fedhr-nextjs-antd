@@ -12,7 +12,7 @@ const JobPostingQuestionForm = ({
   questionIcon: string;
   questionTypeText: string;
   questionPlaceholder: string;
-  onCancelHandler: () => void;
+  onCancelHandler: (value) => void;
   onAddQuestionHandler: (value) => void;
   onRequiredSwitchChangeHandler: (value) => void;
 }) => {
