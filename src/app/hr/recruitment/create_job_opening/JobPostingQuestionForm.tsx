@@ -35,6 +35,11 @@ const JobPostingQuestionForm = ({
     setMultipleChoiceOptions((prev) => [...prev, prev.length]);
   };
 
+  const onChoiceRemoveHandler = (index) => {
+    const filterChoices = multipleChoiceOptions.filter((_, idx) => idx != index)
+    setMultipleChoiceOptions(() => [...filterChoices])
+}
+
   return (
     <>
       <Card className="mt-4">
@@ -76,7 +81,9 @@ const JobPostingQuestionForm = ({
                   className="w-80"
                   placeholder={`Response ${index + 1}`}
                 />
-                <span className="mdi mdi-close-circle text-gray-500 text-xl hover:border-solid border-2"></span>
+                <span className="mdi mdi-close-circle text-gray-500 text-xl hover:border-solid border-2"
+                onClick={() => onChoiceRemoveHandler(index)}
+                ></span>
               </div>
             ))}
             <div
