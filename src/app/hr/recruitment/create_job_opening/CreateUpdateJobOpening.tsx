@@ -11,6 +11,7 @@ import {
   Divider,
   Card,
   Radio,
+  Affix,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 import {
@@ -19,6 +20,7 @@ import {
   HomeOutlined,
   LaptopOutlined,
   InsertRowLeftOutlined,
+  CheckCircleOutlined,
 } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'antd/es/form/Form';
@@ -55,7 +57,6 @@ import ApplicationQuestions from './ApplicationQuestions';
 
 const { Option } = Select;
 const { TextArea } = Input;
-
 
 type Question = {
   question: string;
@@ -98,7 +99,7 @@ const CreateUpdateJobOpening = ({
 }) => {
   const router = useRouter();
   const [formInstance] = useForm();
-  const [questions, setQuestions] = useState<Question[]>()
+  const [questions, setQuestions] = useState<Question[]>();
 
   // FETCH / QUERY DATA ///////////////////////////
   const {
@@ -296,9 +297,9 @@ const CreateUpdateJobOpening = ({
   ];
 
   const onQuestionsChangeHandler = (questions) => {
-    setQuestions(() => [...questions])
-    console.log('question::::: ', questions)
-  }
+    setQuestions(() => [...questions]);
+    console.log('question::::: ', questions);
+  };
 
   return (
     <>
@@ -487,16 +488,34 @@ const CreateUpdateJobOpening = ({
                 </Form.Item>
               </div>
             </Form>
-          <div className='mb-3'>
-            <ApplicationQuestions />
-          </div>
+            <div className="mb-3">
+              <ApplicationQuestions />
+            </div>
             <div>
-              <AdditionalQuestions onQuestionsChangeHandler={onQuestionsChangeHandler} />
+              <AdditionalQuestions
+                onQuestionsChangeHandler={onQuestionsChangeHandler}
+              />
             </div>
 
-            <Button type="primary"  className='mt-4'>
+            {/* <Button type="primary" className="mt-4">
               Save Job Opening
-            </Button>
+            </Button> */}
+            <Affix offsetBottom={0} className='mt-8'>
+              <Card className='bg-zinc-500 rounded-none'>
+                <Button type="primary" size="large">
+                  <CheckCircleOutlined />
+                  Save Job Opening
+                </Button>
+                <Button
+                  type="link"
+                  size="large"
+                  style={{ color: '#ffffff' }}
+                  // onClick={onJobViewDescription}
+                >
+                  Cancel
+                </Button>
+              </Card>
+            </Affix>
           </Card>
         </div>
       </div>
