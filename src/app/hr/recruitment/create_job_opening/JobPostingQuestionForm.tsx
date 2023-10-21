@@ -1,6 +1,11 @@
 import { Card, Input, Switch, Button } from 'antd';
 import { useState } from 'react';
 
+type MultipleQuestionChoice = {
+    value: string,
+    id: number
+}
+
 const JobPostingQuestionForm = ({
   questionIcon,
   questionTypeText,
@@ -20,7 +25,7 @@ const JobPostingQuestionForm = ({
 }) => {
   const [questionInput, setQuestionInput] = useState('');
   const [requiredInput, setRequiredInput] = useState(false);
-  const [multipleChoiceOptions, setMultipleChoiceOptions] = useState<any[]>([]);
+  const [multipleChoiceOptions, setMultipleChoiceOptions] = useState<MultipleQuestionChoice[]>([]);
 
   const onInputChangeHandler = (e) => {
     setQuestionInput(e.target.value);
@@ -32,13 +37,22 @@ const JobPostingQuestionForm = ({
   };
 
   const addMultipleChoiceOptionHandler = () => {
-    setMultipleChoiceOptions((prev) => [...prev, prev.length]);
+    setMultipleChoiceOptions((prev) => [...prev, {'value': '', 'id': prev.length}]);
   };
 
   const onChoiceRemoveHandler = (index) => {
     const filterChoices = multipleChoiceOptions.filter((_, idx) => idx != index)
     setMultipleChoiceOptions(() => [...filterChoices])
-}
+    }
+
+    const onChoiceTextChangeHandler = (value, idx) => {
+        const choices = multipleChoiceOptions.map((item, index) => {
+            if (index == idx) item['value'] = value
+            return item
+        })
+        setMultipleChoiceOptions(() => [...choices])
+        // console.log('choice index: ', value, index)
+    }
 
   return (
     <>
@@ -78,6 +92,7 @@ const JobPostingQuestionForm = ({
                   prefix={
                     <span className="mdi mdi-view-headline text-zinc-600"></span>
                   }
+                  onChange={(e) => onChoiceTextChangeHandler(e.target.value, index)}
                   className="w-80"
                   placeholder={`Response ${index + 1}`}
                 />
