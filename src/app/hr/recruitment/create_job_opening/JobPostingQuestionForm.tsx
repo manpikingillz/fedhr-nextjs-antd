@@ -4,30 +4,36 @@ import { useState } from 'react';
 const JobPostingQuestionForm = ({
   questionIcon,
   questionTypeText,
+  questionKey,
   questionPlaceholder,
   onCancelHandler,
   onAddQuestionHandler,
-//   onRequiredSwitchChangeHandler
-}: {
+}: //   onRequiredSwitchChangeHandler
+{
   questionIcon: string;
   questionTypeText: string;
+  questionKey: string;
   questionPlaceholder: string;
   onCancelHandler: (value) => void;
   onAddQuestionHandler: (question, required) => void;
-//   onRequiredSwitchChangeHandler: (value) => void;
+  //   onRequiredSwitchChangeHandler: (value) => void;
 }) => {
   const [questionInput, setQuestionInput] = useState('');
-  const [requiredInput, setRequiredInput] = useState(false)
+  const [requiredInput, setRequiredInput] = useState(false);
+  const [multipleChoiceOptions, setMultipleChoiceOptions] = useState<any[]>([]);
 
   const onInputChangeHandler = (e) => {
     setQuestionInput(e.target.value);
   };
 
   const onRequiredSwitchChangeHandler = (value) => {
-    console.log('switch required: ', value)
+    console.log('switch required: ', value);
     setRequiredInput(value);
-  }
+  };
 
+  const addMultipleChoiceOptionHandler = () => {
+    setMultipleChoiceOptions((prev) => [...prev, prev.length]);
+  };
 
   return (
     <>
@@ -57,6 +63,32 @@ const JobPostingQuestionForm = ({
           allowClear
           onChange={onInputChangeHandler}
         />
+        {questionKey === 'multiple-choice' && (
+          <div>
+            {/* Only rendered for multiple choice */}
+            <p className="text-zinc-500 mb-3">Response Options</p>
+            {multipleChoiceOptions.map((_, index) => (
+              <div className="flex gap-x-2 mb-2" key={index}>
+                <Input
+                  prefix={
+                    <span className="mdi mdi-view-headline text-zinc-600"></span>
+                  }
+                  className="w-80"
+                  placeholder={`Response ${index + 1}`}
+                />
+                <span className="mdi mdi-close-circle text-gray-500 text-xl hover:border-solid border-2"></span>
+              </div>
+            ))}
+            <div
+              className="flex mt-2 mb-4 cursor-pointer"
+              onClick={addMultipleChoiceOptionHandler}
+            >
+              <span className="mdi mdi-plus text-blue-500"></span>
+              <span className="text-blue-500">Add Option</span>
+            </div>
+          </div>
+        )}
+
         {questionInput.length ? (
           <div>
             <Button

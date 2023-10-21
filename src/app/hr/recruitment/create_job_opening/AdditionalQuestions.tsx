@@ -250,6 +250,7 @@ const AdditionalQuestions = ({onQuestionsChangeHandler}: {onQuestionsChangeHandl
             <JobPostingQuestionForm
               questionIcon={question.icon}
               questionTypeText={question.question}
+              questionKey={question.key}
               questionPlaceholder={questionPlaceholder}
               onCancelHandler={() => onJobPostingFormCancelHandler(index)}
               onAddQuestionHandler={onSaveHandler}
@@ -301,6 +302,7 @@ const AdditionalQuestions = ({onQuestionsChangeHandler}: {onQuestionsChangeHandl
         <JobPostingQuestionForm
           questionIcon={questionIcon}
           questionTypeText={questionTypeText}
+          questionKey={questionKey}
           questionPlaceholder={questionPlaceholder}
           onCancelHandler={onJobPostingFormCancelHandler}
           onAddQuestionHandler={onSaveHandler}
