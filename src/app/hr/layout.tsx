@@ -99,21 +99,21 @@ export default function App({ children }: { children: React.ReactNode }) {
       icon: <SendOutlined />,
       label: 'Leave',
     },
-    {
-      key: 'time-and-attendance',
-      icon: <FieldTimeOutlined />,
-      label: 'Time and Attendance',
-    },
-    {
-      key: 'schedules',
-      icon: <HistoryOutlined />,
-      label: 'Schedules',
-    },
-    {
-      key: 'payroll',
-      icon: <DollarOutlined />,
-      label: 'Payroll',
-    },
+    // {
+    //   key: 'time-and-attendance',
+    //   icon: <FieldTimeOutlined />,
+    //   label: 'Time and Attendance',
+    // },
+    // {
+    //   key: 'schedules',
+    //   icon: <HistoryOutlined />,
+    //   label: 'Schedules',
+    // },
+    // {
+    //   key: 'payroll',
+    //   icon: <DollarOutlined />,
+    //   label: 'Payroll',
+    // },
   ];
 
   const profileAvatarItems: MenuProps['items'] = [
