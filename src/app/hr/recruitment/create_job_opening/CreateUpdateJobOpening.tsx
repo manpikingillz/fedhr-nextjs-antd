@@ -11,14 +11,16 @@ import {
   Divider,
   Card,
   Radio,
+  Affix,
 } from 'antd';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   LeftCircleTwoTone,
   ProfileTwoTone,
   HomeOutlined,
   LaptopOutlined,
   InsertRowLeftOutlined,
+  CheckCircleOutlined,
 } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'antd/es/form/Form';
@@ -39,12 +41,29 @@ import { EmploymentStatusTypeListData } from '../../employees/employee-details/e
 import { getEmploymentStatusTypeListApi } from '../../employees/employee-details/employee-details-tabs/[employeeId]/employment-information/employment-status/api';
 import { CountryListData } from '@/app/api/country-types';
 import { getCountryListApi } from '@/app/api/country-api';
-import { EmploymentTypeListData, JobOpeningCreateData, JobOpeningListData, JobOpeningUpdateData } from '@/app/types/jop-opening-types';
+import {
+  EmploymentTypeListData,
+  JobOpeningCreateData,
+  JobOpeningListData,
+  JobOpeningUpdateData,
+} from '@/app/types/jop-opening-types';
 import { getEmploymentTypeListApi } from '@/app/api/job-opening-api';
-import { useCreateJobOpeningMutation, useUpdateJobOpeningMutation } from '@/app/mutations/job-opening-mutations';
+import {
+  useCreateJobOpeningMutation,
+  useUpdateJobOpeningMutation,
+} from '@/app/mutations/job-opening-mutations';
+import AdditionalQuestions from './AdditionalQuestions';
+import ApplicationQuestions from './ApplicationQuestions';
 
 const { Option } = Select;
 const { TextArea } = Input;
+
+type Question = {
+  question: string;
+  icon: string;
+  key: string;
+  required: boolean;
+};
 
 const TiptapEditor = ({ onChange }) => {
   const editor = useEditor({
@@ -73,9 +92,14 @@ const TiptapEditor = ({ onChange }) => {
   );
 };
 
-const CreateUpdateJobOpening = ({jobOpeningData}: {jobOpeningData?: JobOpeningListData}) => {
+const CreateUpdateJobOpening = ({
+  jobOpeningData,
+}: {
+  jobOpeningData?: JobOpeningListData;
+}) => {
   const router = useRouter();
   const [formInstance] = useForm();
+  const [questions, setQuestions] = useState<Question[]>();
 
   // FETCH / QUERY DATA ///////////////////////////
   const {
@@ -133,7 +157,6 @@ const CreateUpdateJobOpening = ({jobOpeningData}: {jobOpeningData?: JobOpeningLi
     queryFn: () => getEmploymentTypeListApi(),
   });
 
-
   // MUTATIONS
   const createJobOpeningMutation = useCreateJobOpeningMutation();
   const updateJobOpeningMutation = useUpdateJobOpeningMutation();
@@ -143,7 +166,10 @@ const CreateUpdateJobOpening = ({jobOpeningData}: {jobOpeningData?: JobOpeningLi
   };
 
   const updateJobOpening = (_jobOpening: JobOpeningUpdateData) => {
-    updateJobOpeningMutation.mutate({ data: _jobOpening, id: jobOpeningData?.id });
+    updateJobOpeningMutation.mutate({
+      data: _jobOpening,
+      id: jobOpeningData?.id,
+    });
   };
 
   const saveJobOpeningHandler = (
@@ -179,7 +205,7 @@ const CreateUpdateJobOpening = ({jobOpeningData}: {jobOpeningData?: JobOpeningLi
       compensation_currency: jobOpeningData?.compensation_currency,
       compensation_type: jobOpeningData?.compensation_type,
       available_positions: jobOpeningData?.available_positions,
-      internal_job_code: jobOpeningData?.internal_job_code
+      internal_job_code: jobOpeningData?.internal_job_code,
     });
   };
 
@@ -270,6 +296,11 @@ const CreateUpdateJobOpening = ({jobOpeningData}: {jobOpeningData?: JobOpeningLi
     },
   ];
 
+  const onQuestionsChangeHandler = (questions) => {
+    setQuestions(() => [...questions]);
+    console.log('question::::: ', questions);
+  };
+
   return (
     <>
       <div className="flex flex-col">
@@ -328,7 +359,10 @@ const CreateUpdateJobOpening = ({jobOpeningData}: {jobOpeningData?: JobOpeningLi
                 <div className="basis-1/2">
                   <label className="block mb-2">Compensation</label>
                   <div className="flex gap-x-3">
-                    <Form.Item name="compensation_currency" className="basis-1/4">
+                    <Form.Item
+                      name="compensation_currency"
+                      className="basis-1/4"
+                    >
                       <Select
                         placeholder="Select"
                         options={compensationCurrencyOptions}
@@ -453,13 +487,35 @@ const CreateUpdateJobOpening = ({jobOpeningData}: {jobOpeningData?: JobOpeningLi
                   <Input />
                 </Form.Item>
               </div>
+            </Form>
+            <div className="mb-3">
+              <ApplicationQuestions />
+            </div>
+            <div>
+              <AdditionalQuestions
+                onQuestionsChangeHandler={onQuestionsChangeHandler}
+              />
+            </div>
 
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
+            {/* <Button type="primary" className="mt-4">
+              Save Job Opening
+            </Button> */}
+            <Affix offsetBottom={0} className='mt-8'>
+              <Card className='bg-zinc-500 rounded-none'>
+                <Button type="primary" size="large">
+                  <CheckCircleOutlined />
                   Save Job Opening
                 </Button>
-              </Form.Item>
-            </Form>
+                <Button
+                  type="link"
+                  size="large"
+                  style={{ color: '#ffffff' }}
+                  // onClick={onJobViewDescription}
+                >
+                  Cancel
+                </Button>
+              </Card>
+            </Affix>
           </Card>
         </div>
       </div>
