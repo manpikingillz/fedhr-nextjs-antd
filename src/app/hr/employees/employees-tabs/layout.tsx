@@ -8,22 +8,26 @@ import { usePathname, useRouter } from 'next/navigation';
 const items: MenuProps['items'] = [
   {
     label: 'Overview',
-    key: 'overview',
+    key: 'employees-overview',
+  },
+  {
+    label: 'Org Chart',
+    key: 'employees-orgchart',
   },
   {
     label: 'Settings',
-    key: 'settings',
+    key: 'employees-settings'
   }
 ];
 
-export default function LeaveLayout({children}: {children: React.ReactNode}) {
+export default function EmployeesLayout({children}: {children: React.ReactNode}) {
     const [current, setCurrent] = useState('overview');
     const router = useRouter()
     const path = usePathname()
 
     useEffect(() => {
-        if (path === '/hr/recruitment') {
-            setCurrent('overview')
+        if (path === '/hr/employees/employees-tabs') {
+            setCurrent('employees-overview')
         }
     },[path])
 
@@ -32,14 +36,17 @@ export default function LeaveLayout({children}: {children: React.ReactNode}) {
         setCurrent(key);
 
         switch(key) {
-            case 'overview':
-                router.push('/hr/recruitment');
+            case 'employees-overview':
+                router.push('/hr/employees/employees-tabs');
                 break;
-            case 'settings':
-                router.push('/hr/recruitment/settings');
+            case 'employees-orgchart':
+                router.push('/hr/employees/employees-tabs/orgchart');
+                break;
+            case 'employees-settings':
+                router.push('/hr/employees/employees-tabs/employees-settings');
                 break;
             default:
-                router.push('/hr/recruitment');
+                router.push('/hr/employees/employees-tabs/overview');
                 break;
         }
 

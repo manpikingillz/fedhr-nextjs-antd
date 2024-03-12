@@ -1,0 +1,14 @@
+
+.ProseMirror {
+    background-color: white;
+    // min-height: 100px;
+    padding: 8px;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+    color: #adb5bd;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }

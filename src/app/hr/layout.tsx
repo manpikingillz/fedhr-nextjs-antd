@@ -48,7 +48,7 @@ export default function App({ children }: { children: React.ReactNode }) {
       if (name) setFullName(name)
     }
 
-    if (path.includes('/hr/employees')) {
+    if (path.includes('/hr/employees/employees-tabs')) {
       setCurrent('employees');
     }
     if (path.includes('/hr/leave')) {
@@ -99,21 +99,21 @@ export default function App({ children }: { children: React.ReactNode }) {
       icon: <SendOutlined />,
       label: 'Leave',
     },
-    {
-      key: 'time-and-attendance',
-      icon: <FieldTimeOutlined />,
-      label: 'Time and Attendance',
-    },
-    {
-      key: 'schedules',
-      icon: <HistoryOutlined />,
-      label: 'Schedules',
-    },
-    {
-      key: 'payroll',
-      icon: <DollarOutlined />,
-      label: 'Payroll',
-    },
+    // {
+    //   key: 'time-and-attendance',
+    //   icon: <FieldTimeOutlined />,
+    //   label: 'Time and Attendance',
+    // },
+    // {
+    //   key: 'schedules',
+    //   icon: <HistoryOutlined />,
+    //   label: 'Schedules',
+    // },
+    // {
+    //   key: 'payroll',
+    //   icon: <DollarOutlined />,
+    //   label: 'Payroll',
+    // },
   ];
 
   const profileAvatarItems: MenuProps['items'] = [
@@ -157,10 +157,10 @@ export default function App({ children }: { children: React.ReactNode }) {
         router.push('/hr/administration');
         break;
       case 'employees':
-        router.push('/hr/employees');
+        router.push('/hr/employees/employees-tabs');
         break;
       case 'recruitment':
-        router.push('/hr/recruitment');
+        router.push('/hr/recruitment/tabs');
         break;
       case 'leave':
         router.push('/hr/leave');
