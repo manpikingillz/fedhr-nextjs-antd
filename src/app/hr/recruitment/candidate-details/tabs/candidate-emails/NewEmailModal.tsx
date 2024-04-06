@@ -103,7 +103,6 @@ const NewEmailModal = ({
     <>
       <Modal
         title="Send an Email to Gilbert"
-        okText="Save"
         open={isModelOpen}
         onOk={handleOk}
         onCancel={handleCancel}

@@ -17,7 +17,7 @@ const CandidateInfo = () => {
       <p className='mt-1 ml-4'>Through my friend Sam</p>
 
       <p className='mt-8 text-blue-500'>2. Why do you want to work here?</p>
-      <p className='mt-1 ml-4'>I want to work for a company that values it's employees as much as its customers.</p>
+      <p className='mt-1 ml-4'>I want to work for a company that values its employees as much as its customers.</p>
 
       <p className='mt-8 text-blue-500'>3. What can you bring to the company?</p>
       <p className='mt-1 ml-4'>Resourcefulness and a strong work ethic. I also have strong communication, teamwork, and negotiations skills.</p>

@@ -72,7 +72,7 @@ const items: MenuProps['items'] = [
         <div className="flex flex-col">
           <p className="text-gray-800 text-base">Checkbox</p>
           <p className="text-gray-500">
-            Great for confirmation. "I agree on..."
+            Great for confirmation. I agree on...
           </p>
         </div>
       </div>

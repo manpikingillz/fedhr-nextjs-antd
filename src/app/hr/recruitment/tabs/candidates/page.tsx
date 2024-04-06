@@ -159,7 +159,7 @@ const jobStatusesFilter = (
   <Checkbox.Group style={{ width: '100%' }}>
     <div className="flex flex-col">
       {jobStatusOptions.map((option) => (
-        <Checkbox value={option.value}>{option.label}</Checkbox>
+        <Checkbox value={option.value} key={option.value}>{option.label}</Checkbox>
       ))}
     </div>
   </Checkbox.Group>
@@ -176,7 +176,7 @@ const jobOpeningsFilter = (
   <Checkbox.Group style={{ width: '100%' }}>
     <div className="flex flex-col">
       {jobOpeningListOptions.map((option) => (
-        <Checkbox value={option.value}>{option.label}</Checkbox>
+        <Checkbox value={option.value} key={option.value}>{option.label}</Checkbox>
       ))}
     </div>
   </Checkbox.Group>
@@ -209,7 +209,7 @@ const sourcesFilter = (
   <Checkbox.Group style={{ width: '100%' }}>
     <div className="flex flex-col">
       {sourcesOptions.map((option) => (
-        <Checkbox value={option.value}>{option.label}</Checkbox>
+        <Checkbox value={option.value} key={option.value}>{option.label}</Checkbox>
       ))}
     </div>
   </Checkbox.Group>
@@ -227,7 +227,7 @@ const locationsFilter = (
   <Checkbox.Group style={{ width: '100%' }}>
     <div className="flex flex-col">
       {locationsOptions.map((option) => (
-        <Checkbox value={option.value}>{option.label}</Checkbox>
+        <Checkbox value={option.value} key={option.value}>{option.label}</Checkbox>
       ))}
     </div>
   </Checkbox.Group>
@@ -245,7 +245,7 @@ const hiringLeadsFilter = (
   <Checkbox.Group style={{ width: '100%' }}>
     <div className="flex flex-col">
       {hiringLeadsOptions.map((option) => (
-        <Checkbox value={option.value}>{option.label}</Checkbox>
+        <Checkbox value={option.value} key={option.value}>{option.label}</Checkbox>
       ))}
     </div>
   </Checkbox.Group>

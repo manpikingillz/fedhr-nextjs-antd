@@ -18,7 +18,7 @@ import { ErrorPage, ErrorMessage } from '@/app/error/errorPage';
 const createColumns = (
   onModalOpen?: (education_item: EducationListData) => void,
   onDelete?: (id: number) => void
-): ColumnsType<EducationListData> => [
+)=> [
   {
     title: 'Institution',
     dataIndex: 'institution_name',
@@ -39,44 +39,23 @@ const createColumns = (
     title: 'Start Date',
     key: 'start_date',
     dataIndex: 'start_date',
-    render: (start_date: string) => (
-      <span>{start_date ? dayjs(start_date).format('MMM D, YYYY') : null}</span>
-    ),
+    // render: (start_date: string) => (
+    //   <span>{start_date ? dayjs(start_date).format('MMM D, YYYY') : null}</span>
+    // ),
   },
   {
     title: 'End Date',
     key: 'end_date',
     dataIndex: 'end_date',
-    render: (end_date: string) => (
-      <span>{end_date ? dayjs(end_date).format('MMM D, YYYY') : null}</span>
-    ),
+    // render: (end_date: string) => (
+    //   <span>{end_date ? dayjs(end_date).format('MMM D, YYYY') : null}</span>
+    // ),
   },
   {
     title: 'Score',
     key: 'score',
     dataIndex: 'score',
-  },
-  {
-    title: 'Action',
-    render: (education) => (
-      <span>
-        <EditTwoTone
-          className="cursor-pointer"
-          onClick={() => onModalOpen(education)}
-        />
-        <Divider type="vertical" />
-        <Popconfirm
-          title="Delete"
-          description="Are you sure to delete?"
-          onConfirm={() => onDelete(education.id)}
-          okText="Yes"
-          cancelText="No"
-        >
-          <DeleteTwoTone className="cursor-pointer" />
-        </Popconfirm>
-      </span>
-    ),
-  },
+  }
 ];
 
 const Education = () => {
@@ -89,15 +68,25 @@ const Education = () => {
   const params = useParams();
 
   // FETCH / QUERY DATA ///////////////////////////
+  // const {
+  //   data: educations,
+  //   error: errorEducations,
+  //   isFetching: isFetchingEducations,
+  //   isLoading: isLoadingEducations,
+  //   status: statusEducations,
+  // } = useQuery<EducationListData[]>({
+  //   queryKey: ['educations', params.employeeId],
+  //   queryFn: () => getEducationListApi(parseInt(params.employeeId)),
+  // });
   const {
     data: educations,
     error: errorEducations,
     isFetching: isFetchingEducations,
     isLoading: isLoadingEducations,
     status: statusEducations,
-  } = useQuery<EducationListData[]>({
+  } = useQuery({
     queryKey: ['educations', params.employeeId],
-    queryFn: () => getEducationListApi(parseInt(params.employeeId)),
+    queryFn: () => getEducationListApi(),
   });
 
   const onModalOpenHandler = () => {

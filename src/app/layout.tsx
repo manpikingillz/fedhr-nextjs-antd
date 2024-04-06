@@ -7,6 +7,7 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import NextAuthSessionProvider from '@/app/providers/sessionProvider';
 import React from 'react';
+import Parse from "parse";
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -38,6 +39,18 @@ interface IProps {
 }
 
 const queryClient = new QueryClient();
+
+ // let serverURL2 = `https://jubilee.plot411.com/parse`;
+ let serverURL2 = `http://localhost:3011/parse`;
+ var keyApplicationId = "debunkbot";
+ var keyParseServerKey = "debunkbot12@!!";
+
+
+ (Parse as any).serverURL = serverURL2;
+ // console.log('host', host, serverURL)
+ Parse.initialize(keyApplicationId, keyParseServerKey)
+ // Parse.enableLocalDatastore()
+
 
 export default function RootLayout({ children }: IProps) {
   return (
