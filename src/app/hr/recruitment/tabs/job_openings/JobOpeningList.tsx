@@ -108,7 +108,9 @@ const JobOpeningList = () => {
   const deleteJobOpeningMutation = useDeleteJobOpeningMutation();
   const onDeleteHandler = (id: number) => {
     deleteJobOpeningMutation.mutate(id);
-    queryClient.refetchQueries(['job-opening-list']);
+    setTimeout(() => {
+      queryClient.refetchQueries(['job-opening-list']);
+    }, 3000);
   };
 
   const onEditHandler = (jobOpening: JobOpeningListData) => {
