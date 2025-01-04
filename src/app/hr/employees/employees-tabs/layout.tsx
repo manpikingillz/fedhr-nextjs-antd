@@ -5,18 +5,23 @@ import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
 
+import { UnorderedListOutlined, EditOutlined, SettingOutlined } from '@ant-design/icons';
+
 const items: MenuProps['items'] = [
   {
     label: 'Overview',
     key: 'employees-overview',
+    icon: <UnorderedListOutlined />
   },
   {
-    label: 'Org Chart',
+    label: 'Power Edit Employees', 
     key: 'employees-orgchart',
+    icon: <EditOutlined />
   },
   {
     label: 'Settings',
-    key: 'employees-settings'
+    key: 'employees-settings',
+    icon: <SettingOutlined />
   }
 ];
 
