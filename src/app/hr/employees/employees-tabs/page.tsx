@@ -63,9 +63,9 @@ function Overview() {
       key: 'action',
       render: (_: any, record: EmployeeListData) => (
         <Space size="middle">
-          <Button type="text" icon={<EyeOutlined />} onClick={() => handleView(record)} />
-          <Button type="text" icon={<EditOutlined />} onClick={() => handleEdit(record)} />
-          <Button type="text" icon={<DeleteOutlined />} onClick={() => handleDelete(record)} />
+          <Button type="text" icon={<EyeOutlined style={{color: '#1890ff'}} />} onClick={() => handleView(record)} />
+          <Button type="text" icon={<EditOutlined style={{color: '#1890ff'}} />} onClick={() => handleEdit(record)} />
+          <Button type="text" icon={<DeleteOutlined style={{color: '#1890ff'}} />} onClick={() => handleDelete(record)} />
         </Space>
       ),
     },
